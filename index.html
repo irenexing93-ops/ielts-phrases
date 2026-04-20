@@ -2887,6 +2887,9 @@ appendixD: [
   let currentPhrase = null;
   let showAnswer = false;
   let lastPhraseId = null;
+  let userInitialChoice = null;      // 用户在正面选择的 'know' 或 'unknown'
+  let answerRevealed = false;        // 是否已显示答案
+  let pendingKnowIncrement = false;  // 是否待处理的认识计数（用于“记错了”回滚）
 
   let progress = JSON.parse(localStorage.getItem('ielts_adv_progress')) || {
     daily: 0, lastDate: new Date().toDateString(), topics: {}
@@ -3035,62 +3038,145 @@ appendixD: [
 }
 
   function renderLearn() {
-    if (!currentPhrase) {
-      const next = getNextPhrase(selectedTopicId);
-      if (!next) { contentDiv.innerHTML = `<div class="learning-card"><h3>🎉 恭喜！本话题已全部掌握！</h3><button class="btn btn-primary" id="backToTopics">返回话题</button></div>`;
-        document.getElementById('backToTopics')?.addEventListener('click', ()=>{ currentTab='topics'; render(); }); return; }
-      currentPhrase = next;
+  if (!currentPhrase) {
+    const next = getNextPhrase(selectedTopicId);
+    if (!next) {
+      contentDiv.innerHTML = `<div class="learning-card"><h3>🎉 恭喜！本话题已全部掌握！</h3><button class="btn btn-primary" id="backToTopics">返回话题</button></div>`;
+      document.getElementById('backToTopics')?.addEventListener('click', () => { currentTab = 'topics'; render(); });
+      return;
     }
-    const phrase = currentPhrase;
-    const tp = getTopicProgress(selectedTopicId);
-    const knowCount = tp.knowCounts[phrase.id] || 0;
-    const isReview = tp.reviewQueue.includes(phrase.id);
-    let cardHtml = `<div class="learning-card">`;
-    if (!showAnswer) {
-      cardHtml += `<div class="card-front"><div style="color:#7e6b5a; margin-bottom:10px;">🔁 认识次数: ${knowCount}/3 ${isReview ? ' <span class="review-badge">📌 复习中</span>' : ''}</div>
-        <div class="phrase-zh">${phrase.zh}</div><p style="margin-top:30px; color:#aaa;">点击「显示答案」查看英文</p></div>`;
-    } else {
-      const stars = '⭐'.repeat(phrase.stars || 1);
-      cardHtml += `<div class="card-back"><div class="stars">${stars}</div><div class="phrase-en">${phrase.en}</div>`;
-      if (phrase.learnerTendency) cardHtml += `<div class="learner-tendency">📘 学习者倾向：${phrase.learnerTendency}</div>`;
-      cardHtml += `<div class="example-box">📌 ${phrase.example || '暂无例句'}</div>`;
-      if (phrase.related && phrase.related.length) {
-        cardHtml += `<table class="related-table"><tr><th>类型</th><th>英文</th><th>中文</th><th>例句</th></tr>`;
-        phrase.related.forEach(r => cardHtml += `<tr><td>${r.type}</td><td>${r.en}</td><td>${r.zh}</td><td>${r.example || ''}</td></tr>`);
-        cardHtml += `</table>`;
-      }
-      cardHtml += `</div>`;
-    }
-    cardHtml += `<div class="action-buttons">`;
-    if (!showAnswer) cardHtml += `<button class="btn btn-primary" id="showAnswerBtn">🔍 显示答案</button>`;
-    else cardHtml += `<button class="btn btn-success" id="knowBtn">😊 认识 (${knowCount}/3)</button>
-      <button class="btn btn-warning" id="unknownBtn">🤔 不认识</button>`;
-    cardHtml += `</div><div style="margin-top:16px; text-align:center;"><button class="btn" id="nextBtn">⏩ 跳过 / 下一个</button></div></div>`;
-    contentDiv.innerHTML = cardHtml;
+    currentPhrase = next;
+  }
 
-    if (!showAnswer) {
-      document.getElementById('showAnswerBtn').addEventListener('click', () => {
-        showAnswer = true; renderLearn(); speakEnglish(phrase.en);
-      });
-    } else {
-      document.getElementById('knowBtn').addEventListener('click', () => {
-        markKnow(selectedTopicId, phrase.id, true);
-        const next = getNextPhrase(selectedTopicId);
-        if (!next) { currentTab='topics'; render(); alert('🎉 话题完成！'); }
-        else { currentPhrase = next; showAnswer = false; renderLearn(); }
-      });
-      document.getElementById('unknownBtn').addEventListener('click', () => {
-        markKnow(selectedTopicId, phrase.id, false);
-        const next = getNextPhrase(selectedTopicId);
-        currentPhrase = next; showAnswer = false; renderLearn();
-      });
+  const phrase = currentPhrase;
+  const tp = getTopicProgress(selectedTopicId);
+  const knowCount = tp.knowCounts[phrase.id] || 0;
+  const isReview = tp.reviewQueue.includes(phrase.id);
+
+  let cardHtml = `<div class="learning-card">`;
+
+  // ========== 正面：只显示中文 + 认识/不认识按钮 ==========
+  if (!answerRevealed) {
+    cardHtml += `<div class="card-front">
+      <div style="color:#7e6b5a; margin-bottom:10px;">
+        🔁 认识次数: ${knowCount}/3 ${isReview ? ' <span class="review-badge">📌 复习中</span>' : ''}
+      </div>
+      <div class="phrase-zh">${phrase.zh}</div>
+      <p style="margin-top:20px; color:#aaa; font-size:0.9rem;">请先选择你对该短语的熟悉程度</p>
+    </div>`;
+
+    cardHtml += `<div class="action-buttons">`;
+    cardHtml += `<button class="btn btn-success" id="initialKnowBtn">😊 认识</button>`;
+    cardHtml += `<button class="btn btn-warning" id="initialUnknownBtn">🤔 不认识</button>`;
+    cardHtml += `</div>`;
+  }
+
+  // ========== 背面：显示英文 + 详细信息 + 记错了/下一个 ==========
+  else {
+    const stars = '⭐'.repeat(phrase.stars || 1);
+    cardHtml += `<div class="card-back">
+      <div class="stars">${stars}</div>
+      <div class="phrase-en">${phrase.en}</div>`;
+    if (phrase.learnerTendency) {
+      cardHtml += `<div class="learner-tendency">📘 学习者倾向：${phrase.learnerTendency}</div>`;
     }
-    document.getElementById('nextBtn').addEventListener('click', () => {
+    cardHtml += `<div class="example-box">📌 ${phrase.example || '暂无例句'}</div>`;
+    if (phrase.related && phrase.related.length) {
+      cardHtml += `<table class="related-table"><tr><th>类型</th><th>英文</th><th>中文</th><th>例句</th></tr>`;
+      phrase.related.forEach(r => {
+        cardHtml += `<tr><td>${r.type}</td><td>${r.en}</td><td>${r.zh}</td><td>${r.example || ''}</td></tr>`;
+      });
+      cardHtml += `</table>`;
+    }
+    cardHtml += `</div>`;
+
+    // 显示答案后，提供“记错了”和“下一个”按钮
+    cardHtml += `<div class="action-buttons">`;
+    cardHtml += `<button class="btn btn-warning" id="wrongBtn">🔄 记错了</button>`;
+    cardHtml += `<button class="btn btn-success" id="nextAfterAnswerBtn">⏩ 下一个</button>`;
+    cardHtml += `</div>`;
+  }
+
+  cardHtml += `<div style="margin-top:16px; text-align:center;">
+    <button class="btn" id="skipBtn">⏭️ 跳过</button>
+  </div>`;
+  cardHtml += `</div>`;
+
+  contentDiv.innerHTML = cardHtml;
+
+  // ========== 绑定事件 ==========
+  if (!answerRevealed) {
+    // 正面：认识 / 不认识
+    document.getElementById('initialKnowBtn')?.addEventListener('click', () => {
+      userInitialChoice = 'know';
+      pendingKnowIncrement = true;
+      answerRevealed = true;
+      renderLearn();
+      speakEnglish(phrase.en);
+    });
+
+    document.getElementById('initialUnknownBtn')?.addEventListener('click', () => {
+      userInitialChoice = 'unknown';
+      pendingKnowIncrement = false;
+      answerRevealed = true;
+      renderLearn();
+      speakEnglish(phrase.en);
+    });
+  } else {
+    // 背面：记错了 / 下一个
+    document.getElementById('wrongBtn')?.addEventListener('click', () => {
+      // “记错了”：若之前选了“认识”，则作废计数；若选了“不认识”，本就无计数
+      if (userInitialChoice === 'know' && pendingKnowIncrement) {
+        // 撤销可能已增加的认识计数（实际上尚未调用 markKnow，所以无需撤销）
+        // 直接标记为不认识即可
+        markKnow(selectedTopicId, phrase.id, false);
+      } else if (userInitialChoice === 'unknown') {
+        markKnow(selectedTopicId, phrase.id, false);
+      }
+      // 重置状态，获取下一个短语
       const next = getNextPhrase(selectedTopicId);
-      if (!next) { currentTab='topics'; render(); alert('🎉 话题完成！'); }
-      else { currentPhrase = next; showAnswer = false; renderLearn(); }
+      if (!next) { currentTab = 'topics'; render(); alert('🎉 话题完成！'); }
+      else {
+        currentPhrase = next;
+        answerRevealed = false;
+        userInitialChoice = null;
+        pendingKnowIncrement = false;
+        renderLearn();
+      }
+    });
+
+    document.getElementById('nextAfterAnswerBtn')?.addEventListener('click', () => {
+      // “下一个”：确认之前的选择
+      if (userInitialChoice === 'know' && pendingKnowIncrement) {
+        markKnow(selectedTopicId, phrase.id, true);
+      } else if (userInitialChoice === 'unknown') {
+        markKnow(selectedTopicId, phrase.id, false);
+      }
+      const next = getNextPhrase(selectedTopicId);
+      if (!next) { currentTab = 'topics'; render(); alert('🎉 话题完成！'); }
+      else {
+        currentPhrase = next;
+        answerRevealed = false;
+        userInitialChoice = null;
+        pendingKnowIncrement = false;
+        renderLearn();
+      }
     });
   }
+
+  // “跳过”按钮：直接下一个，不计任何认识变化
+  document.getElementById('skipBtn')?.addEventListener('click', () => {
+    const next = getNextPhrase(selectedTopicId);
+    if (!next) { currentTab = 'topics'; render(); alert('🎉 话题完成！'); }
+    else {
+      currentPhrase = next;
+      answerRevealed = false;
+      userInitialChoice = null;
+      pendingKnowIncrement = false;
+      renderLearn();
+    }
+  });
+}
 
   function renderStats() {
     let totalPhrases = 0, totalMastered = 0, totalReview = 0;
