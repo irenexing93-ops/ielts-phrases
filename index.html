@@ -19,7 +19,33 @@
     .app-header h1 span { background: #f4c27a; color: #1e3a5f; font-size: 1rem; padding: 4px 12px; border-radius: 30px; }
     .subhead { font-size: 0.9rem; opacity: 0.9; margin-top: 6px; display: flex; justify-content: space-between; }
     .main-content { flex: 1; padding: 16px 12px; }
-    .topic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 20px; }
+    .topic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  /* 默认手机竖屏2列 */
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* 中等屏幕（如大屏手机横屏）显示3列 */
+@media (min-width: 480px) {
+  .topic-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 平板/桌面屏幕显示4列 */
+@media (min-width: 768px) {
+  .topic-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 大桌面屏幕显示5列 */
+@media (min-width: 1024px) {
+  .topic-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
     .topic-card {
       background: white; border-radius: 20px; padding: 16px 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.02); border: 1px solid #e9e0d6;
@@ -2942,30 +2968,71 @@ appendixD: [
   }
 
   function renderTopics() {
-    let html = `<div class="topic-grid">`;
-    TOPICS.forEach(t => {
-      const phrases = phraseDB[t.id] || [];
-      const tp = getTopicProgress(t.id);
-      html += `<div class="topic-card ${selectedTopicId===t.id?'active':''}" data-topic="${t.id}">
-        <div class="topic-emoji">${t.emoji}</div><div class="topic-name">${t.name}</div>
-        <div class="topic-progress">${tp.mastered.length}/${phrases.length} 掌握</div></div>`;
-    });
-    html += `</div><div style="display:flex; gap:12px; justify-content:center;">
-      <button class="btn btn-primary" id="startLearnBtn">🎯 开始学习 ${TOPICS.find(t=>t.id===selectedTopicId)?.name}</button>
-      <button class="btn" id="resetTopicBtn">🔄 重置进度</button></div>`;
-    contentDiv.innerHTML = html;
-    document.querySelectorAll('.topic-card').forEach(card => {
-      card.addEventListener('click', () => { selectedTopicId = card.dataset.topic; renderTopics(); });
-    });
-    document.getElementById('startLearnBtn')?.addEventListener('click', () => {
+  let html = `<div class="topic-grid">`;
+  TOPICS.forEach(t => {
+    const phrases = phraseDB[t.id] || [];
+    const tp = getTopicProgress(t.id);
+    const mastered = tp.mastered.length;
+    const total = phrases.length;
+    const isCompleted = total > 0 && mastered === total;
+    // 显示完成标记
+    const completedIcon = isCompleted ? ' ✅' : '';
+    html += `<div class="topic-card ${selectedTopicId===t.id?'active':''}" data-topic="${t.id}">
+      <div class="topic-emoji">${t.emoji}</div>
+      <div class="topic-name">${t.name}${completedIcon}</div>
+      <div class="topic-progress">${mastered}/${total} 掌握</div>
+    </div>`;
+  });
+  html += `</div><div style="display:flex; gap:12px; justify-content:center;">
+    <button class="btn btn-primary" id="startLearnBtn">🎯 开始学习 ${TOPICS.find(t=>t.id===selectedTopicId)?.name}</button>
+    <button class="btn" id="resetTopicBtn">🔄 重置进度</button></div>`;
+  contentDiv.innerHTML = html;
+  
+  // 绑定话题卡片点击事件：直接开始学习
+  document.querySelectorAll('.topic-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      selectedTopicId = card.dataset.topic;
+      // 获取该话题下一个短语
       const next = getNextPhrase(selectedTopicId);
-      if (!next) { alert('🎉 这个话题你已经全部掌握啦！'); return; }
-      currentPhrase = next; showAnswer = false; currentTab = 'learn'; render();
+      if (!next) {
+        // 如果全部掌握，询问是否重置
+        if (confirm('🎉 这个话题你已经全部掌握啦！是否重置进度重新学习？')) {
+          resetTopic(selectedTopicId);
+        }
+        renderTopics();
+        return;
+      }
+      // 直接进入学习
+      currentPhrase = next;
+      showAnswer = false;
+      currentTab = 'learn';
+      render();
     });
-    document.getElementById('resetTopicBtn')?.addEventListener('click', () => {
-      if (confirm('确定重置本话题的学习进度吗？')) { resetTopic(selectedTopicId); renderTopics(); }
-    });
-  }
+  });
+  
+  // 底部按钮保留，作为备选
+  document.getElementById('startLearnBtn')?.addEventListener('click', () => {
+    const next = getNextPhrase(selectedTopicId);
+    if (!next) { 
+      if (confirm('🎉 这个话题你已经全部掌握啦！是否重置进度重新学习？')) {
+        resetTopic(selectedTopicId);
+        renderTopics();
+      }
+      return; 
+    }
+    currentPhrase = next; 
+    showAnswer = false; 
+    currentTab = 'learn'; 
+    render();
+  });
+  
+  document.getElementById('resetTopicBtn')?.addEventListener('click', () => {
+    if (confirm('确定重置本话题的学习进度吗？')) { 
+      resetTopic(selectedTopicId); 
+      renderTopics(); 
+    }
+  });
+}
 
   function renderLearn() {
     if (!currentPhrase) {
