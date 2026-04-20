@@ -1,0 +1,3061 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>📚 纯正英式短语·雅思加强版</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f3f0; color: #2e241f; padding: 0 0 80px 0;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    .app-header {
+      background: #1e3a5f; color: white; padding: 18px 16px 12px;
+      border-radius: 0 0 24px 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .app-header h1 { font-size: 1.8rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .app-header h1 span { background: #f4c27a; color: #1e3a5f; font-size: 1rem; padding: 4px 12px; border-radius: 30px; }
+    .subhead { font-size: 0.9rem; opacity: 0.9; margin-top: 6px; display: flex; justify-content: space-between; }
+    .main-content { flex: 1; padding: 16px 12px; }
+    .topic-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; margin-bottom: 20px; }
+    .topic-card {
+      background: white; border-radius: 20px; padding: 16px 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.02); border: 1px solid #e9e0d6;
+      text-align: center; cursor: pointer;
+    }
+    .topic-card.active { border: 2px solid #1e3a5f; background: #f0f4fa; }
+    .topic-emoji { font-size: 2.4rem; margin-bottom: 4px; }
+    .topic-name { font-weight: 600; font-size: 1rem; }
+    .topic-progress { font-size: 0.75rem; color: #7e6b5a; margin-top: 4px; }
+    .progress-badge { background: #2b5a7a; padding: 6px 14px; border-radius: 40px; font-size: 0.9rem; }
+    .btn {
+      background: #e9e0d6; border: none; padding: 12px 24px; border-radius: 40px;
+      font-weight: 600; font-size: 1rem; color: #1e3a5f; cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: 0.1s;
+    }
+    .btn-primary { background: #1e3a5f; color: white; }
+    .btn-success { background: #2e7d5e; color: white; }
+    .btn-warning { background: #b55a5a; color: white; }
+    .learning-card {
+      background: white; border-radius: 28px; padding: 24px 18px;
+      box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); border: 1px solid #e6dbd0;
+      margin-bottom: 12px;
+    }
+    .card-front, .card-back { text-align: center; }
+    .phrase-zh { font-size: 2.2rem; font-weight: 700; color: #1e3a5f; margin: 20px 0; }
+    .phrase-en { font-size: 2rem; font-weight: 700; color: #1e3a5f; margin: 10px 0; }
+    .stars { color: #f4c27a; font-size: 1.4rem; letter-spacing: 4px; margin: 8px 0; }
+    .example-box {
+      background: #f9f6f2; padding: 16px; border-radius: 18px; font-size: 1rem;
+      color: #3e3a36; border-left: 4px solid #f4c27a; text-align: left; margin: 16px 0;
+    }
+    .related-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.9rem; }
+    .related-table th { background: #e9e0d6; padding: 8px; text-align: left; }
+    .related-table td { padding: 8px; border-bottom: 1px solid #ddd2c6; }
+    .learner-tendency { background: #fff3e0; padding: 12px; border-radius: 16px; margin: 12px 0; font-style: italic; }
+    .action-buttons { display: flex; gap: 12px; margin-top: 20px; }
+    .action-buttons .btn { flex: 1; }
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95);
+      display: flex; justify-content: space-around; padding: 10px 8px 20px;
+      border-top: 1px solid #e2d7cd; backdrop-filter: blur(10px);
+    }
+    .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; color: #7e6b5a; cursor: pointer; padding: 6px 16px; border-radius: 40px; }
+    .nav-item.active { background: #1e3a5f20; color: #1e3a5f; font-weight: 500; }
+    .nav-item .icon { font-size: 1.5rem; }
+    .hidden { display: none !important; }
+    .progress-bar { width: 100%; height: 10px; background: #e9e0d6; border-radius: 10px; margin: 10px 0; }
+    .progress-fill { height: 10px; background: #2e7d5e; border-radius: 10px; width: 0%; }
+    .review-badge { background: #f4c27a; color: #1e3a5f; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; margin-left: 10px; }
+  </style>
+</head>
+<body>
+<div class="app-header">
+  <h1>🇬🇧 短语·英伦 <span>IELTS</span></h1>
+  <div class="subhead">
+    <div>📖 Native Speaker 表达</div>
+    <div class="progress-badge" id="globalProgress">今日已学 0</div>
+  </div>
+</div>
+<div class="main-content" id="mainContent"></div>
+<div class="bottom-nav">
+  <div class="nav-item" data-tab="topics"><span class="icon">📚</span><span>话题</span></div>
+  <div class="nav-item" data-tab="learn"><span class="icon">🎯</span><span>学习</span></div>
+  <div class="nav-item" data-tab="stats"><span class="icon">📊</span><span>进度</span></div>
+</div>
+<script>
+(function(){
+  "use strict";
+
+  // ---------- 话题列表 (根据本书目录) ----------
+  const TOPICS = [
+  { id: 'education', name: '教育', emoji: '🎓' },
+  { id: 'work', name: '工作', emoji: '💼' },
+  { id: 'people', name: '人物', emoji: '👤' },
+  { id: 'traffic', name: '交通', emoji: '🚗' },
+  { id: 'food', name: '食品', emoji: '🍎' },
+  { id: 'media', name: '媒体', emoji: '📺' },
+  { id: 'science', name: '科技', emoji: '🔬' },
+  { id: 'friendship', name: '友情合作', emoji: '🤝' },
+  { id: 'likes', name: '爱憎', emoji: '❤️' },
+  { id: 'effort', name: '努力计划', emoji: '📝' },
+  { id: 'clothing', name: '服装时尚', emoji: '👗' },
+  { id: 'reading', name: '读写', emoji: '📖' },
+  { id: 'money', name: '金钱', emoji: '💷' },
+  { id: 'music', name: '音乐', emoji: '🎵' },
+  { id: 'travel', name: '旅行', emoji: '✈️' },
+  { id: 'sports', name: '运动', emoji: '⚽' },
+  { id: 'skill', name: '技能', emoji: '🛠️' },
+  { id: 'crime', name: '犯罪法律', emoji: '⚖️' },
+  { id: 'nature', name: '自然', emoji: '🌿' },
+  { id: 'health', name: '健康', emoji: '💪' },
+  { id: 'culture', name: '文化', emoji: '🎭' },
+  { id: 'buildings', name: '建筑', emoji: '🏛️' },
+  { id: 'parties', name: '聚会节日', emoji: '🎉' },
+  { id: 'government', name: '政府', emoji: '🏛️' },
+  { id: 'environment', name: '环境', emoji: '🌍' },
+  { id: 'animals', name: '动物', emoji: '🐾' },
+  { id: 'appliances', name: '家用电器', emoji: '📺' },
+  { id: 'development', name: '发展', emoji: '📈' },
+  { id: 'family', name: '家庭与童年', emoji: '👪' },
+  { id: 'solutions', name: '解决方案', emoji: '💡' },
+  { id: 'appendixA', name: '附录A·表达看法', emoji: '💬' },
+  { id: 'appendixB', name: '附录B·图表描述', emoji: '📊' },
+  { id: 'appendixC', name: '附录C·常用副词', emoji: '✏️' },
+  { id: 'appendixD', name: '附录D·英美拼写', emoji: '🔤' }
+];
+
+  // ---------- 短语数据库 (已完整填充 Education 话题，其他话题待补充) ----------
+  const phraseDB = {
+    // 教育话题数据已完整填充（根据您提供的文本提取）
+    education: [
+      { id:'edu1', zh:'某事是一个需要付出艰苦努力的过程', en:'sth. be an arduous process', stars:3,
+        example:'Attending a university with a top-tier reputation often is an arduous but rewarding process.',
+        learnerTendency:'英语学习者常说：a difficult process',
+        related:[
+          { type:'近义', en:'be very rewarding', zh:'有回报的', example:'Teaching can be a very rewarding career. It allows teachers to have an input in the development of young lives.' },
+          { type:'联想', en:"someone's aspiration / pursuit", zh:'梦想，追求（应试时替代dream的地道表达）', example:'The educational aspirations/pursuits of rural youth tend to be different from those of students living elsewhere.' }
+        ] },
+      { id:'edu2', zh:'集中精力于某事', en:'concentrate on sth.', stars:3,
+        example:'Some people think it is more effective to educate boys and girls in single-sex schools because they believe this environment reduces distractions and encourage pupils to concentrate on their studies.',
+        learnerTendency:'学习者可能直译为 focus on',
+        related:[
+          { type:'联想', en:'form the basis of sth.', zh:'为某事物打下基础', example:'Traditional ways of teaching form the basis of the lesson.' }
+        ] },
+      { id:'edu3', zh:'鼓励发散型思维', en:'use lateral thinking', stars:2,
+        example:'Using lateral thinking, the students can solve problems in an unconventional manner now.',
+        learnerTendency:'常误用为 creative thinking',
+        related:[
+          { type:'反义', en:'rely on linear thinking', zh:'依赖于直线型的思维；受到思维的局限', example:'The students should not rely on linear thinking habits. Instead, they should think more innovatively.' },
+          { type:'联想', en:'break the mould', zh:'打破常规', example:'He made an attempt to break the mould of British politics.' }
+        ] },
+      { id:'edu4', zh:'学业表现', en:'academic performance', stars:2,
+        example:"Tyler's academic performance has been disappointing.",
+        learnerTendency:'学习者常用 grades',
+        related:[
+          { type:'联想', en:'academic qualifications', zh:'学历', example:'Today academic qualifications are essential for getting a reasonable career.' },
+          { type:'联想', en:'standardised test', zh:'标准化考试', example:'High scores on standardised tests are not necessarily the best indicator of giftedness.' },
+          { type:'联想', en:'be gifted / be talented', zh:'有天赋的', example:'In the process of being educated we can learn from the achievements of those more gifted than ourselves.' }
+        ] },
+      { id:'edu5', zh:'重复记忆，机械记忆', en:'rote memorisation', stars:2,
+        example:'Rote memorisation is not entirely useless. It can help children to learn the basics such as the multiplication tables.',
+        learnerTendency:'机械记忆',
+        related:[
+          { type:'近义', en:'learn sth. by heart', zh:'熟记某种知识', example:'The view of repetitively boring lessons and learning the facts by heart may be unfair and unjustified.' }
+        ] },
+      { id:'edu6', zh:'广泛地阅读', en:'read extensively', stars:1,
+        example:'Some people argue that examinations do not motivate students to read extensively.',
+        learnerTendency:'read widely',
+        related:[
+          { type:'反义', en:'induce cramming', zh:'导致考前突击', example:'It concerns some parents that these examinations may induce cramming.' },
+          { type:'联想', en:'ignorance', zh:'缺乏对于某科目的了解，对某科目的无知', example:'No one minds mistakes or ignorance as long as you are prepared to learn from them.' }
+        ] },
+      { id:'edu7', zh:'行为准则', en:'standard of upright conduct', stars:1,
+        example:'At school students should be taught respect for the rights of others and standards of upright conduct.',
+        learnerTendency:'正直行为标准',
+        related:[
+          { type:'联想', en:"students' autonomy", zh:'学生的自我管理', example:"Students' autonomy should be encouraged when there are not enough teachers to go around." },
+          { type:'联想', en:'self-discipline', zh:'自制力', example:'Lydia lacks self-discipline and is unable to finish anything.' }
+        ] },
+      { id:'edu8', zh:'榜样', en:'role model', stars:2,
+        example:'My elder brother has always been a role model for me.',
+        learnerTendency:'model',
+        related:[
+          { type:'联想', en:'set a good example', zh:'为别人树立榜样', example:'His dad was always telling him to set a good example for his younger brother.' }
+        ] },
+      { id:'edu9', zh:'达到某人的期望', en:"meet someone's expectations", stars:3,
+        example:"His academic performance failed to meet his parents' expectations.",
+        learnerTendency:'达到期望',
+        related:[
+          { type:'联想', en:"fall short of someone's expectations", zh:'未能达到某人的期望', example:'Jamie kept falling short of my expectations.' },
+          { type:'联想', en:'cannot be guaranteed success', zh:'（某事物）未必一定会成功或者有效', example:'So far no teaching methods can be guaranteed success.' }
+        ] },
+      { id:'edu10', zh:'（在课程或科目中）覆盖了很广泛的领域', en:'cover a lot of ground', stars:2,
+        example:"We've covered a lot of ground in this class in the past couple of months.",
+        learnerTendency:'learn a great amount of information',
+        related:[
+          { type:'联想', en:'be well-rounded', zh:'（某人）爱好和经历都很广泛的', example:"She's a well-rounded person who not only works hard but also has a varied social life." },
+          { type:'联想', en:'comprehensive coverage of sth.', zh:'广泛涉及某方面的知识', example:'The impression is that the logical nature of the textbooks and their comprehensive coverage of different types of examples renders work sheets unnecessary.' }
+        ] },
+      { id:'edu11', zh:'学生可以自己控制进度的学习', en:'self-paced learning / education', stars:3,
+        example:'Self-paced distance learning offers students convenience and flexibility.',
+        learnerTendency:'study at one\'s own speed',
+        related:[
+          { type:'联想', en:'core curriculum', zh:'核心课程', example:'The core curriculum provide the necessary general education for students, irrespective of their fields of interest.' }
+        ] },
+      { id:'edu12', zh:'教育的目标', en:'the aims of education', stars:3,
+        example:'The aims of education should not be restricted to the development of knowledge or skill.',
+        learnerTendency:'the purpose of education',
+        related:[
+          { type:'联想', en:'academic attainment', zh:'学生在学业方面取得的成就', example:'Japan has a significantly better record in terms of average mathematical attainment than England and Wales.' },
+          { type:'联想', en:'specialise in sth.', zh:'专攻某个领域', example:'Grant Freeman, a biologist who specialises in identifying insects, has come to talk to us about his current research work.' },
+          { type:'联想', en:'extra-curricular activities', zh:'课外活动', example:'These extra-curricular activities offer students an outlet for creativity and problem-solving.' }
+        ] },
+      { id:'edu13', zh:'促进（学生之间的）平等', en:'promote equality', stars:1,
+        example:'Some people believe that uniforms can promote equality and encourage better behaviour at school.',
+        learnerTendency:'促进平等',
+        related:[
+          { type:'联想', en:'repress individuality', zh:'压制个性', example:'School uniforms may repress individuality and deny students the freedom of choice.' }
+        ] },
+      { id:'edu14', zh:'男女合校的教育', en:'co-education', stars:2,
+        example:'Some people believe that co-education can make children feel more comfortable in the company of the opposite sex.',
+        learnerTendency:'男女同校',
+        related:[
+          { type:'反义', en:'a single sex school', zh:'男校或女校', example:'Some people argue that single sex schools impose abnormal conditions upon children.' },
+          { type:'联想', en:'mixed-ability class', zh:'各层次学习能力的学生在一起上课的班级', example:'It is remarkable that large mixed-ability classes could be kept together for maths throughout all their compulsory schooling.' },
+          { type:'联想', en:'distinguish sb./sth. from', zh:'区分人或事物之间的差异', example:'Importantly, our commonly held feelings can help distinguish us from other cultures.' }
+        ] },
+      { id:'edu15', zh:'对他人和社会有负面影响的行为', en:'anti-social behaviour', stars:2,
+        example:'Even though the great majority of students are well-behaved, there is a small minority that engage in anti-social behaviour.',
+        learnerTendency:'harmful behaviour',
+        related:[
+          { type:'联想', en:'be well-behaved', zh:'行为得体的', example:'Apart from a very small minority, the students are well-behaved.' }
+        ] },
+      { id:'edu16', zh:'青春期', en:'adolescence', stars:2,
+        example:'The book deals with the joys and sorrows of adolescence.',
+        learnerTendency:'青春期',
+        related:[
+          { type:'联想', en:'a healthy/positive outlook on life', zh:'健康/积极的人生态度', example:'A healthy outlook on life can help students to succeed both academically and socially.' },
+          { type:'联想', en:'well-adjusted adults', zh:'能够很好地适应社会生活的成年人', example:'Educators should ensure that today\'s students will become productive and well-adjusted adults of tomorrow.' }
+        ] },
+      { id:'edu17', zh:'辍学', en:'drop out of school', stars:2,
+        example:'In this country, each year many students are forced to drop out of school.',
+        learnerTendency:'quit school',
+        related:[
+          { type:'联想', en:'skip school', zh:'逃学', example:'Some students skip school because they dislike the material taught in class.' }
+        ] },
+      { id:'edu18', zh:'成年', en:'come of age', stars:1,
+        example:'In some countries, to come of age means to reach the age when someone is legally recognized as an adult and is legally responsible for his/her own behaviour.',
+        learnerTendency:'become an adult',
+        related:[] },
+      { id:'edu19', zh:'双语的', en:'be bilingual', stars:2,
+        example:'Donna appreciates she had the chance to be bilingual.',
+        learnerTendency:'说两种语言',
+        related:[
+          { type:'反义', en:'be monolingual', zh:'单一语种的', example:'Experts believe that people who speak two languages have a clear learning advantage over their monolingual schoolmates.' }
+        ] },
+      { id:'edu20', zh:'学习或工作不努力，懈怠', en:'slack off', stars:2,
+        example:"It's about time you stopped slacking off and did some work.",
+        learnerTendency:'松懈',
+        related:[
+          { type:'联想', en:'apply oneself', zh:'尽力去做某事', example:"I'm sure you can solve the problem if you apply yourself." }
+        ] },
+      { id:'edu21', zh:'不遵守纪律的学生', en:'disruptive students', stars:1,
+        example:'His teacher described him as a disruptive student — always distracting other children.',
+        learnerTendency:'students who do not listen',
+        related:[
+          { type:'近义', en:'unruly students', zh:'不听话的学生', example:'Megan had an unruly class of adolescents on Thursday.' },
+          { type:'联想', en:'act up', zh:'调皮，不听话', example:'Ricky sometimes likes to act up in class.' },
+          { type:'联想', en:'indiscipline', zh:'不遵守纪律或规定', example:"The coach apologised for his team's indiscipline." }
+        ] },
+      { id:'edu22', zh:'满足某种需求', en:'meet the demand of...', stars:3,
+        example:'Economic globalization requires more culturally-competent university graduates who can meet the new market demands.',
+        learnerTendency:'answer the need of',
+        related:[
+          { type:'近义', en:'be geared to sth.', zh:'与某种需求一致，符合某种需求', example:'Education should be geared to the students\' needs and abilities.' },
+          { type:'联想', en:'inform sb. about sth.', zh:'让某人了解到某方面的信息', example:'Studying geography informs us about the different kinds of relationships that develop between a particular environment and the people who live there.' }
+        ] },
+      { id:'edu23', zh:'把理论运用到实践中去', en:'put theory into practice', stars:2,
+        example:'The workshop helps students to put theory into practice. They can test their ideas or plans for practical applications there.',
+        learnerTendency:'理论联系实际',
+        related:[
+          { type:'联想', en:'first-hand experience', zh:'第一手经验，最直接的体验', example:'By doing experiments, students acquired first-hand experience with the periodic table of the chemical elements.' }
+        ] },
+      { id:'edu24', zh:'某人肩负着做某事的责任', en:'the responsibility for sth. falls on sb.', stars:2,
+        example:'The responsibility for educating children used to fall both on parents and on teachers.',
+        learnerTendency:'sb. is responsible for sth.',
+        related:[
+          { type:'联想', en:'the responsibility for sth. rests with sb.', zh:'某种责任应该由某人承担', example:"The responsibility for limiting children's access to violence on TV rests with the parents." },
+          { type:'联想', en:"shirk one's responsibilities for sth.", zh:'某人逃避某种责任', example:'Parents should not shirk their responsibilities for educating their children.' },
+          { type:'联想', en:"fulfil one's responsibilities", zh:'尽到责任', example:"Parents should fulfil their responsibilities and monitor their children's TV viewing and Internet use." }
+        ] },
+      { id:'edu25', zh:'不给某人在某方面的自由', en:'deny sb. the freedom to do sth.', stars:2,
+        example:'There is no reason to deny students the freedom to choose subjects that interest and motivate them.',
+        learnerTendency:'do not allow sb. to do sth.',
+        related:[
+          { type:'近义', en:'compulsory subject', zh:'必修科目', example:'It is recognised as an important compulsory subject throughout schooling.' },
+          { type:'反义', en:"kindle someone's interest in sth.", zh:'唤起某人对某事物的兴趣', example:"The students' interest in mathematics was kindled by Emma's excellent teaching." },
+          { type:'联想', en:'optional subjects / courses', zh:'选修课程', example:'They believe that at the secondary level, all students should take Math and English, but other subjects can be optional.' }
+        ] },
+      { id:'edu26', zh:'某人/某事物是无法代替的', en:'There is no substitute for sb./ sth.', stars:2,
+        example:'There is no substitute for a face-to-face relationship with a caring and well-informed teacher.',
+        learnerTendency:'irreplaceable',
+        related:[
+          { type:'联想', en:'distance learning', zh:'远程教育', example:'The biggest advantage of distance learning programmes is their accessibility.' }
+        ] },
+      { id:'edu27', zh:'考虑各种不同需求之后的折中产物；以牺牲某种因素为代价', en:'compromise', stars:2,
+        example:'All classroom learning is, in fact, a compromise between the different needs of various students. The modifications might compromise safety in some way.',
+        learnerTendency:'妥协',
+        related:[
+          { type:'近义', en:'a happy medium', zh:'折中方案', example:"There's a happy medium between studying all the time and not studying at all." }
+        ] },
+      { id:'edu28', zh:'某人的良师益友', en:"be sb.'s mentor", stars:3,
+        example:'Freya was my teacher, my mentor and my friend.',
+        learnerTendency:'mentor',
+        related:[
+          { type:'反义', en:"sb.'s peer", zh:'同龄人', example:'They are entering a wider community where teachers and peers will have just as much influences as their parents do at home.' },
+          { type:'联想', en:"take someone under sb.'s wing", zh:'悉心帮助缺乏经验的晚辈', example:'My mentor took me under her wing at a time when I needed her the most.' }
+        ] },
+      { id:'edu29', zh:'（为了突击完成某项任务而）学习或工作到深夜', en:'burn the midnight oil', stars:2,
+        example:"Abigail has to get the report finished by tomorrow so she'll be burning the midnight oil tonight.",
+        learnerTendency:'熬夜',
+        related:[
+          { type:'近义', en:'study intensively', zh:'高强度地学习', example:'Many parents are concerned that exam-oriented education may restrict students\' creativity and cause students to study too intensively.' }
+        ] }
+    ],
+    // 以下话题暂时为空，后续分批填充
+    work: [
+  { id:'work1', zh:'工作稳定性', en:'job security', stars:3,
+    example:"It's a choice between higher pay and job security.",
+    learnerTendency:'job safety',
+    related:[
+      { type:'联想', en:'be unemployed', zh:'失业的', example:'Women who were unemployed were included in the research.' },
+      { type:'联想', en:'job satisfaction', zh:'工作满意度', example:'The sense of belonging to a team contributes towards job satisfaction.' },
+      { type:'联想', en:'be entitled to sth.', zh:'享有某种权利', example:'The majority of the workers have been entitled to paid holidays.' }
+    ] },
+  { id:'work2', zh:'（从工作中获得的）成就感', en:'a sense of fulfilment', stars:2,
+    example:'Madison found a sense of fulfilment and joy as a teacher.',
+    learnerTendency:'成就感',
+    related:[
+      { type:'反义', en:'frustration', zh:'挫败感', example:'All her efforts met with frustration.' },
+      { type:'联想', en:'brain drain', zh:'人才流失', example:'This brain drain was caused by highly-skilled people only offering their services to the highest bidder.' },
+      { type:'联想', en:'work experience', zh:'工作经验', example:'Paul decided to get work experience in South America because he wanted to learn about Latin American life.' }
+    ] },
+  { id:'work3', zh:'过重的工作负担', en:'excessive workload', stars:2,
+    example:'The employees have been complaining about the excessive workload — they had to do too much in too little time.',
+    learnerTendency:'have too much work to do',
+    related:[
+      { type:'近义', en:'be labour intensive', zh:'劳动强度大的，劳动密集型的', example:'However, the process took a long time and was labour intensive.' },
+      { type:'联想', en:'an oppressive deadline', zh:'过于苛求的截止日期', example:'Working to oppressive deadlines can increase the risk of a heart attack.' }
+    ] },
+  { id:'work4', zh:'工作压力很大', en:'work under enormous stress', stars:3,
+    example:'Jasmine is very resilient and effective at working under enormous stress.',
+    learnerTendency:'under great pressure',
+    related:[
+      { type:'联想', en:'an employee-friendly environment', zh:'让员工感到舒服且能够自我实现价值的工作环境', example:'The company will build an employee-friendly environment, with various programmes from childcare and family care to leisure support.' },
+      { type:'联想', en:'workplace', zh:'工作地点，工作单位', example:'It is in everyone\'s interest to maintain a high level of security in the workplace.' }
+    ] },
+  { id:'work5', zh:'工作时间长而报酬却很低', en:'work long hours for low pay', stars:3,
+    example:'In this country, many nannies work long hours for low pay.',
+    learnerTendency:'长时间低薪工作',
+    related:[
+      { type:'反义', en:'leisure activities', zh:'休闲放松活动', example:'A wide range of leisure activities is available to students outside class time.' }
+    ] },
+  { id:'work6', zh:'要求非常严格的工作', en:'a demanding job', stars:3,
+    example:'The work was too physically demanding.',
+    learnerTendency:'a challenging job',
+    related:[
+      { type:'联想', en:'contract', zh:'合同', example:'It may be that your contract gives you better rights, or your holiday rights might be specified in a collective agreement.' },
+      { type:'联想', en:'work ethic', zh:'敬业精神', example:'Riley is a perfect example of dedication. We really admire his work ethic.' }
+    ] },
+  { id:'work7', zh:'灵活的安排', en:'flexible arrangement', stars:2,
+    example:'Telecommuting may give employees very flexible work arrangements with their employers.',
+    learnerTendency:'changeable plan',
+    related:[
+      { type:'联想', en:'work schedule', zh:'工作计划，工作的日程安排', example:'They created a calendar to organise public events and work schedules.' },
+      { type:'联想', en:'routine work', zh:'日常的惯例工作', example:'He found doing the routine work boring.' }
+    ] },
+  { id:'work8', zh:'员工素质高的', en:'be well-staffed', stars:2,
+    example:'A properly designed programme should be well-staffed and well-managed.',
+    learnerTendency:'have capable staff',
+    related:[
+      { type:'反义', en:'be short-staffed', zh:'人手不够的', example:'Now the company is seriously short-staffed because business is picking up.' },
+      { type:'联想', en:'have access to', zh:'有权使用某种工具或信息', example:'In the course of your work you may have access to information relating to the company\'s business.' }
+    ] },
+  { id:'work9', zh:'（人际关系里）导致小的摩擦', en:'cause friction between... and...', stars:2,
+    example:'This decision has caused friction between the employees and the manager.',
+    learnerTendency:'cause disagreement',
+    related:[
+      { type:'近义', en:'conflicts arise', zh:'出现冲突', example:'Sometimes conflicts arise between older and younger employees.' }
+    ] },
+  { id:'work10', zh:'压力过大导致的疾病', en:'stress-induced diseases', stars:3,
+    example:'There has been a continuous search for the cure for stress-induced diseases.',
+    learnerTendency:'become ill because of too much stress',
+    related:[
+      { type:'联想', en:'the pace of work', zh:'工作节奏', example:'Successful professionals tend to work at a steady pace.' }
+    ] },
+  { id:'work11', zh:'从事某种职业可能带来的危害，职业风险', en:'occupational hazard', stars:2,
+    example:'Every company should have goals to eliminate occupational hazards in the workplace.',
+    learnerTendency:'job risk',
+    related:[
+      { type:'联想', en:'occupational disease', zh:'从事某种职业容易患上的疾病，职业病', example:'Noise-induced hearing loss is one of the most common occupational diseases in the UK.' }
+    ] },
+  { id:'work12', zh:'很辛苦的任务', en:'backbreaking tasks / laborious tasks', stars:1,
+    example:"The toughest part of Katie's job is not the laborious/backbreaking tasks.",
+    learnerTendency:'tiring work',
+    related:[
+      { type:'联想', en:'manual work / manual labour', zh:'体力工作', example:'There is a big demand for manual labour in the construction industry.' },
+      { type:'联想', en:'mental work', zh:'脑力劳动', example:'Many people feel that mental work can be physically exhausting.' },
+      { type:'联想', en:'be in charge of sth.', zh:'负责某项工作', example:'Mr. Thompson is in charge of this department.' }
+    ] },
+  { id:'work13', zh:'（工作、学习等）态度不主动的', en:'has an attitude problem', stars:1,
+    example:"Justin has a real attitude problem. In fact, he's just a slacker.",
+    learnerTendency:'be lazy at work',
+    related:[
+      { type:'反义', en:'be an eager beaver', zh:'工作非常积极主动的人', example:"Who's the eager beaver who came in at the weekend to finish this work off?" },
+      { type:'联想', en:'be an indicator of ability', zh:'工作能力的体现', example:'Age is not of itself an indicator of ability.' }
+    ] },
+  { id:'work14', zh:'对（新环境等）感到不适应', en:"feel out of one's element", stars:2,
+    example:'Jake felt out of his element in this company.',
+    learnerTendency:'feel uncomfortable with the new situation',
+    related:[
+      { type:'联想', en:'be attuned to...', zh:'完全适应（某种环境）的', example:"Most British companies still aren't really attuned to the needs of this market." }
+    ] },
+  { id:'work15', zh:'丝毫不停歇地工作', en:'work around the clock', stars:3,
+    example:'Katie said she was already working around the clock.',
+    learnerTendency:'always work',
+    related:[
+      { type:'近义', en:'work continuously / work non-stop', zh:'持续不停地工作', example:'The construction workers worked non-stop to build a new school for the children.' }
+    ] },
+  { id:'work16', zh:'把某人的注意力从某事物上吸引开', en:'distract sb. from sth.', stars:2,
+    example:'He was distracted from his work by the noise.',
+    learnerTendency:'attract sb. from...',
+    related:[
+      { type:'近义', en:"divert sb.'s attention from...", zh:'把某人的思绪从……吸引开', example:'Nothing could divert his attention from work.' }
+    ] },
+  { id:'work17', zh:'过着十分忙碌的生活', en:'lead a busy life', stars:3,
+    example:"Keira leads a busy life. She doesn't even have time to sit down to enjoy a relaxing meal.",
+    learnerTendency:'忙碌生活',
+    related:[
+      { type:'近义', en:'be tied up at work', zh:'忙于工作而无暇去做别的事情', example:'Connor was completely tied up at work.' }
+    ] },
+  { id:'work18', zh:'压力大而且耗费时间的工作', en:'a stressful and time-consuming job', stars:2,
+    example:'Being an art director is a stressful and time-consuming job.',
+    learnerTendency:'a hard job / a difficult job',
+    related:[
+      { type:'反义', en:'a cushy job', zh:'很轻松的工作', example:'Theo decided to quit his cushy job at a holiday resort.' },
+      { type:'联想', en:'job prospects', zh:'职业前景', example:"Learning a second language fuels children's intelligence and makes their job prospects brighter." }
+    ] },
+  { id:'work19', zh:'激励某人更加努力的事物', en:'incentive', stars:2,
+    example:"If you allocate these tasks to specific days, there's more incentive to tackle them.",
+    learnerTendency:'sth. that makes a person work hard',
+    related:[
+      { type:'联想', en:'motivation', zh:'努力工作或者学习的动力', example:'Rebecca has no motivation to succeed.' }
+    ] },
+  { id:'work20', zh:'激励某人的追随者', en:"inspire someone's followers", stars:2,
+    example:'You might inspire some of our students to conduct some similar experiments.',
+    learnerTendency:'激励追随者',
+    related:[
+      { type:'联想', en:'build a close rapport between...', zh:'让同事或合作者之间的关系更加融洽', example:'A close rapport was built between Nathan and me.' }
+    ] },
+  { id:'work21', zh:'"玻璃天花板"——阻止女性进入高级管理层的无形障碍', en:'glass ceiling', stars:1,
+    example:'Many women complain about the glass ceiling that bars them from upper management in large corporations.',
+    learnerTendency:'无形障碍',
+    related:[
+      { type:'联想', en:'discriminate against sb.', zh:'歧视某人', example:'In this country, employees are not allowed to discriminate on the basis of gender.' }
+    ] }
+],
+    people: [
+  { id:'ppl1', zh:'很自立的', en:'be self-reliant', stars:3,
+    example:"He's determined and self-reliant.",
+    learnerTendency:'live on one\'s own',
+    related:[
+      { type:'近义', en:'be self-sufficient', zh:'自给自足的', example:'The increased productivity from farmland made some countries self-sufficient in grain.' },
+      { type:'近义', en:'be a self-made man / woman', zh:'依靠自身的努力成功的人，白手起家的人', example:'The young entrepreneur is a self-made man.' }
+    ] },
+  { id:'ppl2', zh:'（在工作时）显示出主动性', en:'show initiative', stars:2,
+    example:'When Joseph began the job, he showed initiative.',
+    learnerTendency:'show the ability to do sth. on one\'s own',
+    related:[
+      { type:'联想', en:'do sth. of one\'s own accord', zh:'主动去做某事', example:'James apologised of his own accord.' }
+    ] },
+  { id:'ppl3', zh:'坚韧不拔的', en:'be tenacious', stars:3,
+    example:'Niamh is a tenacious athlete.',
+    learnerTendency:'very determined',
+    related:[
+      { type:'联想', en:'perseverance', zh:'坚定的意志', example:"Maria's excellent marks are a result of her perseverance." },
+      { type:'联想', en:'willpower', zh:'意志力', example:'It takes strong willpower to overcome the temptation.' }
+    ] },
+  { id:'ppl4', zh:'守信', en:"keep one's word", stars:2,
+    example:'Anita is an honourable person who always keeps her word.',
+    learnerTendency:"keep one's promise",
+    related:[
+      { type:'近义', en:'an upright citizen', zh:'一名正直、有责任感的公民', example:'Lewis behaved as any upright citizen would have under those circumstances.' },
+      { type:'联想', en:"preserve sb.'s integrity", zh:'坚持自己的原则', example:'Often they had to display great courage to preserve their integrity or to make their way to the top.' }
+    ] },
+  { id:'ppl5', zh:'务实的', en:'be down-to-earth', stars:2,
+    example:"I appreciate Anna's down-to-earth approach to problem-solving and decision-making.",
+    learnerTendency:'very practical',
+    related:[
+      { type:'反义', en:'be very arty', zh:'小资情调的，风花雪月的', example:'Max is very arty and a bit of a dreamer.' }
+    ] },
+  { id:'ppl6', zh:'成为某一领域的标杆', en:'set the benchmark for sth.', stars:3,
+    example:'The Last Dinner by Leonardo da Vinci set the benchmark for religious painting.',
+    learnerTendency:'be the best in this field',
+    related:[
+      { type:'联想', en:'worship sb.', zh:'极为崇拜某人', example:'As a child, Layla worshipped her older sister.' },
+      { type:'联想', en:'meet sb. in person', zh:'与某人见面', example:'Do you think it is possible to be friends with someone if you never meet them in person?' }
+    ] },
+  { id:'ppl7', zh:'一个极为多才多艺的人', en:'a Renaissance man/woman', stars:3,
+    example:'Christopher is a writer, composer and actor — a real Renaissance man.',
+    learnerTendency:'多才多艺',
+    related:[
+      { type:'近义', en:'be versatile', zh:'多才多艺的', example:'Georgia is a very versatile young artist.' },
+      { type:'联想', en:'be artistic', zh:'对艺术很敏感的，有艺术才能的', example:'Early results show that creative and artistic people do much better than average.' }
+    ] },
+  { id:'ppl8', zh:'举世闻名的', en:'world-renowned', stars:3,
+    example:"He's a world-renowned artist.",
+    learnerTendency:'famous in the world',
+    related:[
+      { type:'联想', en:'an overnight success', zh:'一夜成名的人或事物', example:'Most overnight successes actually take years.' },
+      { type:'联想', en:"sb.'s legacy lives on", zh:'某人过去的成就现在仍在发挥其影响', example:"The war hero's legacy lives on." },
+      { type:'联想', en:'sb. has a large following', zh:'某人有大量的崇拜者和追随者', example:'The actor has a large following on Twitter.' }
+    ] },
+  { id:'ppl9', zh:'一个有志向又有能力的人，很容易成功的人', en:'a go-getter', stars:3,
+    example:'Joshua is a real go-getter.',
+    learnerTendency:'a person who will succeed',
+    related:[
+      { type:'联想', en:'a consummate actor / actress / athlete', zh:'一位有才华的演员/女演员/运动员', example:'Joseph is a consummate leader.' },
+      { type:'联想', en:'a prodigy', zh:'神童', example:'There has always been an interest in geniuses and prodigies.' }
+    ] },
+  { id:'ppl10', zh:'各行各业、有各种经历的人们', en:'people from all walks of life', stars:3,
+    example:'People from all walks of life voted for him but he still lost the election.',
+    learnerTendency:'people of different backgrounds',
+    related:[
+      { type:'联想', en:'people who live next door to you', zh:'就住在你隔壁的人，邻居', example:'How well do you know the people who live next door to you?' },
+      { type:'联想', en:'go from rags to riches', zh:'从贫苦到富有的成功历程', example:'Rags-to-riches stories tend to be very inspirational.' }
+    ] },
+  { id:'ppl11', zh:'是某人非常关注的（社会）问题', en:"is a subject very close to one's heart", stars:3,
+    example:"Poverty is a subject very close to Olivia's heart.",
+    learnerTendency:'is a subject that someone is worried about',
+    related:[
+      { type:'联想', en:'be concerned about sth.', zh:'担忧，关注', example:'Eileen has been concerned about what others think of her.' }
+    ] },
+  { id:'ppl12', zh:'是只有少数人才有条件享受的（生活方式等）', en:'is a luxury', stars:3,
+    example:'Having an extra bathroom is at first a luxury for the couple, but after they had children it became a necessity.',
+    learnerTendency:'sth. only few people can enjoy',
+    related:[
+      { type:'近义', en:'is an absolute necessity', zh:'是绝对必需的', example:'In my work, a laptop is an absolute necessity.' }
+    ] },
+  { id:'ppl13', zh:'（某种麻烦）是成名所带来的无可回避的问题之一', en:'is part and parcel of being famous', stars:2,
+    example:'Being recognised in the street is part and parcel of being famous.',
+    learnerTendency:'成名的一部分',
+    related:[
+      { type:'联想', en:'celebrity', zh:'名人', example:'A lot of celebrities were at the film premiere.' },
+      { type:'联想', en:'paparazzi', zh:'狗仔队', example:'Paparazzi follow celebrities everywhere they go in order to take photographs of them for newspapers and magazine.' },
+      { type:'联想', en:'extravagant lifestyles', zh:'奢华的生活方式', example:'They live extravagant lifestyles with huge mansions and luxury cars.' }
+    ] }
+],
+    traffic: [
+  { id:'traf1', zh:'交通设施', en:'transport infrastructure', stars:3,
+    example:'Developing international tourism in this area may add to the burdens on the already-overburdened transport infrastructure.',
+    learnerTendency:'交通基础设施',
+    related:[
+      { type:'联想', en:'road network', zh:'公路网', example:'Some people complain that the quiet countryside has been ruined by road networks.' }
+    ] },
+  { id:'traf2', zh:'容易发生交通堵塞的地方，"交通瓶颈"', en:'traffic bottleneck', stars:2,
+    example:'The traffic bottlenecks make goods transport difficult.',
+    learnerTendency:'交通瓶颈',
+    related:[
+      { type:'联想', en:'inch along', zh:'极为缓慢地进行', example:'The traffic was stalled and we inched along across the bridge.' },
+      { type:'联想', en:'be out of bounds to sb.', zh:'是未经许可不得进入的区域', example:'Certain areas are used for particular experiments and are therefore temporarily out of bounds to the public.' }
+    ] },
+  { id:'traf3', zh:'（形容交通）十分拥堵的', en:'bumper-to-bumper', stars:1,
+    example:'A new study shows that the daily struggle of bumper-to-bumper traffic is getting worse.',
+    learnerTendency:'拥堵的',
+    related:[
+      { type:'联想', en:'the volume of traffic', zh:'交通量', example:'The volume of traffic on the roads has increased dramatically.' },
+      { type:'联想', en:'traffic density', zh:'交通密度，某一地区交通的拥挤程度', example:'Aerial photos can show traffic density.' }
+    ] },
+  { id:'traf4', zh:'拥挤不堪的', en:'be jam-packed', stars:2,
+    example:'The bus terminal was jam-packed with commuters.',
+    learnerTendency:'crowded',
+    related:[
+      { type:'联想', en:'commuter', zh:'工作地点离家很远，需要每天乘车上下班的人们', example:'The bus was jam-packed with complaining commuters.' }
+    ] },
+  { id:'traf5', zh:'汽油', en:'petrol', stars:2,
+    example:'The report gives monthly summaries of regional petrol prices for the UK.',
+    learnerTendency:'oil',
+    related:[
+      { type:'联想', en:'hybrid car', zh:'混合动力汽车', example:'These experts argue that a hybrid car is as reliable as any traditional car.' }
+    ] },
+  { id:'traf6', zh:'燃料消耗', en:'fuel consumption', stars:2,
+    example:'Driving at high speeds significantly increases your fuel consumption.',
+    learnerTendency:'油耗',
+    related:[
+      { type:'联想', en:'a gas guzzler', zh:'非常耗油的车', example:'Big cars tend to be gas guzzlers. Small cars are more fuel-efficient.' }
+    ] },
+  { id:'traf7', zh:'不考虑后果的驾驶行为', en:'reckless driving', stars:2,
+    example:'He was found guilty of reckless driving, fined heavily and disqualified from driving for three months.',
+    learnerTendency:'鲁莽驾驶',
+    related:[
+      { type:'联想', en:'drunk driving', zh:'酒后驾车', example:'Drunk driving may cause bodily harm or death and thus should be legally prohibited.' },
+      { type:'联想', en:"impair a person's driving ability", zh:'（酒精等）影响某人的驾驶能力', example:'Even the smallest amount of alcohol in the blood can impair a person\'s driving ability.' }
+    ] },
+  { id:'traf8', zh:'安全抵达', en:'get somewhere safe and sound', stars:3,
+    example:'It was a difficult drive but we arrived home safe and sound.',
+    learnerTendency:'get somewhere without being injured',
+    related:[
+      { type:'联想', en:'twists and turns', zh:'（局面或行动计划）复杂曲折', example:'It was difficult to figure out the twists and turns in the plot.' }
+    ] },
+  { id:'traf9', zh:'每个人都可以随心所欲的，彻底混乱的', en:'a free-for-all', stars:2,
+    example:'During the afternoon rush hour, the traffic was a messy free-for-all.',
+    learnerTendency:'a situation in which people can do as they please',
+    related:[
+      { type:'反义', en:'well-organised', zh:'组织良好的，有条理的', example:'Paul changed from one project to another because his first job was not well-organised.' },
+      { type:'联想', en:'at the intersection', zh:'位于十字路口', example:'One way of making sure that the pedestrians are safe is to increase signage at the intersections.' }
+    ] },
+  { id:'traf10', zh:'开车时紧急刹车', en:'jam on the brakes', stars:2,
+    example:'Chloe jammed on the brakes when the lights turned red.',
+    learnerTendency:'suddenly stop the car',
+    related:[
+      { type:'联想', en:'go over the speed limit', zh:'超速', example:'Going over the speed limit is particularly dangerous when it snows.' }
+    ] }
+],
+   food: [
+  { id:'food1', zh:'卫生', en:'hygiene', stars:2,
+    example:'Max doesn\'t care much about food hygiene.',
+    learnerTendency:'being clean',
+    related:[
+      { type:'联想', en:'cooking utensils', zh:'厨具', example:'This hardware store offers a wide range of cooking utensils.' }
+    ] },
+  { id:'food2', zh:'有营养的', en:'be nutritious', stars:2,
+    example:'Raw vegetables are actually more nutritious than cooked vegetables.',
+    learnerTendency:'营养的',
+    related:[
+      { type:'联想', en:'good nutrition', zh:'让人保持健康的营养', example:'More people attain an advanced age as a result of developments in medical care and better nutrition.' },
+      { type:'联想', en:'fattening', zh:'（食品）让人发胖的', example:'Take more exercise and try to avoid fattening food.' }
+    ] },
+  { id:'food3', zh:'（蔬菜、水果等）应季的', en:'be in season', stars:2,
+    example:'Strawberries are in season.',
+    learnerTendency:'当季的',
+    related:[
+      { type:'反义', en:'be out of season', zh:'（蔬菜、水果等）非应季的，不新鲜的', example:'The technological breakthrough will allow UK retailers to cut down on importing out-of-season pears from Spain.' },
+      { type:'联想', en:'food supplies', zh:'食品供应', example:'Fish were a vital commodity in growing towns and cities, where food supplies were a constant concern.' }
+    ] },
+  { id:'food4', zh:'冷冻食品', en:'frozen food', stars:2,
+    example:'Many people feel that frozen food is inferior to fresh food.',
+    learnerTendency:'冷冻食物',
+    related:[
+      { type:'联想', en:'canned food', zh:'罐装食品', example:'Canned vegetables usually contain a lot of salt.' },
+      { type:'联想', en:'TV dinner', zh:'方便食品，经常是不爱下厨的电视迷的首选', example:'Some manufacturers are trying to make TV dinners low in salt and additives-free.' },
+      { type:'联想', en:'refreshments', zh:'聚会时提供的少量饮食', example:'What can be bought to cut down on the waste produced by staff refreshments?' }
+    ] },
+  { id:'food5', zh:'有益健康的饮食', en:'a wholesome diet', stars:2,
+    example:'Some people believe a salt-free diet is wholesome.',
+    learnerTendency:'healthy food',
+    related:[
+      { type:'反义', en:'an unhealthy diet', zh:'不健康的饮食或生活方式', example:'Public awareness of the dangers of an unhealthy diet should be raised.' },
+      { type:'反义', en:'greasy', zh:'油腻的', example:'Evan can shed more pounds if he eats less greasy food.' }
+    ] },
+  { id:'food6', zh:'减少对某种食品或饮料的摄入', en:'cut down on sth.', stars:2,
+    example:'My doctor told me to cut down on carbohydrates.',
+    learnerTendency:'减少摄入',
+    related:[
+      { type:'联想', en:'intake', zh:'摄入量', example:'Ruby should reduce her intake of salt and sugar.' }
+    ] },
+  { id:'food7', zh:'吃垃圾食品上瘾的人', en:'a fast food junkie', stars:1,
+    example:'Fast food junkies should be made aware of the psychological reasons for fast food addiction.',
+    learnerTendency:'垃圾食品爱好者',
+    related:[
+      { type:'联想', en:'carbonated drinks', zh:'碳酸饮料', example:'Carbonated drinks can destroy the protective enamel around teeth.' }
+    ] },
+  { id:'food8', zh:'饮食习惯', en:'dietary habits', stars:2,
+    example:'Dietary habits can be very difficult to change.',
+    learnerTendency:'eating habits',
+    related:[
+      { type:'联想', en:'eating disorder', zh:'不正常的饮食习惯（如厌食或过度贪吃）', example:'The family have a history of eating disorder.' }
+    ] },
+  { id:'food9', zh:'微量元素', en:'trace elements', stars:2,
+    example:'Iron and zinc are two important trace elements that the human body needs.',
+    learnerTendency:'微量元素',
+    related:[
+      { type:'联想', en:'protein-rich', zh:'富含蛋白质的', example:'Many dieticians believe that protein-rich diets are best at keeping weight off.' }
+    ] },
+  { id:'food10', zh:'喜欢吃甜食', en:'have a sweet tooth', stars:2,
+    example:"It's things like cakes and candy bars that I can't resist. I've got a sweet tooth.",
+    learnerTendency:'like to eat candy',
+    related:[
+      { type:'联想', en:'be a gourmet', zh:'是一个美食家', example:"Molly is a gourmet. She's an excellent judge of good food and drinks." }
+    ] },
+  { id:'food11', zh:'让人垂涎欲滴的', en:'be mouth-watering', stars:1,
+    example:'Sam gave me a recipe for the mouth-watering chocolate cakes.',
+    learnerTendency:'令人垂涎的',
+    related:[] },
+  { id:'food12', zh:'非常难吃的', en:'be disgusting', stars:1,
+    example:'The frozen food we had at that restaurant was disgusting.',
+    learnerTendency:'恶心的',
+    related:[] }
+],
+    media: [
+  { id:'media1', zh:'弹出式的网络广告', en:'pop-up advertising windows', stars:2,
+    example:'We have plenty of ways to disable pop-up advertising windows, but we cannot really screen TV advertisements out of our lives.',
+    learnerTendency:'弹窗广告',
+    related:[
+      { type:'联想', en:'the advertising slot', zh:'电视上的广告时段', example:'The TV advertising slots for a major sports event may be sold for up to £100 million.' }
+    ] },
+  { id:'media2', zh:'得到密集的广告宣传', en:'be intensively advertised', stars:2,
+    example:'The new product is being intensively advertised on TV.',
+    learnerTendency:'大量广告',
+    related:[
+      { type:'联想', en:'advertising campaign', zh:'密集的广告宣传活动', example:'The advertising campaign has boosted sales by 150%.' }
+    ] },
+  { id:'media3', zh:'黄金时段', en:'peak time / prime time', stars:3,
+    example:'In the UK, prime time usually takes place from 6:30 pm until 10:30 pm.',
+    learnerTendency:'黄金时间',
+    related:[
+      { type:'联想', en:'ratings', zh:'收视率', example:'The new series had high ratings right from the start.' }
+    ] },
+  { id:'media4', zh:'聚精会神地盯着某物', en:'be glued to sth.', stars:3,
+    example:'Millions of people were glued to the television for the football game.',
+    learnerTendency:'盯着看',
+    related:[
+      { type:'联想', en:'be well-informed', zh:'对某方面的信息十分了解的', example:'The kids are very well-informed about all of the different video games.' }
+    ] },
+  { id:'media5', zh:'很扫兴', en:"spoil someone's enjoyment", stars:3,
+    example:'TV advertising interrupts exciting programmes and spoils our enjoyment.',
+    learnerTendency:"destroy someone's fun",
+    related:[
+      { type:'联想', en:"arouse someone's desire to...", zh:'让某人产生想去做某事的冲动', example:"TV advertising arouses the viewers' desire to buy new products." }
+    ] },
+  { id:'media6', zh:'已经被用滥的题材', en:'well-worn themes', stars:1,
+    example:'Today many TV programmes pursue well-worn themes that are common to all cultures, such as romance and crime.',
+    learnerTendency:'old topics/boring topics',
+    related:[
+      { type:'近义', en:'hackneyed subjects', zh:'陈腐的题材', example:'These hackneyed subjects are no longer wanted by the editors — unless the theme is given a decidedly new twist.' }
+    ] },
+  { id:'media7', zh:'政治、社会、经济等方面的时事', en:'current affairs', stars:3,
+    example:'The BBC offers its audiences a wide range of current affairs programmes.',
+    learnerTendency:'时事',
+    related:[
+      { type:'联想', en:'media hype', zh:'媒体的炒作', example:'The media hype surrounding the new product continues.' }
+    ] },
+  { id:'media8', zh:'有新闻价值的事件', en:'newsworthy event', stars:2,
+    example:'This will be the most newsworthy event of 2011.',
+    learnerTendency:'something that creates news',
+    related:[
+      { type:'联想', en:'dominate the headlines', zh:'占据报纸的头版头条，最引人注目的新闻', example:'The European sovereign debt crisis has dominated the headlines.' }
+    ] },
+  { id:'media9', zh:'（媒体在报导时）歪曲事实', en:'distort the truth', stars:2,
+    example:'The newspaper has been accused of distorting the truth.',
+    learnerTendency:'report false news stories',
+    related:[
+      { type:'联想', en:'be unbiased', zh:'公正的，不偏袒的', example:'Some people argue that it is impossible to find truly unbiased reporting.' }
+    ] },
+  { id:'media10', zh:'对书籍或电影进行审查', en:'censor', stars:2,
+    example:'The film has been heavily censored.',
+    learnerTendency:'审查',
+    related:[
+      { type:'联想', en:'censorship', zh:'对书籍或电影进行的审查', example:'The censorship of pornography is fully-justified.' }
+    ] },
+  { id:'media11', zh:'公众人物', en:'public figures', stars:3,
+    example:'Media coverage of public figures often invades their privacy.',
+    learnerTendency:'公众人物',
+    related:[] },
+  { id:'media12', zh:'刻意地去吸引媒体的关注', en:'court media publicity', stars:3,
+    example:'Celebrities tend to court media publicity because media attention is important to their career.',
+    learnerTendency:'seek media attention',
+    related:[
+      { type:'反义', en:'keep a low profile', zh:'保持低调', example:'They kept a low profile and avoided loud conversations.' }
+    ] },
+  { id:'media13', zh:'魅力四射的明星', en:'a glamorous celebrity', stars:1,
+    example:'The glamorous celebrity signed as many autographs as she could at the autograph session.',
+    learnerTendency:'魅力明星',
+    related:[] },
+  { id:'media14', zh:'过度夸张地描述某事物', en:'exaggerate sth.', stars:2,
+    example:'The seriousness of the situation has been exaggerated in the press.',
+    learnerTendency:'夸大',
+    related:[
+      { type:'近义', en:'blow sth. out of proportion', zh:'夸大其词，过度渲染某事', example:'These days when newspapers get hold of a story, they blow it out of proportion.' },
+      { type:'近义', en:'misrepresent sth.', zh:'对某事物给出有误导性的信息或描述，歪曲', example:'Current concerns are misrepresented by the press.' }
+    ] },
+  { id:'media15', zh:'逃避现实', en:'escape reality', stars:2,
+    example:'Many people go to the cinema to escape reality.',
+    learnerTendency:'逃避现实',
+    related:[
+      { type:'联想', en:'reality show', zh:'真人秀', example:'One of the reasons why reality shows are so big today is that we like to know about the private lives of others.' },
+      { type:'联想', en:'quiz show', zh:'有奖问答节目', example:'Who Wants to Be a Millionaire is probably the most successful UK quiz show of all time.' }
+    ] },
+  { id:'media16', zh:'一部电影中的全体演员', en:'cast', stars:2,
+    example:"There'll be a meeting for all cast members this afternoon.",
+    learnerTendency:'all actors and actresses in a film',
+    related:[
+      { type:'联想', en:'cinematography', zh:'影片中的摄影技术', example:'What really impressed me about this film was the cinematography.' }
+    ] }
+],
+   science: [
+  { id:'sci1', zh:'得到广泛的普及', en:'become widely available', stars:3,
+    example:'The Internet had become widely available to households in the UK by 2000.',
+    learnerTendency:'a large number of people can use it',
+    related:[
+      { type:'反义', en:'be shrouded in secrecy', zh:'没有被大家所熟知', example:'The business of national security has been shrouded in secrecy.' }
+    ] },
+  { id:'sci2', zh:'开拓新的领域', en:'break new ground', stars:3,
+    example:'This biologist and his team members have been breaking new ground in genetic research.',
+    learnerTendency:'do new research',
+    related:[
+      { type:'联想', en:'scientific breakthroughs', zh:'科学上的新突破', example:'With more scientific breakthroughs, the study of natural sciences has become more sought-after in recent years.' },
+      { type:'联想', en:'the advent of sth.', zh:'某种新科技、新产品或新制度的到来', example:'The advent of the jet engine resulted in a large number of very fast planes.' },
+      { type:'联想', en:'supersede / supplant sth.', zh:'取代（过去的某种事物）', example:'Eventually these were superseded by "small clock", or French, hours, which split the day into two 12-hour periods.' }
+    ] },
+  { id:'sci3', zh:'热情地迎接某种新技术的到来', en:'welcome sth. with open arms', stars:3,
+    example:'TV viewers welcomed the arrival of HDTV with open arms.',
+    learnerTendency:'热烈欢迎',
+    related:[
+      { type:'联想', en:'popularise sth.', zh:'让某种新生事物得到普及', example:'The government has been trying to popularise these eco-friendly cars.' },
+      { type:'联想', en:'dependency on sth.', zh:'对某事物的依赖', example:'So integral have these time-based technologies become to day-to-day existence that our dependency on them is recognised only when they fail to work.' }
+    ] },
+  { id:'sci4', zh:'基因工程', en:'genetic engineering', stars:1,
+    example:'Genetic engineering can be used to create more productive and disease-resistant farm animals.',
+    learnerTendency:'基因工程',
+    related:[
+      { type:'联想', en:'genetically-modified food', zh:'转基因食品', example:'Gene transfer from genetically-modified food to cells of the human body has caused public concern.' },
+      { type:'联想', en:'minimise the risk of sth.', zh:'尽可能减小某种风险出现的可能性', example:'By minimising human involvement, the idea was to minimise the risk of flawed results.' }
+    ] },
+  { id:'sci5', zh:'云计算技术', en:'cloud computing', stars:3,
+    example:'Cloud computing will permit access to multiple data centers anywhere on Earth.',
+    learnerTendency:'云计算',
+    related:[
+      { type:'联想', en:'telecommuting', zh:'远程上班', example:'The benefits of telecommuting include energy conservation, improved workplace safety and enhanced family values.' },
+      { type:'联想', en:'meteorological satellites', zh:'气象卫星', example:'Meteorological satellites have been used to monitor the weather and climate of the Earth.' }
+    ] },
+  { id:'sci6', zh:'通讯设备', en:'communications equipment', stars:2,
+    example:'Soldiers will benefit from the communications equipment during natural disasters.',
+    learnerTendency:'通信设备',
+    related:[
+      { type:'联想', en:'teleconferencing', zh:'远程电视会议', example:'Teleconferencing allows large companies to work more efficiently.' }
+    ] },
+  { id:'sci7', zh:'载人航天任务', en:'a manned mission', stars:3,
+    example:'These scientists are discussing the possibility of a manned mission to Mars.',
+    learnerTendency:'space travel with people',
+    related:[
+      { type:'联想', en:'zero gravity / weightlessness', zh:'失重状态', example:'There are unique benefits in carrying out scientific research in space because of zero gravity.' },
+      { type:'联想', en:'astronaut', zh:'宇航员', example:'Neil Armstrong was the first astronaut to walk on the moon.' },
+      { type:'联想', en:'experiment with sth.', zh:'对某种新事物进行试验', example:'Pilkington had been experimenting with improving the melting process.' }
+    ] },
+  { id:'sci8', zh:'满足人类的好奇心', en:'satisfy human curiosity', stars:3,
+    example:'A good reason to support space exploration is to satisfy human curiosity.',
+    learnerTendency:'满足好奇心',
+    related:[
+      { type:'联想', en:'a hard-won discovery', zh:'难得的发现', example:'That their minds are not different from our own is demonstrated by the fact that the hard-won discoveries of scientists like Kepler or Einstein become the commonplace knowledge of schoolchildren.' },
+      { type:'联想', en:'space race', zh:'太空竞赛', example:"Some people argue that the space race is just a pointless waste of taxpayers' money." }
+    ] },
+  { id:'sci9', zh:'社交网站', en:'social networking websites', stars:3,
+    example:'Social networking websites like Facebook and Twitter are a good way to make connections with people with similar interests and goals.',
+    learnerTendency:'社交网络',
+    related:[
+      { type:'联想', en:'interact with', zh:'相互交流，互动', example:'The way many people interact with each other has changed because of technology.' },
+      { type:'联想', en:'identity theft', zh:'盗用用户名', example:'Since the Internet does not require enough identification to confirm the user being the same with the owner, identity theft prevention is a very important issue.' }
+    ] },
+  { id:'sci10', zh:'电子邮件诈骗', en:'e-mail fraud', stars:2,
+    example:'Three local men were convicted of e-mail fraud.',
+    learnerTendency:'邮件诈骗',
+    related:[
+      { type:'联想', en:'e-mail spamming', zh:'被大批量群发的垃圾邮件', example:'E-mail spamming can be very confusing and annoying.' }
+    ] },
+  { id:'sci11', zh:'人工智能', en:'artificial intelligence', stars:2,
+    example:'As information management becomes increasingly complex, artificial intelligence will allow us to share information within and across organisations.',
+    learnerTendency:'AI',
+    related:[
+      { type:'联想', en:'a high-tech gizmo', zh:'泛指体积小巧的高科技产品', example:'This high-tech gizmo is a fat removal device.' }
+    ] },
+  { id:'sci12', zh:'超导', en:'superconductor', stars:1,
+    example:'The use of maglev with super-conductors has been on the rise.',
+    learnerTendency:'超导体',
+    related:[
+      { type:'联想', en:'supersonic', zh:'超音速的', example:'Supersonic travel can considerably reduce flight time.' }
+    ] },
+  { id:'sci13', zh:'机械化的', en:'be mechanised', stars:2,
+    example:'Mechanised farming has reduced the cost of production of various crops.',
+    learnerTendency:'机械化',
+    related:[
+      { type:'联想', en:'mass production', zh:'大规模生产（现代工业的特征性标志之一）', example:'Some people argue that mass production of standardised goods on assembly lines is uncreative.' }
+    ] },
+  { id:'sci14', zh:'硅谷，英语中很多时候也用来泛指IT产业', en:'Silicon Valley', stars:3,
+    example:"Thames Valley is often considered to be the UK's Silicon Valley.",
+    learnerTendency:'硅谷',
+    related:[
+      { type:'联想', en:'information highway', zh:'信息高速公路（应试时可以代替the Internet）', example:'There is a huge amount of information on the information highway, ranging from government services to technical support.' }
+    ] },
+  { id:'sci15', zh:'加快某事物的节奏', en:'speed up the pace of sth.', stars:2,
+    example:"The agency's services have helped laboratories to speed up the pace of scientific discovery.",
+    learnerTendency:'make sth. faster',
+    related:[
+      { type:'联想', en:'set priorities', zh:'分清主次，确定需要优先完成的任务', example:'The agency will set priorities for their scientific research.' }
+    ] },
+  { id:'sci16', zh:'由计算机网络虚拟的现实', en:'virtual reality', stars:2,
+    example:'In the future children may find human relationships inconvenient and confusing, and prefer to stay inside a virtual reality.',
+    learnerTendency:'虚拟现实',
+    related:[
+      { type:'联想', en:'high-definition', zh:'高清晰度的', example:'High-definition TV can give the audience clear, crisp pictures with vivid colours.' }
+    ] },
+  { id:'sci17', zh:'让某人不再受……的束缚', en:'bring liberation from sth.', stars:2,
+    example:'Automation systems have brought liberation from exhausting labour and have set us free to enjoy more interesting work and leisure.',
+    learnerTendency:'解放',
+    related:[
+      { type:'联想', en:'automation', zh:'自动化', example:'Some people argue that automation will result in the loss of jobs.' },
+      { type:'联想', en:'boost crop yield', zh:'提高农作物的产量', example:'The farmers avidly took to pesticides as a sure measure to boost crop yield.' }
+    ] },
+  { id:'sci18', zh:'可以想见的是...', en:'It is conceivable that...', stars:2,
+    example:'It is conceivable that robots will steadily replace humans in repetitive jobs.',
+    learnerTendency:'It will be possible in the future that...',
+    related:[
+      { type:'联想', en:'realise the untapped potential of...', zh:'发挥某事物尚未发挥出的潜力', example:'These experts believe cloud computing will help many companies to realise their untapped potential.' }
+    ] },
+  { id:'sci19', zh:'有些科学研究成果已经证明（某种观点）并不正确。', en:'Some scientific evidence has emerged to the contrary.', stars:2,
+    example:'There has never been any unbiased evidence that this disease is genetic; in fact, some scientific evidence has emerged to the contrary.',
+    learnerTendency:'相反的证据',
+    related:[
+      { type:'反义', en:'There is considerable evidence suggesting that...', zh:'有很多证据显示……', example:'There is considerable evidence suggesting that exposure to lead may increase the release of human stress hormone.' }
+    ] }
+],
+    friendship: [
+  { id:'friend1', zh:'有社会属性的生物', en:'social creature', stars:3,
+    example:'Human beings, like many animals, are social creatures.',
+    learnerTendency:'part of society',
+    related:[
+      { type:'近义', en:'be gregarious and outgoing / be very sociable', zh:'合群的，外向的', example:"He's a gregarious and outgoing kind of person." },
+      { type:'联想', en:'socialise with sb.', zh:'参加社交活动', example:'It is normal for kids to refuse to speak their home language at the stage when they start to socialise with other kids.' }
+    ] },
+  { id:'friend2', zh:'沟通方式', en:'means of communication', stars:2,
+    example:'Email is our main means of communication.',
+    learnerTendency:'methods of communication',
+    related:[
+      { type:'联想', en:'communication skills / interpersonal skills', zh:'人际沟通的技能', example:'The job requires excellent communication skills.' }
+    ] },
+  { id:'friend3', zh:'完全参与到……当中去', en:'participate fully in...', stars:2,
+    example:"Parents should spend as much time with their children as their job allows, help directly with their children's education and participate fully in their children's lives.",
+    learnerTendency:'take an active part in',
+    related:[
+      { type:'近义', en:'take part in', zh:'参与', example:'They were anxious for me to take part in a conference they were planning.' },
+      { type:'近义', en:'be supportive of sb.', zh:'非常支持、配合某人', example:"Paul's project manager was very supportive of him." }
+    ] },
+  { id:'friend4', zh:'和某人志趣相投的人', en:'a kindred spirit', stars:2,
+    example:'We soon realised we were kindred spirits.',
+    learnerTendency:'a person who likes the same things as you do',
+    related:[
+      { type:'联想', en:'get along with...', zh:'与某人很合得来', example:"My kids and their cousins just don't get along." },
+      { type:'联想', en:'is the complete opposite of sb./sth.', zh:'与某人或某事物截然相反', example:'Isabel is very generous but her sister is the complete opposite of her.' }
+    ] },
+  { id:'friend5', zh:'第一印象是最持久的', en:'First impressions are most lasting.', stars:2,
+    example:'Job interviewers judge us before we even open our mouths, and first impressions are most lasting.',
+    learnerTendency:'our first ideas of sb./sth. count',
+    related:[
+      { type:'联想', en:'Honesty is the best policy.', zh:'诚实才是最好的处事方法', example:"Nearly everyone agrees that honesty is the best policy, but sometimes we have to tell a little white lie to avoid hurting others' feelings." }
+    ] },
+  { id:'friend6', zh:'"有相同的波长"（指两人意见完全一致）', en:'be on the same wavelength', stars:3,
+    example:"I don't think I'm on the same wavelength as my tutor.",
+    learnerTendency:'完全理解对方想法',
+    related:[
+      { type:'反义', en:"don't see eye to eye with sb.", zh:'与某人意见不一致', example:"I don't see eye to eye with my dad on many things." }
+    ] },
+  { id:'friend7', zh:'不能共患难的朋友', en:'a fair-weather friend', stars:2,
+    example:'Michael had a lot of money and he knew a lot of people, but most of them turned out to be fair-weather friends.',
+    learnerTendency:'酒肉朋友',
+    related:[
+      { type:'联想', en:'stab sb. in the back', zh:'背叛朋友', example:'Oliver had been stabbed in the back by people who he thought were his friends.' }
+    ] },
+  { id:'friend8', zh:'在某人伤心时安慰某人', en:'console sb. at times of sorrow', stars:3,
+    example:'Pets make us feel wanted and console us at times of sorrow.',
+    learnerTendency:"comfort sb. when he's sad",
+    related:[
+      { type:'联想', en:'joys and sorrows', zh:'喜怒哀乐', example:"Her new book deals with life's joys and sorrows." }
+    ] },
+  { id:'friend9', zh:'公平的竞争', en:'compete on a level playing field', stars:2,
+    example:'The British media should compete on a level playing field.',
+    learnerTendency:'compete fairly',
+    related:[
+      { type:'联想', en:'fair and square', zh:'公平公正地', example:"She admitted that she'd been defeated fair and square." }
+    ] }
+],
+    likes: [
+  { id:'like1', zh:'非常激动的，忘乎所以的', en:'get carried away', stars:2,
+    example:'Amelia got carried away when she started talking about the book.',
+    learnerTendency:'get excited',
+    related:[
+      { type:'反义', en:'keep/stay/remain calm', zh:'保持平静的，坦然的', example:'Erin is not very good at staying calm in difficult situations.' }
+    ] },
+  { id:'like2', zh:'极为喜爱某人或某事物', en:'adore sb./sth.', stars:3,
+    example:"I adore sun-bathing. It's totally relaxing and reduces stress!",
+    learnerTendency:'like sb./sth. very much',
+    related:[
+      { type:'近义', en:'be passionate about...', zh:'对某事非常热衷', example:'Joe is passionate about swimming.' },
+      { type:'近义', en:'avid', zh:'热切的', example:'The farmers avidly took to pesticides as a sure measure to boost crop yield.' }
+    ] },
+  { id:'like3', zh:'渴望得到某事物', en:'have / has a yearning for sth.', stars:1,
+    example:'He was a young actor with a yearning for recognition.',
+    learnerTendency:'渴望',
+    related:[
+      { type:'联想', en:'have / has a craving for sth.', zh:'向往某事物', example:'The boy had a craving for the attention of the older kids.' },
+      { type:'联想', en:'be superior to sth.', zh:'相比其他事物更出色的', example:'What we appreciate, enjoy or marvel at in the achievements of prodigies are the skills similar to but so much superior to our own.' }
+    ] },
+  { id:'like4', zh:'很喜欢某人或某事物', en:'be fond of sb./sth.', stars:2,
+    example:'Jake is fond of horses.',
+    learnerTendency:'喜欢',
+    related:[
+      { type:'近义', en:'quite like sb./sth.', zh:'挺喜欢某人或某事物的', example:'Jacob quite likes going to the cinema.' }
+    ] },
+  { id:'like5', zh:'无动于衷的', en:'be indifferent to sth.', stars:2,
+    example:'In the past they were indifferent to conservation issues.',
+    learnerTendency:'do not care about',
+    related:[
+      { type:'反义', en:'preference', zh:'偏好', example:'Shona needs to do further research in order to identify the preferences of the public.' },
+      { type:'反义', en:'be concerned about...', zh:'关注，担忧', example:'Her parents were very concerned about her safety.' }
+    ] },
+  { id:'like6', zh:'不喜欢某人或某事物', en:'dislike sb./sth.', stars:2,
+    example:'Ryan dislikes the idea of testing children in such a narrow way.',
+    learnerTendency:'do not like',
+    related:[
+      { type:'联想', en:'have a strong aversion to sb./sth.', zh:'强烈地反感某人或某事物', example:'Molly has a strong aversion to spiders.' },
+      { type:'联想', en:'be reluctant to do sth.', zh:'不愿去做某事', example:'It was a remote village and some of them were reluctant to speak to me.' },
+      { type:'联想', en:"can't stand sb./sth.", zh:'不能容忍某人/某事', example:"I can't stand people dropping litter." }
+    ] },
+  { id:'like7', zh:'非常厌恶某人或某事物', en:'loathe sth.', stars:2,
+    example:'Marty loathes spiders.',
+    learnerTendency:'憎恶',
+    related:[
+      { type:'联想', en:'detest sb./sth.', zh:'非常憎恶某人或某事', example:'Isaac detests being late.' }
+    ] }
+],
+    effort: [
+  { id:'eff1', zh:'预先', en:'in advance', stars:3,
+    example:"If you're coming to the party, please let me know in advance.",
+    learnerTendency:'预先',
+    related:[
+      { type:'近义', en:'beforehand', zh:'预先', example:"Emma had phoned beforehand to let me know she was coming." },
+      { type:'联想', en:'draw up a plan / a list', zh:'制订一个较为正式的计划或列表', example:'The researchers drew up a list demanding new standards for future research.' },
+      { type:'联想', en:'intend to do sth.', zh:'计划去做某事', example:'Paul originally intended to get involved in tourism.' }
+    ] },
+  { id:'eff2', zh:'非常渴望某事发生', en:"have one's heart set on sth.", stars:2,
+    example:'Cindy has her heart set on having a big house.',
+    learnerTendency:'really want to do sth.',
+    related:[
+      { type:'近义', en:"make up one's mind", zh:'决定（去做某事）', example:"I've made up my mind — I'm moving to China." },
+      { type:'反义', en:'have mixed feelings about sth.', zh:'对某事的态度不是很明确', example:'The audiences have mixed feelings about the new film.' },
+      { type:'联想', en:'... will determine sth.', zh:'某事物将由……来决定', example:'Time and money are two major factors that will determine where we travel, when and for how long.' }
+    ] },
+  { id:'eff3', zh:'悬而未决的', en:'be up in the air', stars:2,
+    example:"Zak's future at the company is still up in the air.",
+    learnerTendency:'be uncertain',
+    related:[
+      { type:'近义', en:'sb. is still wavering between... and...', zh:'某人仍然在两事物间犹豫不决', example:'Maisie is still wavering between visiting her parents and going to France.' },
+      { type:'反义', en:'convince sb. to do sth.', zh:'说服某人去做某事', example:'By 1955 he had convinced the company to build a full-scale plant.' },
+      { type:'联想', en:'sb. has no say in sth.', zh:'某人对某事没有发言权', example:'Louie made the decision. The staff had no say in the matter.' }
+    ] },
+  { id:'eff4', zh:'（付出的努力）给人以回报', en:'pay off', stars:3,
+    example:'All those weeks of studying paid off.',
+    learnerTendency:'pay oneself',
+    related:[
+      { type:'联想', en:'bear fruit', zh:'产生成果', example:'All your work will bear fruit in the end.' },
+      { type:'联想', en:'fruitful', zh:'成果丰硕的', example:'It was one of the most fruitful discussions, with both sides agreeing to adopt a common policy.' },
+      { type:'联想', en:'You reap what you sow.', zh:'[英谚] 种瓜得瓜，种豆得豆。', example:'If you treat your friends like that, of course they leave you out. You reap what you sow.' }
+    ] },
+  { id:'eff5', zh:'宝贵的机会', en:'a golden opportunity', stars:2,
+    example:'Daniel got a place at university, which gave him a golden opportunity to do research on air pollution prevention.',
+    learnerTendency:'黄金机会',
+    related:[
+      { type:'联想', en:'seize the opportunity', zh:'抓住机遇', example:'They encouraged the government to seize the opportunity to improve the pension reform.' }
+    ] },
+  { id:'eff6', zh:'（努力、投资等）付诸东流', en:'go down the drain', stars:3,
+    example:"I tried for three years to run this business but now I'm bankrupt. All my efforts went down the drain.",
+    learnerTendency:'waste time',
+    related:[
+      { type:'近义', en:'be in vain', zh:'（努力）是无用的', example:'We put tables and chairs out in the garden but it started to rain and all our efforts were in vain.' }
+    ] },
+  { id:'eff7', zh:'尽力', en:'exert oneself', stars:2,
+    example:"She'll have to exert herself more than she does now if she wants to succeed in sales.",
+    learnerTendency:"do one's best",
+    related:[
+      { type:'近义', en:'apply oneself', zh:'尽最大努力（请注意这个短语中的apply不是申请的意思）', example:"I'm sure you can solve the problem if you apply yourself." }
+    ] },
+  { id:'eff8', zh:'（计划、想法等）得到实现', en:'come to fruition', stars:2,
+    example:"His idea came to fruition with an exhibition of the students' work.",
+    learnerTendency:'become true',
+    related:[
+      { type:'反义', en:'fall by the wayside', zh:'（计划等）落空', example:"Our plan fell by the wayside because they didn't want to get involved." }
+    ] },
+  { id:'eff9', zh:'（某个计划或体系当中的）薄弱环节', en:'a weak link (in the chain)', stars:3,
+    example:'The weak link in the chain is the computer software that controls the entire system.',
+    learnerTendency:'薄弱环节',
+    related:[
+      { type:'联想', en:'The only fly in the ointment is...', zh:'美中不足的是……', example:'The only fly in the ointment was my sister who insisted on whispering through the first half of the show.' }
+    ] },
+  { id:'eff10', zh:'有利有弊', en:'cut both ways', stars:3,
+    example:'Censorship cuts both ways. It prevents people from being corrupted, but it often also prevents them from knowing what is really going on.',
+    learnerTendency:'双刃剑',
+    related:[] },
+  { id:'eff11', zh:'肯定会导致问题的计划或方案', en:'a recipe for disaster', stars:3,
+    example:'They declared this plan a recipe for disaster.',
+    learnerTendency:'灾难配方',
+    related:[
+      { type:'联想', en:'infallible', zh:'绝对可靠的，万无一失的', example:"Experts are only human. They're not infallible." }
+    ] }
+],
+   clothing: [
+  { id:'cloth1', zh:'亲人穿过的旧衣物', en:'hand-me-downs', stars:3,
+    example:"I had to wear my brother's hand-me-downs.",
+    learnerTendency:'旧衣服',
+    related:[
+      { type:'联想', en:'tattered clothing', zh:'破旧的衣服', example:'He was an old man in a tattered grey coat.' }
+    ] },
+  { id:'cloth2', zh:'穿着决定成功。', en:'Dress for success.', stars:3,
+    example:'Noah is a firm believer in dressing for success.',
+    learnerTendency:'穿着决定成功',
+    related:[
+      { type:'联想', en:'dress for comfort', zh:'穿衣看重舒适', example:"Don't dress for style. Dress for comfort." }
+    ] },
+  { id:'cloth3', zh:'对衣着很有品位', en:'sb. has impeccable taste in clothing', stars:3,
+    example:'Brandon is well-known for his impeccable taste in clothing.',
+    learnerTendency:'品味好',
+    related:[
+      { type:'反义', en:'tacky clothing', zh:'没品位的服装', example:'Revealing clothing would be too tacky and impolite for such a formal occasion.' }
+    ] },
+  { id:'cloth4', zh:'人要衣装。', en:'Clothes make the man.', stars:2,
+    example:"Scarlett believes if clothes make the man, then it's shoes that define the woman.",
+    learnerTendency:'人靠衣装',
+    related:[
+      { type:'联想', en:'casual clothes', zh:'休闲服装', example:'Mariah likes to wear casual clothes.' },
+      { type:'联想', en:'dressy clothes', zh:'风格正式的服装', example:'Young people who want to express themselves through clothing may find dressy clothes boring.' },
+      { type:'联想', en:'elegant clothes', zh:'优雅的服装', example:'Jane likes to wear elegant clothes and expensive accessories.' }
+    ] },
+  { id:'cloth5', zh:'对时尚非常敏感的，时尚意识很强的', en:'fashion-conscious', stars:2,
+    example:'Bailey is very fashion-conscious.',
+    learnerTendency:'时尚敏感',
+    related:[
+      { type:'联想', en:'a fashion victim', zh:'时尚的受害者，过于追求时尚的人', example:'Blake is in danger of becoming a fashion victim.' }
+    ] },
+  { id:'cloth6', zh:'透气的衣服', en:'breathable clothing', stars:3,
+    example:"I'm trying to find more breathable clothing for the humid weather.",
+    learnerTendency:'透气衣物',
+    related:[
+      { type:'联想', en:'waterproof clothes', zh:'防水的衣服', example:'Waterproof clothes are the best way to deal with rainy days.' }
+    ] }
+],
+    reading: [
+  { id:'read1', zh:'多感官的体验', en:'a multisensory experience', stars:2,
+    example:'Reading is a multisensory experience. It involves the scent of the ink and the texture of the paper, not to mention the words on the pages.',
+    learnerTendency:'多感官体验',
+    related:[
+      { type:'联想', en:'soulless', zh:'无法给人以触动的', example:'The electronic media may be too soulless to replace books.' }
+    ] },
+  { id:'read2', zh:'读写能力', en:'literacy', stars:3,
+    example:'The government is funding an adult literacy programme.',
+    learnerTendency:'读写能力',
+    related:[
+      { type:'联想', en:'illiterate', zh:'不识字的', example:'In this country, nearly half of the population is illiterate.' }
+    ] },
+  { id:'read3', zh:'十分潦草的字迹', en:'messy handwriting', stars:2,
+    example:"Students' messy handwriting may cause poor grades on their written work.",
+    learnerTendency:'字迹潦草',
+    related:[
+      { type:'反义', en:'calligraphy', zh:'书法', example:"Calligraphy has practically become a lost art in today's computerised society." },
+      { type:'联想', en:'avoid typos', zh:'避免打字或印刷错误', example:'Even in an outline document like this, you really have to be careful to avoid typos.' }
+    ] },
+  { id:'read4', zh:'有声读物', en:'audio book / talking book', stars:3,
+    example:'Many commuters are big users of audio books.',
+    learnerTendency:'有声书',
+    related:[
+      { type:'联想', en:'multimedia', zh:'多媒体的', example:'Multimedia tools will allow students to learn the material at a greater depth.' }
+    ] }
+],
+    money: [
+  { id:'money1', zh:'（每月除纳税与还贷等之外剩余的）可支配收入', en:'disposable income', stars:3,
+    example:"Since they don't have any children and their rent is very cheap, they've a lot of disposable income.",
+    learnerTendency:'income',
+    related:[
+      { type:'联想', en:'conspicuous consumption', zh:'大手大脚的消费', example:'Many people believe that conspicuous consumption is an antisocial behaviour.' },
+      { type:'联想', en:'levy a tax on...', zh:'（政府）对……征税', example:'A new tax has been levied on cigarettes.' }
+    ] },
+  { id:'money2', zh:'经济实用的，节省开支的', en:'be economical', stars:2,
+    example:'A small family car is more economical than a large car.',
+    learnerTendency:'money-saving',
+    related:[
+      { type:'近义', en:'be cost-effective', zh:'物有所值的', example:'We need a cost-effective solution to the problem.' },
+      { type:'近义', en:'be penny-wise and pound-foolish', zh:'贪图小利吃大亏', example:'These education budget cuts are really penny-wise and pound-foolish.' }
+    ] },
+  { id:'money3', zh:'收入来源', en:'a source of income', stars:3,
+    example:'Edward does not have any other source of income apart from his job.',
+    learnerTendency:'收入来源',
+    related:[
+      { type:'联想', en:'scrimp and save to do sth.', zh:'（为了将来进行某种很高的消费而）省吃俭用', example:'They had to scrimp and save to pay for the holiday.' },
+      { type:'联想', en:'belong to sb.', zh:'属于某人的财物', example:'If you take things belonging to the company without permission, you will face disciplinary action.' }
+    ] },
+  { id:'money4', zh:'勉强保持收支平衡', en:'make ends meet', stars:3,
+    example:'My wages were so low I had to take a side job just to make ends meet.',
+    learnerTendency:'only have enough money to pay the bills',
+    related:[
+      { type:'联想', en:'be broke', zh:'身无分文（请注意这个意思不能说成be broken）', example:"I'm always broke by the end of the month." },
+      { type:'联想', en:'abject poverty', zh:'极端的贫困', example:'Over a billion people are still living in abject poverty and each year, over six million children die as a result of malnutrition.' }
+    ] },
+  { id:'money5', zh:'生活开支', en:'the cost of living', stars:3,
+    example:'If you are a student planning on moving to London, one important consideration will be the cost of living there.',
+    learnerTendency:'生活成本',
+    related:[
+      { type:'联想', en:'standard of living', zh:'生活水平，生活标准', example:'Britain has a varied standard of living, from the very affordable to the really expensive.' },
+      { type:'联想', en:'receipt', zh:'收据', example:'If you return wanted shoes straightaway, with a receipt, the shop will probably give you a refund.' }
+    ] },
+  { id:'money6', zh:'让某人花了很多钱', en:'cost sb. a fortune', stars:3,
+    example:'A tank of petrol can cost you a fortune these days.',
+    learnerTendency:'be too expensive',
+    related:[
+      { type:'近义', en:'The bill for... is exorbitant.', zh:'某物过于昂贵', example:'The bill for dinner in that restaurant is exorbitant.' },
+      { type:'近义', en:'prohibitively high prices', zh:'过于高昂的价格', example:'Apart from the prohibitively high medicine prices, the cost of maintaining medical equipment is rising as well.' },
+      { type:'反义', en:'be free of charge', zh:'完全免费的', example:'You can buy two and pay for just one — the other is free of charge.' },
+      { type:'反义', en:'make a fortune', zh:'发财', example:"Even if you don't make a fortune from this herb, there are few sights more attractive than a field of purple coneflowers." }
+    ] },
+  { id:'money7', zh:'（某一社会里的）有钱人与穷人的总称', en:'the haves and the have-nots', stars:2,
+    example:'Unfortunately, the gap between the haves and the have-nots has been widening.',
+    learnerTendency:'富人与穷人',
+    related:[
+      { type:'联想', en:'accumulate wealth', zh:'聚积财富', example:'Benjamin accumulated much of his wealth through real estate investment.' }
+    ] },
+  { id:'money8', zh:'身份与地位的标志', en:'a status symbol', stars:3,
+    example:'Green cars are considered status symbols these days.',
+    learnerTendency:'地位象征',
+    related:[
+      { type:'联想', en:'luxury goods', zh:'奢侈品', example:'Expensive clothes and accessories are considered luxury goods.' },
+      { type:'联想', en:'commodity', zh:'商品的较正式说法', example:'Fish were a vital commodity in growing towns and cities, where food supplies were a constant concern.' }
+    ] },
+  { id:'money9', zh:'总想索取的，贪得无厌的', en:'be acquisitive', stars:2,
+    example:"She's an acquisitive person, always wanting to gain and possess new things.",
+    learnerTendency:'贪婪的',
+    related:[
+      { type:'联想', en:'vanity', zh:'虚荣心，自负', example:'Reece wants the job purely for the reason of vanity.' }
+    ] },
+  { id:'money10', zh:'勒紧裤腰带，节省开支', en:"tighten one's belt", stars:2,
+    example:'Joel had to tighten his belt since he lost his job.',
+    learnerTendency:'spend less because sb. has less money',
+    related:[
+      { type:'近义', en:'do sth. on a shoe string', zh:'花很少的钱去做某事', example:'This business is run on a shoestring.' }
+    ] },
+  { id:'money11', zh:'买不起某物', en:'cannot afford sth.', stars:2,
+    example:"They can't afford such expensive holidays.",
+    learnerTendency:'负担不起',
+    related:[
+      { type:'联想', en:"be beyond sb.'s means", zh:'超过了某人的消费能力', example:'The medical charges are beyond the means of needy families.' }
+    ] },
+  { id:'money12', zh:'非常便宜的', en:'be dirt-cheap', stars:2,
+    example:'The hotel we stayed in was dirt-cheap, but our room was very nice.',
+    learnerTendency:'便宜',
+    related:[
+      { type:'近义', en:'a bargain', zh:'很便宜的', example:'These shoes are a bargain at just 15 pounds.' },
+      { type:'联想', en:'be undervalued', zh:'价值被低估的', example:'Smell is probably the most undervalued sense in many cultures.' }
+    ] },
+  { id:'money13', zh:'疯狂购物', en:'go on a shopping spree', stars:2,
+    example:'Rosie went on a shopping spree this weekend.',
+    learnerTendency:'血拼',
+    related:[
+      { type:'反义', en:'window-shopping', zh:'只看橱窗但不购买', example:'Window-shopping is fun for some and frustrating for others.' }
+    ] },
+  { id:'money14', zh:'掌握某事物的动向', en:'keep track of sth.', stars:2,
+    example:'Scarlett found it hard to keep track of her expenses.',
+    learnerTendency:'know where sth. is',
+    related:[
+      { type:'反义', en:'lose track of sth.', zh:'失去对某事物动向的了解', example:'Kaya never lost track of her favourite celebrities.' }
+    ] },
+  { id:'money15', zh:'不够，缺少', en:'fall short', stars:2,
+    example:'We tried to raise eighty thousand pounds, but unfortunately we fell short by about ten thousand.',
+    learnerTendency:'is not enough',
+    related:[
+      { type:'联想', en:"fall short of one's expectations", zh:'未能达到某人的期望', example:'He kept falling short of my expectations.' }
+    ] },
+  { id:'money16', zh:'只有（非常富有的人）才不会对这种价格望而却步。', en:"Only... won't balk at this price.", stars:1,
+    example:"Only well-heeled business people won't balk at this price, especially when buyers can get just 3 hours of battery life.",
+    learnerTendency:'Only rich people can afford it.',
+    related:[
+      { type:'近义', en:'a prohibitive price', zh:'价格过于高昂的', example:'The price of land in London is prohibitive.' }
+    ] },
+  { id:'money17', zh:'非常希望得到（别人已经拥有的东西）', en:'covet sth.', stars:2,
+    example:"The laptop looks pretty cool and this is the closest I've ever got to actually coveting a Dell laptop.",
+    learnerTendency:'wish to own something that belongs to another person',
+    related:[
+      { type:'联想', en:'envy sb.', zh:'羡慕某人', example:'I envy people who are always optimistic.' }
+    ] },
+  { id:'money18', zh:'财务上的支持', en:'financial support', stars:3,
+    example:'The UN provided financial support to the refugees.',
+    learnerTendency:'money lent to',
+    related:[
+      { type:'近义', en:'financial aid', zh:'经济援助', example:'Some people believe that the government should spend less on overseas financial aid.' },
+      { type:'联想', en:'financial issue', zh:'有关财务或财政的议题', example:'Financial issues are critical to the government.' }
+    ] },
+  { id:'money19', zh:'与他人去攀比', en:'keep up with the Joneses', stars:1,
+    example:'This society has been having a "keeping up with the Joneses" complex for years and now it\'s crashing down around its people.',
+    learnerTendency:"compare one's own possessions with others'",
+    related:[
+      { type:'联想', en:'peer pressure', zh:'来自于同辈人的压力', example:'Peer pressure can be very disorienting for children.' }
+    ] }
+],
+    music: [
+  { id:'music1', zh:'乐器', en:'musical instruments', stars:3,
+    example:'William plays saxophone, flute, clarinet and several other musical instruments.',
+    learnerTendency:'乐器',
+    related:[
+      { type:'联想', en:'be musically-inclined', zh:'在音乐方面有天赋的', example:'Jacob is really musically-inclined. He can play so many instruments.' }
+    ] },
+  { id:'music2', zh:'唱歌走调', en:"can't carry a tune", stars:2,
+    example:"She has an awful voice and simply can't carry a tune.",
+    learnerTendency:"can't sing well",
+    related:[
+      { type:'近义', en:'be tone-deaf', zh:'对音调完全没有感觉的', example:'Some singers in these pop groups are totally tone-deaf.' }
+    ] },
+  { id:'music3', zh:'露天音乐会', en:'open-air concert', stars:3,
+    example:'Their open-air concert was a resounding success.',
+    learnerTendency:'露天演唱会',
+    related:[
+      { type:'联想', en:'symphony orchestra', zh:'交响乐团', example:'Both our National Symphony Orchestra and National Theatre Company were involved in the planning of the project.' },
+      { type:'联想', en:'blaring music', zh:'音量很大、令人烦躁不安的音乐', example:'Alex found the blaring music from the speakers very annoying.' }
+    ] },
+  { id:'music4', zh:'（音乐）饱含某种特质', en:'be suffused with...', stars:2,
+    example:'His music is suffused with passion.',
+    learnerTendency:'The music is full of...',
+    related:[
+      { type:'联想', en:'be steeped in...', zh:'沉浸在某种氛围当中', example:'The city is steeped in history and tradition.' }
+    ] },
+  { id:'music5', zh:'"不插电"的音乐', en:'acoustic music', stars:2,
+    example:'Acoustic music has had a resurgence in popularity due to the recent popularity of musicians playing live without electric amplification.',
+    learnerTendency:'原声音乐',
+    related:[
+      { type:'联想', en:'airplay', zh:'一首歌曲在电台获得的播放次数', example:'A song needs a lot of airplay in order to become a hit.' }
+    ] },
+  { id:'music6', zh:'流行歌曲排行榜', en:'pop chart', stars:2,
+    example:'Each week the new UK pop charts are announced on Sunday.',
+    learnerTendency:'流行榜',
+    related:[
+      { type:'联想', en:'best-selling album / bestseller', zh:'热卖的专辑', example:"It's not easy to sell albums in the very competitive music industry, but her albums are all best-sellers." },
+      { type:'联想', en:'be just another a flash in the pan', zh:'（明星等）只是昙花一现', example:'The band rose to success suddenly and then disappeared just as quickly. It was just another flash in the pan.' }
+    ] },
+  { id:'music7', zh:'（歌曲、电影等）极大的成功', en:'a smash hit', stars:2,
+    example:"The singer's first album was a smash hit and now she's attempting to duplicate that success.",
+    learnerTendency:'a very popular song',
+    related:[
+      { type:'联想', en:'have / has what it takes', zh:'（某人）具有获得成功所必需的所有素质', example:'Lexie is very creative and highly-motivated. She really has what it takes to become a successful artist.' }
+    ] }
+],
+    travel: [
+  { id:'trav1', zh:'度假者', en:'holidaymakers', stars:2,
+    example:'Australian holidaymakers were flocking to Asia as the Australian dollar continued to rise in value.',
+    learnerTendency:'度假的人',
+    related:[
+      { type:'联想', en:'book a flight', zh:'预订航班', example:'A student changes his/her mind about plans to study and decides not to take the booked flight.' },
+      { type:'联想', en:'flock to...', zh:'蜂拥而至', example:"It's hardly surprising that tourists flock to see the area." },
+      { type:'联想', en:'paid holiday', zh:'带薪休假', example:'The majority of the workers have been entitled to paid holidays.' }
+    ] },
+  { id:'trav2', zh:'背包族', en:'backpacker', stars:3,
+    example:'Jayden is an avid backpacker and photographer.',
+    learnerTendency:'a walking traveller',
+    related:[
+      { type:'联想', en:'souvenir', zh:'旅行纪念品', example:'Adam kept the tickets as souvenirs from the trip.' },
+      { type:'联想', en:'exhibit', zh:'博物馆中的展品', example:'Some of the exhibits are fragile and we don\'t want them to be accidentally knocked.' }
+    ] },
+  { id:'trav3', zh:'旅行社', en:'travel agency', stars:3,
+    example:'Unscrupulous travel agencies should be shut down.',
+    learnerTendency:'旅行社',
+    related:[
+      { type:'联想', en:'package tour', zh:'由旅行社安排的旅游', example:'Package tours are a more convenient way to pick and choose how you want to travel in this region.' }
+    ] },
+  { id:'trav4', zh:'旅游旺季', en:'peak season / high season', stars:2,
+    example:'Hotel room rates are normally higher during the peak season / high season.',
+    learnerTendency:'旺季',
+    related:[
+      { type:'反义', en:'slack season / low season', zh:'旅游淡季', example:'Low-season travel tends to be much more fun because crowds are smaller and lines are shorter.' }
+    ] },
+  { id:'trav5', zh:'喷气式客机', en:'jet airliner', stars:2,
+    example:'Jet airliners have negative impact on the environment because their engines emit noise and greenhouse gases.',
+    learnerTendency:'plane',
+    related:[
+      { type:'联想', en:'jet lag', zh:'长途旅行之后感觉到的时差反应', example:'Jet lag can be quite irritating.' }
+    ] },
+  { id:'trav6', zh:'商品', en:'commodity', stars:2,
+    example:'Some people fear that tourism may turn cultural heritage into a collection of commodities.',
+    learnerTendency:'products that can be bought or sold',
+    related:[
+      { type:'联想', en:'commercialised', zh:'商业化的', example:'It is a pity that these tourist destinations have become so commercialised.' }
+    ] },
+  { id:'trav7', zh:'让某人对不同的事物更加包容', en:'make sb. more tolerant and open-minded', stars:3,
+    example:'By travelling abroad people can discover new ways of thinking and different lifestyles, which makes them more tolerant and open-minded.',
+    learnerTendency:'help sb. to know more about new things',
+    related:[
+      { type:'联想', en:'be an eye-opener', zh:'让人大开眼界的事物', example:'The photo taken by the astronaut was an eye-opener.' }
+    ] },
+  { id:'trav8', zh:'消除成见', en:'eliminate preconceptions', stars:2,
+    example:'Some may argue that international tourism breaks down barriers and eliminates preconceptions.',
+    learnerTendency:'消除偏见',
+    related:[
+      { type:'反义', en:"confirm one's prejudices", zh:'增强了某人所持的偏见', example:"The experience only confirmed Lauren's prejudices about these products." }
+    ] },
+  { id:'trav9', zh:'缓和紧张关系', en:'ease tension', stars:3,
+    example:'Sports events are essential in easing international tension.',
+    learnerTendency:'improve relationship',
+    related:[
+      { type:'近义', en:'deepen mutual understanding', zh:'加深相互了解', example:'Some people argue that international tourism is a major contributor to international peace and deepens mutual understanding among nations.' },
+      { type:'反义', en:'be considered to be offensive', zh:'被认为是冒犯别人的', example:'Smells that are considered to be offensive in some cultures may be perfectly acceptable in others.' }
+    ] },
+  { id:'trav10', zh:'产生税收', en:'generate tax revenue', stars:2,
+    example:'On the one hand, international tourism generates tax revenue. On the other hand, it incurs additional costs.',
+    learnerTendency:'create tax income',
+    related:[
+      { type:'反义', en:'incur additional costs', zh:'导致更多的支出', example:'Building facilities such as airports and railways incur additional costs.' }
+    ] },
+  { id:'trav11', zh:'旅游景点', en:'tourist attraction', stars:3,
+    example:"Buckingham Palace is the Queen's official residence and is a major tourist attraction in London.",
+    learnerTendency:'旅游景点',
+    related:[
+      { type:'联想', en:'tourist destination', zh:'很多旅游者前往的目的地', example:"The island of Bali has been one of the world's most popular tourist destinations." }
+    ] },
+  { id:'trav12', zh:'出发，上路', en:'hit the road', stars:2,
+    example:"It's already 11:20. Let's hit the road.",
+    learnerTendency:'start a trip',
+    related:[
+      { type:'反义', en:'stick around', zh:'留下来', example:"Stick around. Holly's band is going to play soon." }
+    ] },
+  { id:'trav13', zh:'（旅行中）到人迹罕至的地方去', en:'venture off the beaten path', stars:2,
+    example:"Jeep Patriot may be a good option for buyers who like to venture off the beaten path.",
+    learnerTendency:'go to places others don\'t visit',
+    related:[
+      { type:'联想', en:'be in the middle of nowhere', zh:'位于人迹罕至的地方', example:"I'll need a map to find that building — it's in the middle of nowhere." }
+    ] },
+  { id:'trav14', zh:'旅行时的行程安排', en:'itinerary', stars:3,
+    example:'First-time travellers tend to be extremely specific in their itineraries and end up with itineraries that are too rigid.',
+    learnerTendency:'travel plan',
+    related:[
+      { type:'联想', en:'luggage', zh:'旅行时携带的行李', example:'Some changes to carry-on luggage restrictions have been announced.' },
+      { type:'联想', en:'travel light', zh:'旅行时只携带轻便行李', example:'I prefer to travel light and rarely need more than one suitcase.' }
+    ] }
+],
+   sports: [
+  { id:'sport1', zh:'非常耗费体力的运动', en:'strenuous sports', stars:3,
+    example:'Doing strenuous sports activities may result in exhaustion.',
+    learnerTendency:'tiring sports',
+    related:[
+      { type:'联想', en:'exhaustion', zh:'筋疲力尽', example:'Stefanie felt ill with exhaustion.' },
+      { type:'联想', en:'endurance', zh:'耐力', example:'Running a marathon is a test of human endurance.' },
+      { type:'联想', en:'build up stamina', zh:'增进耐力', example:"I'm hoping tennis will help me build up my stamina." }
+    ] },
+  { id:'sport2', zh:'有氧运动', en:'aerobic exercise', stars:3,
+    example:'Aerobic exercise such as running, walking and swimming can improve cardiovascular health.',
+    learnerTendency:'有氧运动',
+    related:[
+      { type:'联想', en:'burn calories', zh:'"燃烧卡路里"（减少体内脂肪）', example:'Determining how many calories you can burn by playing certain sports is not an exact science.' }
+    ] },
+  { id:'sport3', zh:'体育赛事', en:'sports event', stars:2,
+    example:'Major sports events can benefit the economy because of improvements to the local or regional infrastructure and the related job growth.',
+    learnerTendency:'体育比赛',
+    related:[
+      { type:'联想', en:'fierce competition', zh:'激烈的竞争', example:'Car manufacturers are facing fierce international competition.' }
+    ] },
+  { id:'sport4', zh:'运动天赋', en:'athletic talent', stars:2,
+    example:'Players with athletic talent learn easily and excel quickly.',
+    learnerTendency:'sports talent',
+    related:[
+      { type:'联想', en:'record-breaking', zh:'打破纪录的', example:'Aaron was a record-breaking athlete.' }
+    ] },
+  { id:'sport5', zh:'释放（过剩）能量的途径', en:"an outlet for one's energy", stars:1,
+    example:'Doing exercises can offer a new outlet for our energy.',
+    learnerTendency:'a way to spend one\'s energy',
+    related:[
+      { type:'近义', en:'let off steam', zh:'释放压力', example:'Lessons last for a standardised 50 minutes and are always followed by a 10-minute break, which gives the pupils a chance to let off steam.' }
+    ] },
+  { id:'sport6', zh:'（体育比赛中）棋逢对手的，实力相近的', en:'evenly-matched', stars:1,
+    example:'The two teams are fairly evenly-matched.',
+    learnerTendency:'势均力敌',
+    related:[
+      { type:'联想', en:'dominate sth.', zh:'（在体育比赛中）完全占据上风', example:'Their team completely dominated the first half of the match.' }
+    ] },
+  { id:'sport7', zh:'一场充满悬念的比赛', en:'a cliffhanger', stars:2,
+    example:'Manchester United defeated its opponent in a cliffhanger.',
+    learnerTendency:'悬念迭起的比赛',
+    related:[
+      { type:'反义', en:'be predictable', zh:'（比赛）没有任何悬念的', example:'That was the most predictable match in the past two years.' }
+    ] },
+  { id:'sport8', zh:'团队合作', en:'teamwork', stars:2,
+    example:'When managed properly, teamwork can improve responsiveness to change.',
+    learnerTendency:'团队协作',
+    related:[
+      { type:'联想', en:'team spirit', zh:'团队精神', example:'They believe that team building activities can foster team spirit.' }
+    ] },
+  { id:'sport9', zh:'板球（有鲜明英国特色的体育运动之一）', en:'cricket', stars:1,
+    example:'Cricket is considered a peculiarly English sport.',
+    learnerTendency:'板球',
+    related:[
+      { type:'联想', en:'horse racing', zh:'赛马', example:'Horse racing is a popular spectator sport in the UK.' }
+    ] },
+  { id:'sport10', zh:'运动员精神（公正、诚实等）', en:'good sportsmanship', stars:2,
+    example:"One of the most important goals of kids' sports is helping children develop a sense of good sportsmanship.",
+    learnerTendency:'体育精神',
+    related:[
+      { type:'联想', en:'football hooligans', zh:'足球流氓', example:'Some football hooligans smashed up the pub after the game.' }
+    ] }
+],
+   skill: [
+  { id:'skill1', zh:'获取某种技能', en:'acquire knowledge / acquire a skill', stars:2,
+    example:'The acquisition of effective learning skills can help students to acquire knowledge more independently.',
+    learnerTendency:'learn a skill',
+    related:[
+      { type:'联想', en:'innate talent', zh:'先天就具有的才能，天赋', example:'Innate talent is what differentiates a person who has been trained to play a sport or a musical instrument, from those players who are naturally good.' },
+      { type:'联想', en:'consult an expert', zh:'咨询专家', example:'Consulting experts can be useful in certain circumstances.' },
+      { type:'联想', en:'problem-solving ability', zh:'解决实际问题的能力', example:'People who can speak two languages display greater creativity and problem-solving ability.' }
+    ] },
+  { id:'skill2', zh:'有某种特殊的小技能', en:'have/has the knack of doing sth.', stars:2,
+    example:'Oscar has the knack of making friends wherever he goes.',
+    learnerTendency:'有诀窍',
+    related:[
+      { type:'联想', en:'mediocre', zh:'平庸的，没有特色的', example:'Corey reads many mediocre novels.' }
+    ] },
+  { id:'skill3', zh:'很透彻地了解某事物', en:'know sth. inside out', stars:3,
+    example:'Chris knows the system inside out.',
+    learnerTendency:'know sth. very well',
+    related:[
+      { type:'近义', en:'know sth. backwards (and forwards)', zh:'洞悉某事物', example:'After 30 years in the business, she knows it backwards (and forwards).' },
+      { type:'联想', en:'get the hang of sth.', zh:'初步掌握某种技能', example:"After a couple of days of using the new operating system, I think I've finally got the hang of it." }
+    ] },
+  { id:'skill4', zh:'某种技能由于缺乏使用而变得不够熟练，"生锈了"', en:'be rusty', stars:2,
+    example:'My German is very rusty these days.',
+    learnerTendency:'is not good any longer',
+    related:[
+      { type:'联想', en:'hone (a skill)', zh:'锻炼某种技能', example:"Sophie's debating skill was honed at the debating club." }
+    ] },
+  { id:'skill5', zh:'非常擅长于某事', en:'be adept at sth.', stars:2,
+    example:'Reece is adept at cooking.',
+    learnerTendency:'be good at',
+    related:[
+      { type:'近义', en:'be proficient in sth.', zh:'（对某种知识或技能）掌握得非常纯熟', example:'Katrina is proficient in mathematics.' },
+      { type:'联想', en:'is beyond sb.', zh:'（某事物）让某人实在难以理解', example:'Quantum physics is completely beyond me.' },
+      { type:'联想', en:"be out of sb.'s depth", zh:'超出了某人的能力范围', example:'I was out of my depth in the advanced class so I had to move to the intermediate class.' }
+    ] },
+  { id:'skill6', zh:'（学会某种新技能之后）把某人当成试验品', en:'use sb. as a guinea pig', stars:2,
+    example:"Sarah's looking for volunteers to act as guinea pigs for her new recipe.",
+    learnerTendency:'do experiments on sb.',
+    related:[
+      { type:'联想', en:'testing ground', zh:'（经常作比喻的用法）试验场', example:'The band used their recent tour of Europe as a testing ground for their new songs.' }
+    ] }
+],
+    crime: [
+  { id:'crime1', zh:'遵纪守法的公民', en:'law-abiding citizens', stars:2,
+    example:'The judicial system is set up to benefit law-abiding citizens.',
+    learnerTendency:'守法公民',
+    related:[
+      { type:'联想', en:'the judicial system', zh:'司法系统', example:"The UK's judicial system is the basis of the legal system used in most Commonwealth countries." },
+      { type:'联想', en:'be bound by sth.', zh:'受到某事物的约束，受到某事物的制约', example:'Elsewhere, in uncontrolled airspace, pilots are bound by fewer regulations.' }
+    ] },
+  { id:'crime2', zh:'通过新的立法', en:'pass new legislation', stars:2,
+    example:'Britain has passed new legislation to regulate research on human cloning.',
+    learnerTendency:'通过新法律',
+    related:[
+      { type:'联想', en:'uphold an ordered society', zh:'维持社会稳定与安全', example:'Some people argue that the death penalty is essential for upholding an ordered society.' },
+      { type:'联想', en:'curb lawless behaviour', zh:'遏制违法行为', example:'The police will aim to curb lawless behaviour without using excessive force.' }
+    ] },
+  { id:'crime3', zh:'被引诱去做某事', en:'be tempted into...', stars:1,
+    example:'Those at the bottom of society may be more likely to be tempted into a life of crime as a solution to their problems.',
+    learnerTendency:'被诱惑',
+    related:[
+      { type:'联想', en:'juvenile delinquency', zh:'青少年犯罪', example:'Rates of juvenile delinquency are on the rise.' },
+      { type:'联想', en:'legal age', zh:'法定年龄', example:"Bethany could not get a driver's license because she was not of legal age." },
+      { type:'联想', en:'disciplinary action', zh:'对违反规定的员工或学生进行的惩戒措施', example:'If you take things belonging to the company without permission, you will face disciplinary action.' }
+    ] },
+  { id:'crime4', zh:'职业罪犯', en:'career criminal', stars:2,
+    example:'The career criminal was convicted of four charges.',
+    learnerTendency:'职业罪犯',
+    related:[
+      { type:'联想', en:'random crime', zh:'偶发的犯罪，未经预谋的犯罪', example:'The father believed that his daughter was the victim of a random crime.' },
+      { type:'联想', en:'be suspicious', zh:'刻意的', example:'If you see anything suspicious, you should report it to a senior employees.' }
+    ] },
+  { id:'crime5', zh:'让某人不敢去做某种违法的事情', en:'deter sb. from doing sth.', stars:3,
+    example:'The government is bringing in stricter laws to deter drivers from speeding.',
+    learnerTendency:'阻止/威慑',
+    related:[
+      { type:'反义', en:'aid and abet sb.', zh:'帮助或唆使某人去做违法的事情', example:'He was accused of aiding the abetting the offender in the commission of the crime.' }
+    ] },
+  { id:'crime6', zh:'囚犯', en:'convict', stars:2,
+    example:'Prison life may bring some convicts the constant threat of violence.',
+    learnerTendency:'prisoner',
+    related:[
+      { type:'联想', en:'be convicted of...', zh:'犯有某种罪行', example:'He has been convicted of robbery.' },
+      { type:'联想', en:'bring sb. to justice', zh:'将某人绳之以法', example:'The people who are guilty of serious offences should be brought to justice.' },
+      { type:'联想', en:'legal proceedings', zh:'司法程序', example:'Legal proceedings may be initiated for any misuse of such confidential information.' }
+    ] },
+  { id:'crime7', zh:'（某种犯罪或者其他负面的社会现象）大量出现', en:'have proliferated', stars:2,
+    example:'Online crimes have proliferated in society during the last 5 years.',
+    learnerTendency:'has appeared in large numbers',
+    related:[
+      { type:'联想', en:'crime prevention', zh:'预防犯罪', example:'Neighbourhood watch groups have been an effective means of crime prevention.' }
+    ] },
+  { id:'crime8', zh:'暴行，残忍的行径', en:'brutality', stars:2,
+    example:'Seeing so much brutality may harden these young people to it.',
+    learnerTendency:'cruel behaviour',
+    related:[
+      { type:'联想', en:'fall victim to sth.', zh:'成为某事物的受害者', example:'Ethan fell victim to a very rare disease.' }
+    ] },
+  { id:'crime9', zh:'对……彻底上瘾', en:'be hopelessly addicted to...', stars:2,
+    example:'The kid has become hopelessly addicted to horror films.',
+    learnerTendency:'spend too much time on...',
+    related:[
+      { type:'近义', en:'be preoccupied with...', zh:'过分投入于...', example:"He's been preoccupied with sports, which has affected his grades." }
+    ] },
+  { id:'crime10', zh:'网络诈骗', en:'online fraud', stars:2,
+    example:'It can be very expensive to be unaware of the most common online fraud activities.',
+    learnerTendency:'Internet crime',
+    related:[
+      { type:'联想', en:'white-collar crime', zh:'白领犯罪', example:'White-collar crimes are not victimless. They can destroy companies or cost investors millions of dollars.' }
+    ] },
+  { id:'crime11', zh:'让某人仇视社会', en:'harden sb. against society', stars:2,
+    example:'Jail terms may harden a convict against society as a result of the brutalising treatment he/she receives.',
+    learnerTendency:'仇视社会',
+    related:[
+      { type:'联想', en:'domestic violence', zh:'家庭暴力', example:'Domestic violence is violence that happens between family members in home.' },
+      { type:'联想', en:'vandalism', zh:'故意毁坏公共财产的行为', example:'Vandalism is a major problem in this school.' }
+    ] },
+  { id:'crime12', zh:'受审', en:'stand trial', stars:2,
+    example:'The team will stand trial for illegal border-crossing.',
+    learnerTendency:'接受审判',
+    related:[
+      { type:'联想', en:'be charged with...', zh:'被指控犯有某种罪行', example:"He was charged with using the company's money for his own purposes." }
+    ] },
+  { id:'crime13', zh:'屡犯者', en:'repeat offender', stars:2,
+    example:'The repeat offender was sentenced to a harsher punishment for his second crime.',
+    learnerTendency:'惯犯',
+    related:[
+      { type:'联想', en:'rehabilitate prisoners', zh:'改造囚犯', example:'The prison service should try to rehabilitate prisoners so that they can lead normal lives when they leave prison.' }
+    ] },
+  { id:'crime14', zh:'扒手', en:'pickpocket', stars:1,
+    example:'I had my wallet stolen by a pickpocket this morning.',
+    learnerTendency:'小偷',
+    related:[
+      { type:'联想', en:'property crime', zh:'涉及财物的犯罪', example:'This part of town has been plagued with property crimes for years.' }
+    ] },
+  { id:'crime15', zh:'骗局', en:'a scam', stars:1,
+    example:'Retired people are often the victims of marketing scams.',
+    learnerTendency:'诈骗',
+    related:[
+      { type:'联想', en:'crack down on sth.', zh:'严厉查处某事', example:'The police are cracking down on illegal parking.' },
+      { type:'联想', en:'stamp out sth.', zh:'根除某种负面现象', example:'A variety of measures were taken by the government to stamp out bird flu.' }
+    ] }
+],
+   nature: [
+  { id:'nat1', zh:'宁静的', en:'tranquil and serene', stars:3,
+    example:"It's a gorgeous hotel in a tranquil and serene rural setting.",
+    learnerTendency:'quiet',
+    related:[
+      { type:'反义', en:'hustle and bustle', zh:'熙熙攘攘', example:'James wanted a little cottage far away from the hustle and bustle of city life.' }
+    ] },
+  { id:'nat2', zh:'减轻压力', en:'relieve stress', stars:2,
+    example:'These stress management exercises can help you relax your muscles and relieve your stress.',
+    learnerTendency:'减压',
+    related:[
+      { type:'反义', en:'be stressed out', zh:'压力非常大的', example:'Jayden was really stressed out before the test.' }
+    ] },
+  { id:'nat3', zh:'点缀着...', en:'be dotted with...', stars:3,
+    example:'The countryside is dotted with elegant buildings.',
+    learnerTendency:'点缀',
+    related:[
+      { type:'联想', en:'snow-capped mountains', zh:'顶部有积雪的高山', example:'With its snow-capped mountain ranges and gorgeous glens, Scotland is an exciting place to visit.' }
+    ] },
+  { id:'nat4', zh:'蜿蜒的小径', en:'winding paths', stars:2,
+    example:'There was a long and winding path leading up to the cottage.',
+    learnerTendency:'蜿蜒小路',
+    related:[
+      { type:'联想', en:'gentle rolling hills', zh:'起伏的山丘', example:'England has an abundance of gentle rolling hills.' },
+      { type:'联想', en:'undulating', zh:'起伏的', example:'This area is characterised by grassy undulating hills.' }
+    ] },
+  { id:'nat5', zh:'色彩斑斓的', en:'iridescent', stars:2,
+    example:"Leo's latest fashion collection features materials that have an iridescent quality.",
+    learnerTendency:'has many different changing colours',
+    related:[
+      { type:'联想', en:'shimmering', zh:'闪烁的', example:'I could see my shimmering reflection in the water.' }
+    ] },
+  { id:'nat6', zh:'令人肃然起敬的', en:'awe-inspiring', stars:2,
+    example:'They explored the awe-inspiring mountains and abundant wildlife there.',
+    learnerTendency:'令人敬畏的',
+    related:[
+      { type:'联想', en:'exhilarating', zh:'令人兴奋的', example:'The hustle and bustle of London is exhilarating.' }
+    ] },
+  { id:'nat7', zh:'落叶树', en:'deciduous trees', stars:2,
+    example:'Many different kinds of deciduous trees can be found on our campus.',
+    learnerTendency:'落叶乔木',
+    related:[
+      { type:'反义', en:'evergreen trees', zh:'常绿树', example:'Using evergreen trees as Christmas trees has long been part of the culture of the celebration of Christmas.' },
+      { type:'联想', en:'vegetation', zh:'植被', example:"I'd like to see something about the local wildlife and vegetation." }
+    ] },
+  { id:'nat8', zh:'花束', en:'bouquet', stars:1,
+    example:'Brooke was presented with a big bouquet of roses.',
+    learnerTendency:'花束',
+    related:[
+      { type:'联想', en:'flowerbed', zh:'花坛', example:'This flowerbed gives the garden a neat and pleasing appearance.' }
+    ] },
+  { id:'nat9', zh:'泛指树叶', en:'foliage', stars:2,
+    example:'This park is renowned for the autumn foliage displays.',
+    learnerTendency:'leaves',
+    related:[
+      { type:'联想', en:'bush', zh:'灌木', example:'This area was covered with bushes and grass.' }
+    ] },
+  { id:'nat10', zh:'野营地', en:'campground', stars:2,
+    example:'It is a picturesque family campground.',
+    learnerTendency:'露营地',
+    related:[
+      { type:'联想', en:'picturesque', zh:'风景如画的', example:"Holly's gardening skills will turn this backyard into a picturesque landscape." },
+      { type:'联想', en:'have green fingers', zh:'擅长种植花草的', example:"Toby's got green fingers. Plants in his backyard are flourishing." }
+    ] },
+  { id:'nat11', zh:'农作物的产量', en:'crop yield', stars:2,
+    example:'The farmers avidly took to pesticides as a sure measure to boost crop yield.',
+    learnerTendency:'agricultural output',
+    related:[
+      { type:'联想', en:'natural resources', zh:'自然资源', example:'By becoming more efficient, businesses not only increase profits but they also save natural resources.' },
+      { type:'联想', en:'survival of the fittest', zh:'适者生存的法则', example:'Contrary to popular belief, the phrase "survival of the fittest" did not originate with Charles Darwin.' }
+    ] },
+  { id:'nat12', zh:'清澈的，透明的', en:'crystal-clear', stars:2,
+    example:'The air was crystal-clear.',
+    learnerTendency:'very clear',
+    related:[
+      { type:'反义', en:'murky', zh:'难以看清的', example:'That movie had a murky plot.' }
+    ] },
+  { id:'nat13', zh:'开花', en:'come into bloom / come into blossom', stars:2,
+    example:'The roses come into bloom at this time of year.',
+    learnerTendency:'bear flowers',
+    related:[
+      { type:'联想', en:'bear fruit', zh:'结果实', example:'The age when trees are expected to bear fruit depends on the type of fruit you are growing.' }
+    ] }
+],
+    health: [
+  { id:'hlth1', zh:'人口的预期寿命', en:'life expectancy', stars:2,
+    example:'Many developing countries have seen an improvement in life expectancy.',
+    learnerTendency:'预期寿命',
+    related:[
+      { type:'近义', en:'life span', zh:'人口的预期寿命或物品的预期使用寿命', example:'A restricted life span, ageing, and then death are basic characteristics of life.' },
+      { type:'联想', en:'extend life', zh:'延长寿命', example:'Sparing use of energy reserves should tend to extend life.' }
+    ] },
+  { id:'hlth2', zh:'（某人）是很注重健康的', en:'be health-conscious', stars:3,
+    example:'People generally believe that women are more health-conscious than men.',
+    learnerTendency:'注重健康',
+    related:[
+      { type:'联想', en:'an exercise regimen', zh:'健身计划', example:'The doctors recommend that they continue their exercise regimen.' },
+      { type:'联想', en:'an allergy to sth.', zh:'对某种物质的过敏', example:'Grant Freeman says that if Asian honey bees got into Australia, they could be used the study of allergies.' }
+    ] },
+  { id:'hlth3', zh:'克制自己不去做某事', en:'restrain from doing sth.', stars:2,
+    example:'In Britain, people are asked to restrain from smoking in a range of public places.',
+    learnerTendency:'do not allow oneself to do sth.',
+    related:[
+      { type:'联想', en:'self-discipline', zh:'自制力', example:'Without proper self-discipline, children may end up eating too much junk food.' },
+      { type:'联想', en:'health and fitness', zh:'身体健康（名词短语）', example:'In some countries, the average weight of people is increasing and their levels of health and fitness are decreasing.' }
+    ] },
+  { id:'hlth4', zh:'注射疫苗', en:'immunise sb. against sth.', stars:2,
+    example:'Some people argue that parents have an obligation to immunise their children against common childhood diseases.',
+    learnerTendency:'接种疫苗',
+    related:[
+      { type:'联想', en:'immune system', zh:'免疫系统', example:'Eating fresh vegetables is a natural way of boosting our immune system.' },
+      { type:'联想', en:'medical treatment', zh:'医疗', example:'A student who requires medical treatment has lost his/her travel insurance card.' }
+    ] },
+  { id:'hlth5', zh:'需要久坐的工作', en:'a sedentary job', stars:3,
+    example:'Overweight people whose work is sedentary will find it much harder to lose weight.',
+    learnerTendency:'久坐工作',
+    related:[
+      { type:'联想', en:'eye strain', zh:'眼睛疲劳', example:'More than 70 percent of computer users have experienced eye strain.' }
+    ] },
+  { id:'hlth6', zh:'血液循环', en:'blood circulation', stars:2,
+    example:'Exercise will improve your blood circulation.',
+    learnerTendency:'血液循环',
+    related:[
+      { type:'联想', en:'muscle strength', zh:'肌肉力量', example:'Playing sports will increase your muscle strength.' }
+    ] },
+  { id:'hlth7', zh:'（身体）感觉焕然一新的', en:'feel refreshed', stars:2,
+    example:'I felt so refreshed after my holiday.',
+    learnerTendency:'feel new',
+    related:[
+      { type:'近义', en:'feel invigorated', zh:'感觉精力很充沛的', example:'My friends and I felt invigorated by our walk.' }
+    ] },
+  { id:'hlth8', zh:'（某事物）对某人的健康造成了伤害', en:"has taken its toll on one's health", stars:1,
+    example:"20 years of smoking has taken its toll on Kyle's health.",
+    learnerTendency:'损害健康',
+    related:[
+      { type:'联想', en:'chronic disease', zh:'慢性疾病', example:'Lucy has been suffering from this chronic disease for years.' },
+      { type:'联想', en:'take out insurance', zh:'购买保险', example:'Students will have to take out insurance to cover the costs of all visits to doctors and other non-emergency medical situations.' }
+    ] },
+  { id:'hlth9', zh:'患某种疾病', en:'contract a disease', stars:2,
+    example:'He contracted the disease while he was travelling.',
+    learnerTendency:'develop a disease',
+    related:[
+      { type:'联想', en:'an epidemic', zh:'大规模爆发的某种传染病', example:"The H1N1 epidemic was controlled and didn't have much impact on the country's economy." },
+      { type:'联想', en:'remedy', zh:'小疾患的治疗方法', example:'What is remarkable is that so many of the claims made for some of these remedies have since been found to have at least some basis in fact.' }
+    ] },
+  { id:'hlth10', zh:'体检合格', en:'get a clean bill of health', stars:1,
+    example:'Johnny will have to stay at home until the doctor gives him a clean bill of health.',
+    learnerTendency:'体检合格',
+    related:[
+      { type:'联想', en:'feel under the weather', zh:'身体不适', example:"I'm feeling a little under the weather — I guess I've caught a cold." }
+    ] },
+  { id:'hlth11', zh:'高胆固醇', en:'high cholesterol', stars:2,
+    example:'A high cholesterol level may put a person at risk of a heart attack or stroke.',
+    learnerTendency:'高胆固醇',
+    related:[
+      { type:'联想', en:'high blood pressure', zh:'高血压', example:'There is evidence indicating that genetic factors play a crucial role in high blood pressure.' }
+    ] },
+  { id:'hlth12', zh:'（老年人）身体很健康', en:'hale and hearty', stars:2,
+    example:'At 77, Andrew is still hale and hearty, getting up at 6 every morning to walk three miles.',
+    learnerTendency:'老当益壮',
+    related:[
+      { type:'联想', en:'as fit as a fiddle', zh:'很健康的', example:"My dad's nearly eighty now but he's still as fit as a fiddle." }
+    ] },
+  { id:'hlth13', zh:'（食物等）缺乏某种营养', en:'be deficient in...', stars:2,
+    example:'These children tend to eat food that is deficient in iron.',
+    learnerTendency:'缺乏营养',
+    related:[
+      { type:'反义', en:'be rich in...', zh:'富含某种营养', example:'Food rich in calcium is especially beneficial for growing children.' }
+    ] }
+],
+   culture: [
+  { id:'cult1', zh:'多元文化社会', en:'multicultural society', stars:3,
+    example:'The range of TV programmes there is very broad because it is a multicultural society and people of all backgrounds like to watch TV.',
+    learnerTendency:'a colorful society',
+    related:[
+      { type:'近义', en:'cultural mosaic', zh:'多元的文化', example:'The UK is a cultural and social mosaic.' },
+      { type:'联想', en:'disseminate', zh:'传播（信息或知识等）', example:'Temporal hours, which were first adopted by the Greeks and then the Romans, who disseminated them through Europe, remained in use for more than 2,500 years.' },
+      { type:'联想', en:'mainstream', zh:'主流的', example:'What they are certainly not finding, however, is any change in attitude of mainstream scientists.' }
+    ] },
+  { id:'cult2', zh:'（在某种文化中）按照惯例某人会如何去做', en:'be customary', stars:2,
+    example:'In the UK a handshake is customary when a person is introduced to somebody new.',
+    learnerTendency:'惯常的',
+    related:[
+      { type:'联想', en:'be unorthodox', zh:'违背传统的，离经叛道的', example:'Action painting often looks childish to the non-artists because of the unorthodox techniques used to apply paint, such as throwing it on the canvas.' },
+      { type:'联想', en:'be in the minority', zh:'属于少数', example:'In New Zealand, as in many other English-speaking countries, speakers of two or more languages are in the minority.' },
+      { type:'反义', en:'Gone are the days when...', zh:'……的日子一去不复返了', example:'Gone are the days when music was just a cultural expression.' }
+    ] },
+  { id:'cult3', zh:'核心价值观', en:'core values', stars:2,
+    example:'In order to be a good member of any society the individual must respect and obey the rules of their community and share the core values.',
+    learnerTendency:'important beliefs',
+    related:[
+      { type:'联想', en:'social mores', zh:'社会习俗与行为准则', example:'Social mores refer to the socially-approved forms of behaviour, which are generally promoted by customs and laws.' },
+      { type:'联想', en:'stem from sth.', zh:'来自于，起源于', example:'A gradual agricultural revolution in northern Europe stemmed from concerns over food supplies at a time of rising populations.' }
+    ] },
+  { id:'cult4', zh:'具有很强社会凝聚力的因素', en:'a bonding mechanism', stars:3,
+    example:'A shared ideology is a strong social bonding mechanism.',
+    learnerTendency:'凝聚力机制',
+    related:[
+      { type:'联想', en:'assimilate into a new culture', zh:'融入到一种新的文化当中', example:'Some immigrants can assimilate into the local culture immediately.' }
+    ] },
+  { id:'cult5', zh:'不成文的规定', en:'unspoken rules', stars:3,
+    example:'There are many unspoken rules that we live by.',
+    learnerTendency:'潜规则',
+    related:[
+      { type:'联想', en:'be incompatible with sth.', zh:'与某事物相冲突的', example:'Their products are incompatible with the local customs.' },
+      { type:'联想', en:'language barrier', zh:'语言障碍', example:'You weren\'t too worried about language barriers?' }
+    ] },
+  { id:'cult6', zh:'原始的，简陋的', en:'primitive', stars:2,
+    example:'Some indigenous people had to cope with primitive living conditions.',
+    learnerTendency:'very old and too simple',
+    related:[
+      { type:'联想', en:'indigenous people', zh:'原住民', example:'Some indigenous people have a very long continuous history.' },
+      { type:'联想', en:'remote ancestors', zh:'远古的祖先', example:'Their worship of remote ancestors is represented with various rituals.' }
+    ] },
+  { id:'cult7', zh:'已经消失了', en:'have/has vanished', stars:3,
+    example:'Over the past two decades, family structures in this country have changed and feelings of community have vanished.',
+    learnerTendency:'have/has disappeared',
+    related:[
+      { type:'联想', en:'remain intact', zh:'保持完好无损的', example:'It is difficult for a place to draw tourists while keeping its cultural heritage intact.' }
+    ] },
+  { id:'cult8', zh:'怀念过去的，恋旧的', en:'be nostalgic', stars:3,
+    example:'Seeing old school photos can make some of us quite nostalgic.',
+    learnerTendency:'怀旧的',
+    related:[
+      { type:'反义', en:'be forward-looking', zh:'向前看的，有前瞻性的', example:'This country has a growing and forward-looking economy.' }
+    ] },
+  { id:'cult9', zh:'（一度过时的东西）重新又流行起来', en:'has a resurgence in popularity', stars:1,
+    example:'Acoustic music has had a resurgence in popularity due to the recent popularity of musicians playing without electric amplification on TV.',
+    learnerTendency:'重新流行',
+    related:[
+      { type:'近义', en:'make a comeback', zh:'东山再起', example:'Her fans were ready to see Britney Spears make a comeback.' },
+      { type:'近义', en:'regain its vitality', zh:'重新获得生命力', example:'It seems the high-tech media can help the traditional culture to regain its vitality.' }
+    ] },
+  { id:'cult10', zh:'尴尬的', en:'awkward', stars:2,
+    example:'It was an awkward situation when we realized the restaurant was too expensive for us.',
+    learnerTendency:'making someone feel uncomfortable',
+    related:[
+      { type:'近义', en:'be ill at ease', zh:'紧张的或尴尬的', example:'Zoe always feels ill at ease at parties.' }
+    ] },
+  { id:'cult11', zh:'共同使用的语言', en:'lingua franca', stars:2,
+    example:'In the past, several languages have acted as lingua franca in different areas of the world.',
+    learnerTendency:'a common language',
+    related:[
+      { type:'联想', en:'a single international language', zh:'唯一可以通行的国际语言', example:'Some people believe that a single international language has become a practical necessity because of the increasing international communication.' },
+      { type:'联想', en:'preserve the individuality of cultures', zh:'保留多种文化各自的特色', example:'A single international language may make it difficult to preserve the individuality of cultures.' }
+    ] },
+  { id:'cult12', zh:'双语的', en:'be bilingual', stars:2,
+    example:'Bilingual education leads to exposure to different cultures.',
+    learnerTendency:'speaking two languages',
+    related:[
+      { type:'联想', en:'monolingual', zh:'单一语种的', example:'Many immigrant children are expected to learn English by immersion in the language in monolingual classes.' }
+    ] },
+  { id:'cult13', zh:'联系紧密的社区', en:'a close-knit community', stars:2,
+    example:'This close-knit community looks like a classic British village.',
+    learnerTendency:'紧密社区',
+    related:[
+      { type:'联想', en:'a sense of alienation', zh:'疏离感', example:'Some argue that technology leads to greater social economic division and a sense of alienation among people who are physically close to each other.' }
+    ] }
+],
+    buildings: [
+  { id:'bld1', zh:'正在建造中', en:'under construction', stars:3,
+    example:'The hotel is still under construction.',
+    learnerTendency:'being built',
+    related:[
+      { type:'联想', en:'the construction industry', zh:'建筑行业', example:'Billy works in the construction industry.' },
+      { type:'联想', en:'be dilapidated', zh:'（建筑）破旧不堪的', example:'The abandoned building looks dilapidated.' }
+    ] },
+  { id:'bld2', zh:'是展示（某种文化）的橱窗', en:'be a showcase for...', stars:2,
+    example:'Buildings are showcases for the artistic achievement of citizens.',
+    learnerTendency:'show sth.',
+    related:[
+      { type:'联想', en:'represent sth.', zh:'代表（某种文化）', example:'This building is significant because its exterior represents an excellent example of the post-modern style of architecture.' },
+      { type:'联想', en:'central location', zh:'位于中央的，位置便利的', example:"What about the location? It'd be nice to be central." }
+    ] },
+  { id:'bld3', zh:'壮观的，宏伟的', en:'imposing', stars:1,
+    example:'Buckingham palace is an imposing building and is always surrounded by huge crowds of people.',
+    learnerTendency:'宏伟的',
+    related:[
+      { type:'联想', en:'elegant', zh:'优雅的', example:'The Palace of Westminster is visually elegant.' }
+    ] },
+  { id:'bld4', zh:'阳光充足而且通风良好的', en:'light and airy', stars:3,
+    example:'Our hotel room was light and airy.',
+    learnerTendency:'明亮通风',
+    related:[
+      { type:'近义', en:'well-ventilated', zh:'通风良好的', example:'The laboratory is spacious and well-ventilated.' },
+      { type:'近义', en:'be spacious', zh:'非常宽敞的', example:'Schools are usually modern in design and spacious inside.' }
+    ] },
+  { id:'bld5', zh:'是一个地标性建筑', en:'be a very significant landmark', stars:2,
+    example:'This building is a very significant landmark in the neighbourhood.',
+    learnerTendency:'地标建筑',
+    related:[
+      { type:'联想', en:'neighbourhood', zh:'社区', example:'Laura lives in a quiet neighbourhood.' },
+      { type:'近义', en:'be an eyesore', zh:'是一幢很丑陋的建筑', example:'The new shopping centre is a real eyesore.' },
+      { type:'近义', en:'be a blot on the landscape', zh:'（丑陋的建筑）破坏市容', example:'Timothy thinks that outlandish-looking building is a blot on the landscape.' }
+    ] },
+  { id:'bld6', zh:'商业建筑', en:'commercial building', stars:2,
+    example:'The project aims to improve the energy efficiency of commercial buildings.',
+    learnerTendency:'business buildings',
+    related:[
+      { type:'联想', en:'residential building', zh:'居住建筑', example:'They are conducting research on the energy consumed in residential buildings.' },
+      { type:'联想', en:'lobby', zh:'宾馆、影剧院等大型建筑的大堂', example:'In the lobby of the library, George saw a video about the festival.' },
+      { type:'联想', en:'theme park', zh:'主题公园', example:'The young couple got great fun and enjoyment by visiting the popular theme parks.' }
+    ] },
+  { id:'bld7', zh:'与……大相径庭', en:'be a far cry from...', stars:2,
+    example:'His new house is a far cry from the one-bedroom cottage he lived in as a child.',
+    learnerTendency:'is very different from...',
+    related:[
+      { type:'近义', en:'be entirely different from...', zh:'与……完全不同', example:'That was an entirely different matter.' },
+      { type:'联想', en:'convert sth. into...', zh:'改造（建筑）', example:"It's now in the process of being converted into a film museum." }
+    ] }
+],
+   parties: [
+  { id:'party1', zh:'燃放焰火', en:'set off fireworks / let off fireworks / light fireworks', stars:3,
+    example:'In Britain it is against the law to set off fireworks between 11:00 pm and 7:00 am, except during certain celebrations.',
+    learnerTendency:'放烟花',
+    related:[
+      { type:'联想', en:'fireworks display / fireworks show', zh:'焰火表演', example:"It might rain tomorrow so don't count on a fireworks display." },
+      { type:'联想', en:'public events', zh:'在公共场所举行的活动', example:'They created a calendar to organise public events and work schedules.' }
+    ] },
+  { id:'party2', zh:'敲响教堂的钟声来迎接新年', en:'ring in the New Year', stars:1,
+    example:'The church bells rang in the New Year.',
+    learnerTendency:'迎接新年',
+    related:[
+      { type:'联想', en:"New Year's resolution", zh:'为新的一年所做的决定（比如要改掉某种坏习惯等）', example:"Ryan made a New Year's resolution to quit smoking." }
+    ] },
+  { id:'party3', zh:'筹备某事过于投入', en:'go overboard', stars:3,
+    example:'They went overboard with the party preparation.',
+    learnerTendency:'be too eager about sth.',
+    related:[
+      { type:'反义', en:'be ill-equipped to do sth.', zh:'对某事准备不足', example:'These young parents are ill-equipped to cope with their children without extra help.' }
+    ] },
+  { id:'party4', zh:'玩得非常开心', en:'have a blast', stars:3,
+    example:'We had a blast at the party last night.',
+    learnerTendency:'enjoy ourselves',
+    related:[
+      { type:'近义', en:'enjoy oneself immensely', zh:'玩得很尽兴', example:'Although we had to live on very modest incomes, we still enjoyed ourselves immensely.' }
+    ] },
+  { id:'party5', zh:'（在party等公共场合）彻底地放松', en:"let sb's hair down", stars:2,
+    example:'Mandy really let her hair down. She laughed, clapped and danced at the party.',
+    learnerTendency:'彻底放松',
+    related:[
+      { type:'反义', en:'feel inhibited', zh:'感到很拘束的', example:'Some girls may feel inhibited by the presence of boys at the party.' }
+    ] },
+  { id:'party6', zh:'（对某个场合）感觉很不适应', en:'feel out of place', stars:2,
+    example:"We went to Allison's party but there were so many strange people there and I felt a little out of place, so we left.",
+    learnerTendency:'feel uncomfortable with sth.',
+    related:[
+      { type:'近义', en:'find a niche for oneself', zh:'找到了最适合自己做的事情', example:"She's found a niche for herself in the book trade." }
+    ] },
+  { id:'party7', zh:'扫兴的人', en:'a wet blanket', stars:1,
+    example:"I don't want to be a wet blanket but you must stop disturbing the people next door.",
+    learnerTendency:'扫兴者',
+    related:[
+      { type:'联想', en:'a party animal', zh:'非常喜欢参加派对的人', example:'Phoebe was a real party animal at college.' }
+    ] }
+],
+    government: [
+  { id:'gov1', zh:'发挥监管者的作用', en:'play a regulatory role', stars:2,
+    example:'It remains highly controversial whether the government should play a regulatory role in this industry.',
+    learnerTendency:'is the ruler/play a ruler role',
+    related:[
+      { type:'联想', en:'regulate and oversee', zh:'监督管理，监管', example:'An accident that occurred in the skies over the Grand Canyon resulted in the establishment of the Federal Aviation Administration to regulate and oversee the operation of aircraft in the skies over the United States.' },
+      { type:'联想', en:'rules and regulations', zh:'规章制度', example:'The job had been very dangerous before rules and regulations were introduced.' }
+    ] },
+  { id:'gov2', zh:'禁止某事物', en:'impose a ban on sth.', stars:2,
+    example:'Some think that the government should impose a ban on the sale of tobacco.',
+    learnerTendency:'ban sth.',
+    related:[
+      { type:'联想', en:'impose a burden on sb. / sth.', zh:'给某人或某事物造成负担', example:'The new proposal will impose a financial burden on taxpayers.' }
+    ] },
+  { id:'gov3', zh:'（政府官方）废除某事物', en:'should abolish sth.', stars:2,
+    example:'Some people argue that capital punishment should be abolished because life imprisonment can serve the same purpose just as effectively.',
+    learnerTendency:'the government should get rid of sth.',
+    related:[
+      { type:'反义', en:'should implement sth.', zh:'应该实施某个计划或运行某种体制', example:'Government agencies should be encouraged to implement the new system.' },
+      { type:'反义', en:'put sth. into effect', zh:'实施', example:'To meet this challenge, the following elements were put into effect.' }
+    ] },
+  { id:'gov4', zh:'某事是政府的重要任务', en:"high on the government's agenda", stars:3,
+    example:"Education is high on the government's agenda.",
+    learnerTendency:'政府首要任务',
+    related:[
+      { type:'联想', en:'place a high priority on sth.', zh:'正确设定首要的任务', example:'The government is placing a high priority on health care reform.' },
+      { type:'联想', en:'reform', zh:'改革', example:'Reforms within hospitals have been unsuccessful.' },
+      { type:'联想', en:'translate sth. into action', zh:'将某种想法或计划付诸行动', example:'The government should translate its strategies into action.' }
+    ] },
+  { id:'gov5', zh:'采取严厉的措施去做某事', en:'take draconian/stringent measures to...', stars:2,
+    example:'They believe these draconian/stringent measures will keep water pollution to a minimum.',
+    learnerTendency:'take strict measures',
+    related:[
+      { type:'联想', en:"government's laxity in sth.", zh:'政府对某事物管理上的松懈态度', example:"They complained about the government's laxity in providing relief to the earthquake victims." }
+    ] },
+  { id:'gov6', zh:'（政府）应对某事', en:'to counteract sth.', stars:1,
+    example:'Some governments are encouraging consumer spending to counteract recessions.',
+    learnerTendency:'应对',
+    related:[
+      { type:'联想', en:'countermeasures', zh:'对策', example:"The government's countermeasures against traffic congestion have been completely ineffective." }
+    ] },
+  { id:'gov7', zh:'持续出现的问题', en:'a recurring problem', stars:1,
+    example:'The crisis in banking and the high unemployment rate have been two recurring problems in this country.',
+    learnerTendency:'problems that happen again and again',
+    related:[
+      { type:'联想', en:'an enduring solution', zh:'持久有效的解决方案', example:'Protectionist measures cannot provide an enduring solution to the economic downturn.' }
+    ] },
+  { id:'gov8', zh:'做某事是目光短浅的', en:'It is short-sighted to...', stars:1,
+    example:'They believed it was a short-sighted tax policy.',
+    learnerTendency:'目光短浅',
+    related:[
+      { type:'联想', en:'sb. would be well-advised to...', zh:'某人做某事是明智的', example:'The government would be well-advised to take prompt regulatory action.' }
+    ] },
+  { id:'gov9', zh:'获得授权去做某事', en:'have/has the authority to do sth.', stars:2,
+    example:'These missions are projects that only governments have the authority to undertake.',
+    learnerTendency:'have/has the official power to do sth.',
+    related:[
+      { type:'联想', en:'formulate (policies, plans, strategies, etc)', zh:'制定政策、计划、策略等', example:'The Egyptians formulated a municipal calendar having 12 months of 30 days.' }
+    ] },
+  { id:'gov10', zh:'对某事物占有垄断地位', en:'have/has a monopoly over sth.', stars:2,
+    example:'In many countries, the government has a monopoly over the tobacco industry.',
+    learnerTendency:'control sth. by oneself',
+    related:[
+      { type:'联想', en:'be entitled to sth. / be entitled to do sth.', zh:'有权利去拥有或去做某事', example:'They are entitled to their own opinions, even if we do not agree with them.' }
+    ] },
+  { id:'gov11', zh:'国防', en:'national defence', stars:2,
+    example:'They believe that huge amounts of government money have been spent on national defence.',
+    learnerTendency:'国防',
+    related:[
+      { type:'联想', en:'safeguard our security', zh:'确保我们的安全', example:'The purpose of this is to safeguard our security.' },
+      { type:'联想', en:'arms race', zh:'国家间的军备竞赛', example:'These countries have been trying to put an end to the arms race.' }
+    ] },
+  { id:'gov12', zh:'预算赤字（即政府的开支大于收入）', en:'budget deficit', stars:3,
+    example:'The company had ran a major budget deficit for the first two years before it started to make profit.',
+    learnerTendency:'the government does not have enough money to spend',
+    related:[
+      { type:'联想', en:'government spending / government expenditure', zh:'政府开支', example:'The British government attempted to cut back on government spending.' }
+    ] },
+  { id:'gov13', zh:'花费纳税人的钱', en:"be at the taxpayer's expense", stars:3,
+    example:"The research plan was carried out at the taxpayer's expense.",
+    learnerTendency:'花纳税人钱',
+    related:[
+      { type:'反义', en:'relieve tax burden', zh:'减少税务负担', example:'Elderly taxpayers should be made eligible for the tax relief, which will relieve their tax burden.' }
+    ] },
+  { id:'gov14', zh:'（政府）对某行业给予补贴', en:'subsidise sth.', stars:3,
+    example:'In this country, farming is partly subsidised by the government.',
+    learnerTendency:'补贴',
+    related:[
+      { type:'联想', en:'allocate money to sth.', zh:'拨款给……', example:'The British government will allocate two million pounds to the National Health Service (NHS).' }
+    ] },
+  { id:'gov15', zh:'（国家之间的）贸易壁垒', en:'trade barriers', stars:3,
+    example:'Some people believe that trade barriers are necessary in order to protect domestic industries.',
+    learnerTendency:'贸易壁垒',
+    related:[
+      { type:'联想', en:'free trade', zh:'（国家间的）自由贸易', example:'Many people believe that free trade can help countries to make the most efficient use of their available resources.' }
+    ] },
+  { id:'gov16', zh:'饥饿与贫困', en:'hunger and poverty', stars:3,
+    example:'Some third-world countries are continually fighting hunger and poverty.',
+    learnerTendency:'饥饿贫困',
+    related:[
+      { type:'反义', en:'wealth and prosperity', zh:'财富与繁荣', example:'Some people argue that the more knowledge they have, the greater their wealth and prosperity.' }
+    ] },
+  { id:'gov17', zh:'弱势群体的', en:'underprivileged', stars:2,
+    example:'In some countries, the government runs school feeding programmes so that underprivileged children can have enough food.',
+    learnerTendency:'having poor living conditions and less educational opportunity',
+    related:[
+      { type:'联想', en:'charitable organisations', zh:'慈善组织', example:'The government should encourage charitable organisations to play a more active role in public service delivery.' }
+    ] },
+  { id:'gov18', zh:'健康保险', en:'health insurance', stars:3,
+    example:'In some countries, wealthy citizens are encouraged to be responsible for their own health costs and take out private health insurance.',
+    learnerTendency:'医保',
+    related:[
+      { type:'联想', en:'insurance premium', zh:'保险费', example:'Some people argue that free health coverage for people who can pay health insurance premiums is a waste of public resources.' }
+    ] },
+  { id:'gov19', zh:'国际援助', en:'international aid', stars:3,
+    example:'Part of the international aid was not getting through to the refugees.',
+    learnerTendency:'国际援助',
+    related:[
+      { type:'联想', en:'low-interest loans', zh:'低息贷款', example:'The World Bank offers long-term low-interest loans and provides technical assistance to more than 100 less-developed countries.' }
+    ] },
+  { id:'gov20', zh:'保障社会稳定', en:'safeguard social stability', stars:2,
+    example:'Some people argue that international aid promotes growth indirectly in less developed countries by safeguarding social stability.',
+    learnerTendency:'维护稳定',
+    related:[
+      { type:'联想', en:'enhance relations between countries', zh:'改善国家间的关系', example:'Joint efforts to develop eco-tourism can also enhance relations between countries.' }
+    ] },
+  { id:'gov21', zh:'持续存在的问题', en:'a chronic problem', stars:2,
+    example:'Graduate unemployment has been a chronic problem in the UK.',
+    learnerTendency:'a problem that the government cannot get rid of',
+    related:[
+      { type:'联想', en:'a chronic shortage of', zh:'对某事物的长期缺乏', example:'There has been a chronic shortage of housing in this region.' }
+    ] }
+],
+   environment: [
+  { id:'env1', zh:'处理掉，扔掉', en:'dispose of sth.', stars:2,
+    example:'Some waste is disposed of under the sea.',
+    learnerTendency:'throw away',
+    related:[
+      { type:'联想', en:'disposable...', zh:'一次性的（用品等）', example:'It seems efforts to restrain the use of disposable chopsticks face many obstacles.' }
+    ] },
+  { id:'env2', zh:'恶性循环', en:'vicious circle', stars:3,
+    example:'She got caught in a vicious circle of dieting and weight gain.',
+    learnerTendency:'恶性循环',
+    related:[
+      { type:'联想', en:'adverse effect', zh:'负面影响', example:'The policy may have adverse effects on the economy.' }
+    ] },
+  { id:'env3', zh:'生物不可降解的材料（比如易导致"白色污染"的材料）', en:'non-biodegradable material', stars:2,
+    example:'Non-biodegradable material does not decay or dissolve away by natural forces.',
+    learnerTendency:'white rubbish',
+    related:[
+      { type:'联想', en:'reusable / recyclable material', zh:'可以被重复利用的材料', example:'When recyclable material is not disposed of correctly, it may add to the mass of polluting waste.' },
+      { type:'联想', en:'pollution reduction', zh:'减少污染（名词短语）', example:'Long-term traffic and pollution reduction would depend on educating the public to use public transport more, and on governments using public money to construct and run efficient systems.' }
+    ] },
+  { id:'env4', zh:'浪费某种资源', en:'use sth. wastefully', stars:3,
+    example:'Electricity is often used wastefully.',
+    learnerTendency:'waste sth.',
+    related:[
+      { type:'联想', en:'hydro-electric power', zh:'水电', example:'Clean sources of energy include solar, wind, hydro-electric and nuclear power.' }
+    ] },
+  { id:'env5', zh:'（地球上的）生物圈', en:'the biosphere', stars:1,
+    example:'Scientists are wondering what effects global warning will have on the biosphere.',
+    learnerTendency:'生物圈',
+    related:[
+      { type:'联想', en:'endangered species', zh:'濒危物种', example:'40% of the species on Earth are endangered species, which means they are at risk of becoming extinct.' },
+      { type:'联想', en:'equilibrium', zh:'平衡的较正式表达', example:'Destruction of old material and formation of new material are in permanent dynamic equilibrium.' }
+    ] },
+  { id:'env6', zh:'臭氧层', en:'ozone layer', stars:2,
+    example:'Scientists have been worried about the hole in the ozone layer which appeared over Antarctica.',
+    learnerTendency:'臭氧层',
+    related:[
+      { type:'联想', en:'the atmosphere', zh:'大气层', example:'These factories are releasing toxic gases into the atmosphere.' }
+    ] },
+  { id:'env7', zh:'导致不可逆转的破坏', en:'cause irreversible damage', stars:2,
+    example:'In some countries, air pollution is causing irreversible damage to the environment.',
+    learnerTendency:'damage that cannot be repaired',
+    related:[
+      { type:'联想', en:'be permanently damaged', zh:'遭到永久性的破坏', example:'The ecosystem that plays a part in natural processes such as climate or the food chain may be permanently damaged.' }
+    ] },
+  { id:'env8', zh:'全球变暖', en:'global warming', stars:3,
+    example:'Scientists and environmental activists continue to argue over the seriousness of global warming.',
+    learnerTendency:'全球变暖',
+    related:[
+      { type:'联想', en:'greenhouse effect', zh:'温室效应', example:'The greenhouse effect is a complicated process by which the earth is becoming progressively warmer.' }
+    ] },
+  { id:'env9', zh:'汽车的尾气排放', en:'car emissions', stars:3,
+    example:'Cities across the UK are cracking down on air pollution by enforcing strict car emission control.',
+    learnerTendency:'汽车尾气',
+    related:[
+      { type:'联想', en:'exhaust fumes', zh:'汽车尾气', example:'Exhaust fumes contain carbon monoxide and can be extremely dangerous.' },
+      { type:'联想', en:'respiratory diseases', zh:'呼吸系统疾病', example:'Britain has the highest death rates from respiratory diseases in Europe.' }
+    ] },
+  { id:'env10', zh:'土壤侵蚀', en:'soil erosion', stars:3,
+    example:'Accelerated soil erosion by water or wind may affect both agricultural areas and the natural environment.',
+    learnerTendency:'水土流失',
+    related:[
+      { type:'联想', en:'desertification', zh:'沙漠化', example:'Desertification is the process by which land changes into desert.' },
+      { type:'联想', en:'groundwater', zh:'地下水（注意不要写成 underground water）', example:'Most concern over groundwater contamination has centered on pollution caused by human activities.' },
+      { type:'联想', en:'seawater desalination', zh:'海水淡化', example:'Seawater desalination involves removing the salt from water to make it drinkable.' }
+    ] },
+  { id:'env11', zh:'化学肥料，化肥', en:'chemical fertiliser', stars:2,
+    example:'Even though chemical fertilisers can make the plants grow well, they may cause health problems for us and reduce our quality of life.',
+    learnerTendency:'化肥',
+    related:[
+      { type:'联想', en:'pesticide', zh:'杀虫剂', example:'Recent studies have linked breast cancer to pesticides used on fruits.' }
+    ] },
+  { id:'env12', zh:'酸雨', en:'acid rain', stars:2,
+    example:'Acid rain is causing immense damage to tropical rain forests.',
+    learnerTendency:'酸雨',
+    related:[
+      { type:'联想', en:'be saturated with...', zh:'过度饱和，充斥着…', example:'The air has been saturated with harmful chemicals, dust and other contaminants.' }
+    ] },
+  { id:'env13', zh:'扰乱生态系统', en:'upset the ecosystem', stars:2,
+    example:'The Gulf of Mexico oil spill has greatly upset the ecosystem.',
+    learnerTendency:'destroy the ecosystem',
+    related:[
+      { type:'反义', en:'redress the ecological balance', zh:'恢复生态平衡', example:'In these circumstances, government intervention is important to redress the ecological balance.' }
+    ] },
+  { id:'env14', zh:'工业废料', en:'industrial waste', stars:2,
+    example:'Despite opposition from environmentalist groups, industrial waste continues to pollute the rivers, lakes and oceans.',
+    learnerTendency:'工业废物',
+    related:[
+      { type:'联想', en:'discharge', zh:'排放', example:'Large amounts of industrial waste are discharged daily by the factory.' }
+    ] },
+  { id:'env15', zh:'以……为代价', en:'at the expense of sth./ sb.', stars:3,
+    example:'They accused BP of pursuing profit at the expense of the environment.',
+    learnerTendency:'以……为代价',
+    related:[
+      { type:'近义', en:'at the cost of sth.', zh:'以……为代价', example:'Sometimes pets may take up too much of a person\'s attention at the cost of his/her family life.' }
+    ] },
+  { id:'env16', zh:'自然灾害', en:'natural disaster', stars:3,
+    example:'A natural disaster can affect the lives of thousands of people.',
+    learnerTendency:'天灾',
+    related:[
+      { type:'联想', en:'ecological degradation', zh:'生态恶化', example:'Ecological degradation means the deterioration of the environment, the destruction of ecosystems or the extinction of wildlife.' }
+    ] },
+  { id:'env17', zh:'石油短缺', en:'oil shortage', stars:2,
+    example:'War sometimes creates artificial oil shortages for many countries.',
+    learnerTendency:'石油危机',
+    related:[
+      { type:'联想', en:'be in short supply', zh:'处在短缺状态中', example:'Raw materials are in short supply.' }
+    ] },
+  { id:'env18', zh:'化石燃料（主要是指煤、石油与天然气）', en:'fossil fuel', stars:3,
+    example:'Temperature climbed more rapidly in the twentieth century as the use of fossil fuel proliferated.',
+    learnerTendency:'化石燃料',
+    related:[
+      { type:'联想', en:'solar energy', zh:'太阳能', example:'Many houses started using solar panels in order to utilise solar energy.' },
+      { type:'联想', en:'wind energy', zh:'风能', example:'Wind energy is clean energy that produces no emissions.' }
+    ] },
+  { id:'env19', zh:'噪声污染', en:'noise pollution', stars:3,
+    example:'People who live close to airports all understand what noise pollution means because they have been exposed to excessive noise.',
+    learnerTendency:'噪音污染',
+    related:[
+      { type:'联想', en:'light pollution', zh:'光污染', example:'The adverse effects of light pollution are multiple, some of them may be not known yet.' }
+    ] },
+  { id:'env20', zh:'（琐事、噪声等）让人很心烦', en:"get on one's nerves", stars:2,
+    example:'The beeping noise from the computer really got on my nerves.',
+    learnerTendency:'make sb. uncomfortable',
+    related:[
+      { type:'近义', en:'is a nuisance', zh:'令人厌烦的事物', example:'The dogs next door are a total nuisance.' }
+    ] }
+],
+    animals: [
+  { id:'ani1', zh:'动物权益', en:'animal rights', stars:2,
+    example:'Animal rights have been created to protect animals from cruelty or extinction.',
+    learnerTendency:'动物权利',
+    related:[
+      { type:'反义', en:'animal exploitation', zh:'（为了满足人类的需要而）滥用动物', example:'Animal exploitation includes raising animals for food and clothing, using animals in entertainments and testing medicines, cosmetics or household products on animals.' }
+    ] },
+  { id:'ani2', zh:'食物链', en:'food chain', stars:3,
+    example:'Students are supposed to learn about the food chain in the 7th grade.',
+    learnerTendency:'食物链',
+    related:[
+      { type:'联想', en:'birds of prey / beasts of prey', zh:'食肉鸟类/食肉类野兽', example:'Parrots and birds of prey are often held chained up.' }
+    ] },
+  { id:'ani3', zh:'制药公司', en:'pharmaceutical company', stars:3,
+    example:'Some pharmaceutical companies are heavily involved in animal testing.',
+    learnerTendency:'medicine company',
+    related:[
+      { type:'联想', en:'animal testing / animal experimentation', zh:'动物试验', example:'A wide variety of animals have used for animal testing, including primates, mice, rabbits, cats and dogs.' }
+    ] },
+  { id:'ani4', zh:'（野生动物的）栖息地', en:'habitat', stars:3,
+    example:'These games are a lot of fun, but they also teach the students about the lives of dinosaurs, how they found food and protected their habitat.',
+    learnerTendency:'the place where wild animals live',
+    related:[
+      { type:'联想', en:'wildlife', zh:'野生生物（包括野生动物和野生植物）', example:'It is a patch of wasteland that is home to all sorts of wildlife, including wild grasses, frogs and butterflies.' }
+    ] },
+  { id:'ani5', zh:'是很好的伙伴', en:'make good companions', stars:2,
+    example:'Dogs make good companions for humans.',
+    learnerTendency:'can be our good friends',
+    related:[
+      { type:'联想', en:'desire company/crave companionship', zh:'渴望陪伴', example:'People who feel lonely tend to desire company.' },
+      { type:'联想', en:'stray animals', zh:'走失的动物，流浪的动物', example:'Collecting ants can be as simple as picking up stray ones and placing them in a glass jar.' }
+    ] }
+],
+    appliances: [
+  { id:'app1', zh:'处于良好的状态', en:'in good condition', stars:3,
+    example:"The antique furniture has been so well-kept that it's still in good condition.",
+    learnerTendency:'状况良好',
+    related:[
+      { type:'近义', en:'in mint condition', zh:'（物品）完好无损的', example:"Miley's bike has never been used. It's in mint condition." },
+      { type:'反义', en:'be subjected to wear and tear', zh:'受到磨损', example:'The artificially produced products are subjected to natural wear and tear during use.' },
+      { type:'联想', en:'upgrade sth.', zh:'升级', example:'Rather than giving up on any old electrical equipment and just throwing it away, why not try upgrading it?' }
+    ] },
+  { id:'app2', zh:'完全实用型的，不带任何多余装饰的', en:'no frills', stars:1,
+    example:"For just 150 pounds, there'll be no frills and they're afraid they can't guarantee the quality, either.",
+    learnerTendency:'plain',
+    related:[
+      { type:'反义', en:'bells and whistles', zh:'不必要的功能，华而不实的功能', example:"The car has all the latest bells and whistles but I don't think it's worth the money." }
+    ] },
+  { id:'app3', zh:'电池用光了。', en:'The battery has run down.', stars:3,
+    example:"I can't use my mobile phone because the battery has run down.",
+    learnerTendency:'The battery is gone.',
+    related:[
+      { type:'联想', en:'on the blink', zh:'（家用电器）出故障了', example:'The coffee maker is on the blink again.' },
+      { type:'联想', en:'manufacturer', zh:'制造商', example:'Today most manufacturers blend both.' },
+      { type:'联想', en:'refund', zh:'退款', example:'If you return faulty shoes at once, you have a right to insist on a refund.' }
+    ] },
+  { id:'app4', zh:'笨重的', en:'clunky', stars:1,
+    example:'Sophia has a slow and clunky computer.',
+    learnerTendency:'large and heavy',
+    related:[
+      { type:'近义', en:'cumbersome', zh:'笨重的，不方便使用的', example:'A cumbersome camera is now a thing of the past.' },
+      { type:'反义', en:'handy', zh:'轻便好用的', example:"Courtney's new laptop is very handy and compact." }
+    ] }
+],
+    development: [
+  { id:'dev1', zh:'促进某事物的发展', en:'facilitate the development of sth.', stars:2,
+    example:'This company facilitated the development of cloud computing with some of its large-scale research projects.',
+    learnerTendency:'help with the development of',
+    related:[
+      { type:'反义', en:'inhibit the development of sth. / arrest the development of sth.', zh:'阻碍某事物的发展', example:'Failure to establish an efficient transport network inhibited/arrested the development of international trade.' },
+      { type:'联想', en:'accompany sth.', zh:'伴随着某事物', example:"Changing seasons accompany our planet's revolution around the sun." }
+    ] },
+  { id:'dev2', zh:'落后，发展滞后', en:'lag behind', stars:2,
+    example:'The auto industry in this country is starting to lag behind that in other countries.',
+    learnerTendency:'fall behind',
+    related:[
+      { type:'反义', en:'make improvements', zh:'获得进展', example:'Some improvements were made in radio communication during World War II.' },
+      { type:'反义', en:'forge ahead', zh:'高速发展', example:'Information technology has forged ahead in the last two decades.' },
+      { type:'反义', en:'has improved beyond all recognition', zh:'已经今非昔比', example:'Working conditions at the company have improved beyond all recognition during the past two decades.' }
+    ] },
+  { id:'dev3', zh:'是一种引起社会变革的因素', en:'be an instrument of social change', stars:3,
+    example:'Some people believe that art is the most important instrument of social change.',
+    learnerTendency:'社会变革工具',
+    related:[
+      { type:'反义', en:'bring sth. to a standstill', zh:'停滞不前', example:'The crisis is threatening to bring the economy to a standstill.' },
+      { type:'反义', en:'be unchanged', zh:'维持不变', example:'The principle of float glass is unchanged since the 1950s.' }
+    ] },
+  { id:'dev4', zh:'发生某种改变', en:'There has been a shift in...', stars:1,
+    example:'There has been a major shift in public opinion.',
+    learnerTendency:'a change',
+    related:[
+      { type:'联想', en:'shift emphasis / attention / focus from... to...', zh:'把重点/注意力/焦点转到……上面', example:"The government's economic policy has been to shift the emphasis from the heavy industry to the light industry." }
+    ] },
+  { id:'dev5', zh:'经济的起落', en:'the economic swings of boom and slump', stars:2,
+    example:'Employment is subject to the economic swings of boom and slump.',
+    learnerTendency:'economic changes',
+    related:[
+      { type:'联想', en:'economic recession', zh:'经济衰退', example:'In times of economic recession, graduates tend to seek jobs that offer greater job security.' }
+    ] },
+  { id:'dev6', zh:'产生意义深远的影响', en:'have / has far-reaching effects', stars:3,
+    example:'The effects of the change will be far-reaching.',
+    learnerTendency:'深远影响',
+    related:[
+      { type:'联想', en:'ripple effect / chain reaction', zh:'涟漪效应，连锁反应', example:'The war could set off a chain reaction that would put the whole world at risk.' }
+    ] },
+  { id:'dev7', zh:'知识经济', en:'knowledge economy', stars:2,
+    example:'An inquiring mind and the ability to combine ideas are the essential characteristics of a workforce in the knowledge economy.',
+    learnerTendency:'知识经济',
+    related:[
+      { type:'联想', en:'leisure industry', zh:'休闲产业', example:'The leisure economy is thriving as the amount of money spent on leisure activities continues to grow.' }
+    ] },
+  { id:'dev8', zh:'毫无间断的城市化过程', en:'relentless urbanisation', stars:1,
+    example:'Many people believe that the relentless urbanisation has resulted in urban poverty, joblessness and crime.',
+    learnerTendency:'持续城市化',
+    related:[
+      { type:'联想', en:'the influx of...', zh:'……的大量涌入', example:'The heavy influx of tourists has led to increased stress on local infrastructure and services.' }
+    ] },
+  { id:'dev9', zh:'商业区', en:'central business district', stars:2,
+    example:'The central business district is the focal point of this city.',
+    learnerTendency:'CBD',
+    related:[
+      { type:'联想', en:'pedestrian zone / car-free zone', zh:'步行区', example:'The car-free zone will protect the environment around the historic city centre.' },
+      { type:'联想', en:'noisy and smoggy', zh:'吵闹且空气污染严重的', example:'Green cars will free us up from the noisy and smoggy streets.' }
+    ] },
+  { id:'dev10', zh:'原本存在的某种工具或技术被新生事物取代或者淘汰', en:'be made/rendered obsolete by sth.', stars:2,
+    example:'Typewriters have been rendered obsolete by computers.',
+    learnerTendency:'be replaced by sth. new',
+    related:[
+      { type:'近义', en:'be displaced by sth.', zh:'旧事物由于某种新生事物的出现而不再被人们所使用', example:'Coal has already been largely displaced as a fuel for electricity.' }
+    ] },
+  { id:'dev11', zh:'出生率', en:'birth rate', stars:2,
+    example:'The birth rate in England has fallen to an all-time low.',
+    learnerTendency:'出生率',
+    related:[
+      { type:'联想', en:'population ageing', zh:'人口老龄化', example:'Population ageing has emerged in many developing countries as well.' }
+    ] },
+  { id:'dev12', zh:'过度拥挤的', en:'overcrowded', stars:3,
+    example:'An estimated 800,000 people are living in overcrowded conditions in London.',
+    learnerTendency:'拥挤的',
+    related:[
+      { type:'联想', en:'population density', zh:'人口密度', example:'The population density of London is more than ten times that of any other British region.' }
+    ] },
+  { id:'dev13', zh:'老式的', en:'be old-fashioned', stars:2,
+    example:'Old-fashioned as it may be, corporal punishment is often effective in enforcing authority.',
+    learnerTendency:'过时的',
+    related:[
+      { type:'反义', en:'avant-garde', zh:'（绘画、电影、音乐等）前卫的', example:'Audiences have been reminded that they must work very hard to understand this avant-garde film.' }
+    ] },
+  { id:'dev14', zh:'在现阶段', en:'at this stage', stars:3,
+    example:"At this stage, it's still difficult to say who will win the election.",
+    learnerTendency:'at the moment',
+    related:[
+      { type:'近义', en:'at present', zh:'目前，现在', example:'At present, students can watch films and play computers after the tour.' },
+      { type:'近义', en:'at this point', zh:'在这个时候', example:"At this point, it's still hard to predict the winner." },
+      { type:'近义', en:'a critical juncture', zh:'关键时期', example:'With the economy at a critical juncture, the government is unlikely to make such a risky move.' }
+    ] },
+  { id:'dev15', zh:'某事物带来了……（某种新事物或者新的局面）', en:'sth. has ushered in...', stars:1,
+    example:'The conference has ushered in a period of international stability and co-operation.',
+    learnerTendency:'带来',
+    related:[
+      { type:'联想', en:'has fundamentally changed sth.', zh:'彻底改变了某事物', example:'This film has fundamentally changed the film industry.' },
+      { type:'联想', en:'be a milestone', zh:'是一个里程碑/转折点', example:'Taking this job was a real milestone in his career.' }
+    ] },
+  { id:'dev16', zh:'（某事物）已经不再是必要的', en:'sth. is no longer a necessity', stars:2,
+    example:'Screensavers are no longer a necessity for us.',
+    learnerTendency:'is not necessary anymore',
+    related:[
+      { type:'反义', en:'sth. remains a necessity', zh:'（某事物）仍然是必需的', example:'In that period, barriers to trade were high and thus operationally-independent branches remained a necessity.' }
+    ] },
+  { id:'dev17', zh:'适得其反的，距离预期目标越来越远的', en:'be counterproductive', stars:2,
+    example:'The continuous use of chemicals for the control of pests is proving to be counterproductive.',
+    learnerTendency:'bring bad results',
+    related:[
+      { type:'联想', en:'cause as many problems as sth. solves', zh:'（某种发展）所带来的问题和它解决的问题一样多', example:'This solution may cause as many problems as it solves.' }
+    ] },
+  { id:'dev18', zh:'（某事物）并不是一成不变的', en:'not etched / carved in stone', stars:2,
+    example:'The rules are not etched/carved in stone; they can be altered to suit the changing circumstances.',
+    learnerTendency:'can be changed',
+    related:[
+      { type:'近义', en:'not set in stone', zh:'不是一成不变的', example:'These issues should be discussed — nothing is set in stone.' }
+    ] },
+  { id:'dev19', zh:'存在多年的问题', en:'an age-old problem', stars:2,
+    example:'New strategies are needed to combat the age-old problem of discrimination at work.',
+    learnerTendency:'老问题',
+    related:[
+      { type:'近义', en:'an enduring problem', zh:'持续存在的问题', example:'Even though many countries have agreed to join hands to solve environmental problems, the lack of coordination of policies and programmes remains an enduring problem.' }
+    ] },
+  { id:'dev20', zh:'对……来说是一个有待解决的问题', en:'pose a problem for sb.', stars:2,
+    example:'The fact that the costs were so high must have posed a problem for the company.',
+    learnerTendency:'face the problem of...',
+    related:[
+      { type:'近义', en:'pose a threat to sth.', zh:'对某事物构成威胁', example:'The continuous use of chemicals for the control of pests, which poses a threat to agricultural crops and human health, is proving to be counterproductive.' }
+    ] },
+  { id:'dev21', zh:'高速发展的经济', en:'thriving economy', stars:2,
+    example:'A low-carbon British economy would be a more thriving economy.',
+    learnerTendency:'fast-developing economy',
+    related:[
+      { type:'反义', en:'sluggish economy', zh:'停滞不前的经济', example:'The UK economy has been very sluggish these past few years.' }
+    ] }
+],
+   family: [
+  { id:'fam1', zh:'（某种特征或品质）在家庭成员间世代相传', en:'sth. runs in the family', stars:3,
+    example:'Many people believe athletic ability runs in the family.',
+    learnerTendency:'家族遗传',
+    related:[
+      { type:'联想', en:'be hereditary', zh:'是遗传的', example:'This disease is hereditary so her son may suffer from it too.' }
+    ] },
+  { id:'fam2', zh:'对某人或某事物的依恋', en:"someone's attachment to sb./sth.", stars:2,
+    example:"Freddie felt a particular attachment to his mother's family.",
+    learnerTendency:'依恋',
+    related:[
+      { type:'反义', en:'be estranged from sb.', zh:'与亲友们疏远的', example:'It is sad to see some grown-up children estranged from their parents.' },
+      { type:'反义', en:'empty-nest syndrome', zh:'空巢综合症', example:'Mrs. Johnson is suffering from empty-nest syndrome.' }
+    ] },
+  { id:'fam3', zh:'亲人间的感情纽带，亲情', en:'family bonds', stars:2,
+    example:'People tend to live longer in societies with strong family bonds.',
+    learnerTendency:'亲情',
+    related:[
+      { type:'反义', en:'family break-up', zh:'家庭破裂', example:'Drug abuse among married people often leads to family break-up.' }
+    ] },
+  { id:'fam4', zh:'责任感', en:'the sense of obligation', stars:2,
+    example:'Parents’ sense of obligation could make them overly demanding.',
+    learnerTendency:'责任感',
+    related:[
+      { type:'联想', en:"fulfil someone's obligation", zh:'尽到责任', example:'Even though these parents can fulfil their financial obligations to their children, they cannot meet their children\'s emotional needs.' }
+    ] },
+  { id:'fam5', zh:'家庭中养家糊口的那个人', en:'breadwinner', stars:2,
+    example:'Many women are now the breadwinners in their family.',
+    learnerTendency:'the moneymaker in a family',
+    related:[
+      { type:'联想', en:'financial burden', zh:'经济负担', example:'It was a huge financial burden on Alfie who was the only breadwinner of his family.' },
+      { type:'联想', en:'gender prejudice', zh:'性别偏见', example:'It also allows more equality among pupils and gives more opportunity to all those at the school to choose more freely without gender prejudice.' }
+    ] },
+  { id:'fam6', zh:'忽视某人的帮助或把某事当成想当然的', en:'take sb./sth. for granted', stars:2,
+    example:'After a while the couple began to take each other for granted.',
+    learnerTendency:'视为理所当然',
+    related:[
+      { type:'反义', en:'be grateful to sb.', zh:'感激某人', example:'Leah was grateful to Bradley for his support.' },
+      { type:'联想', en:'Charity begins at home.', zh:'仁爱始于亲友', example:'I like to help my family members. After all, charity begins at home.' }
+    ] },
+  { id:'fam7', zh:'很想家的', en:'feel homesick', stars:1,
+    example:"In Ashlee's first month at college she felt very homesick.",
+    learnerTendency:"miss one's home",
+    related:[
+      { type:'联想', en:'a home from home', zh:'像家一样温暖的地方', example:"I visit that town so often it's become a home from home for me." }
+    ] },
+  { id:'fam8', zh:'对……有很美好的回忆', en:'have fond memories/recollections of sth.', stars:2,
+    example:'Most of us have fond memories/recollections of our childhoods.',
+    learnerTendency:'have sweet memories of...',
+    related:[
+      { type:'反义', en:"leave a bad taste in one's mouth", zh:'给某人留下坏印象', example:'The way that teacher spoken to the kids left a bad taste in my mouth.' }
+    ] },
+  { id:'fam9', zh:'日常的家务事', en:'household chores', stars:3,
+    example:'Most parents believe that children should participate in household chores such as cooking, washing and cleaning.',
+    learnerTendency:'家务活',
+    related:[
+      { type:'近义', en:'housework', zh:'家务活（不可数名词）', example:'Most young kids hate doing housework.' },
+      { type:'反义', en:'errands', zh:'需要完成的一些小事情（通常不是家中的）', example:'The children are old enough now to run their own errands.' }
+    ] },
+  { id:'fam10', zh:'关爱', en:'love and devotion', stars:2,
+    example:'Sometimes a pet can provide a person with a new focus for his/her love and devotion.',
+    learnerTendency:'care and love',
+    related:[
+      { type:'联想', en:'love, honour and cherish', zh:'珍惜', example:'The couple will love, honour and cherish each other, in good times and in bad.' }
+    ] },
+  { id:'fam11', zh:'（英谚）久别情更深', en:'Absence makes the heart grow fonder.', stars:2,
+    example:'We find it much easier to get along with our parents when we live away from home. Absence makes the heart grow fonder.',
+    learnerTendency:'距离产生美',
+    related:[] },
+  { id:'fam12', zh:'掌上明珠', en:"the apple of one's eye", stars:1,
+    example:"Tim's son is the apple of his eye.",
+    learnerTendency:'心肝宝贝',
+    related:[] },
+  { id:'fam13', zh:'抚养', en:'bring up', stars:2,
+    example:'Children should be brought up to respect the law.',
+    learnerTendency:'raise',
+    related:[
+      { type:'近义', en:'raise sb.', zh:'抚养', example:'Some people claim that children with both parents raising them are far less likely to end up in jail than those raised by mothers alone.' }
+    ] },
+  { id:'fam14', zh:'抚养孩子', en:'child-rearing', stars:2,
+    example:'Child-rearing can be a difficult yet rewarding responsibility.',
+    learnerTendency:'育儿',
+    related:[
+      { type:'联想', en:'child-bearing', zh:'生育孩子', example:'They believe that the best age for child-bearing is 25-30.' }
+    ] },
+  { id:'fam15', zh:'母性的本能', en:'maternal instinct', stars:3,
+    example:'It is generally believed that women have maternal instincts that somehow make them better parents than fathers are.',
+    learnerTendency:'母性',
+    related:[
+      { type:'近义', en:'nurturing instinct', zh:'关心儿童的本能', example:"Some people believe that the nurturing instinct can shape women's careers." }
+    ] },
+  { id:'fam16', zh:'离异的', en:'be divorced', stars:2,
+    example:'Teachers should be more sensitive to the needs of the students whose parents are divorced.',
+    learnerTendency:'离婚的',
+    related:[
+      { type:'反义', en:'be married', zh:'已婚的', example:"They're getting married next year." }
+    ] }
+],
+    solutions: [
+  { id:'sol1', zh:'（比喻）为……铺平道路', en:'pave the way for sth.', stars:1,
+    example:'Scientists hope the data from this expedition will pave the way for a more detailed exploration of Mars.',
+    learnerTendency:'do the preparation for',
+    related:[
+      { type:'近义', en:'lay the groundwork for sth.', zh:'为某事物的发展打下基础', example:'The committee will meet today to lay the groundwork for talks next month.' },
+      { type:'反义', en:'stumbling block', zh:'障碍物，阻碍取得进展的事物或难点', example:'However, there is still a big stumbling block.' }
+    ] },
+  { id:'sol2', zh:'预防措施', en:'preventative measures', stars:2,
+    example:'These people argue that a large proportion of a country\'s health budget should be spent on health education and preventative measures.',
+    learnerTendency:'预防措施',
+    related:[
+      { type:'联想', en:'take precautions against sth.', zh:'采取预防措施', example:'The same rules and precautions apply to a credit card used as a cash card.' },
+      { type:'联想', en:'ensure sth.', zh:'确保', example:'To ensure the highest quality, inspection takes place at every stage.' }
+    ] },
+  { id:'sol3', zh:'只要目的是正当的，实现方法即使是消极的也应该接受', en:'The end justifies the means.', stars:3,
+    example:'In reality, the end does not necessarily justify the means.',
+    learnerTendency:'结果证明手段',
+    related:[
+      { type:'联想', en:'well-intentioned', zh:'本意是好的（但往往带来负面的结果）', example:'Well-intentioned development projects can have unexpected effects on the environment.' }
+    ] },
+  { id:'sol4', zh:'有负面影响但又不得不做的事', en:'be a necessary evil', stars:2,
+    example:'They claim that getting a home mortgage is a necessary evil these days.',
+    learnerTendency:'必要的恶',
+    related:[
+      { type:'联想', en:'the lesser of two evils', zh:'两个负面的事物中坏处较小的一个', example:"Try to choose the lesser of two evils when you don't like either of the candidates." }
+    ] },
+  { id:'sol5', zh:'持观望态度', en:'adopt a wait-and-see attitude', stars:2,
+    example:"No firm decision will be made until next month so we'll have to wait and see.",
+    learnerTendency:'观望',
+    related:[
+      { type:'反义', en:'take immediate action', zh:'立即采取行动', example:'We need to take immediate action before it is too late.' }
+    ] },
+  { id:'sol6', zh:'（比喻）使已经不好的情况变得更糟', en:'add fuel to the fire', stars:2,
+    example:'His words only added fuel to the fire. The lady became furious.',
+    learnerTendency:'make a bad situation worse',
+    related:[
+      { type:'联想', en:'aggravate sth. / exacerbate sth.', zh:'导致某事变得更糟', example:'Attempts to restrict parking in the city centre have further aggravated the problem of traffic congestion.' }
+    ] },
+  { id:'sol7', zh:'找错了解决问题的方向', en:'be barking up the wrong tree', stars:1,
+    example:"New evidence suggests that we've been barking up the wrong tree in our search for a cure for the disease.",
+    learnerTendency:'找错方向',
+    related:[
+      { type:'联想', en:'a misguided plan', zh:'有方向性错误的计划', example:'The company blamed the shrinking profit on a misguided investment plan.' }
+    ] },
+  { id:'sol8', zh:'可行的替代方案', en:'a feasible alternative to...', stars:2,
+    example:'Some people claim that there is still no practically feasible alternative to using animals for food and clothing.',
+    learnerTendency:'another choice',
+    related:[
+      { type:'近义', en:'a viable alternative to...', zh:'行之有效的替代方案', example:'They consider it a viable alternative to the present system of welfare benefits.' }
+    ] },
+  { id:'sol9', zh:'仅剩的最后一个方案', en:'the last resort', stars:2,
+    example:'As a last resort, you can take your case to court.',
+    learnerTendency:'the only choice left',
+    related:[
+      { type:'近义', en:'have no option but to do sth.', zh:'别无选择只能去……', example:'Teenage mothers often have no option but to live with their parents.' }
+    ] },
+  { id:'sol10', zh:'早就应该…', en:"It's about time...", stars:3,
+    example:"It's about time we gave our teachers a degree of respect.",
+    learnerTendency:'早该',
+    related:[
+      { type:'近义', en:"It's high time...", zh:'早就该……', example:"It's high time the Wall Street bankers came back to planet Earth." }
+    ] },
+  { id:'sol11', zh:'解决一个问题', en:'tackle a problem', stars:2,
+    example:'They proposed a new initiative to tackle the shortage of teachers.',
+    learnerTendency:'solve a problem',
+    related:[
+      { type:'近义', en:'overcome an obstacle', zh:'克服障碍', example:"If you want to overcome an obstacle, make sure you don't get sidetracked." }
+    ] },
+  { id:'sol12', zh:'只是一个美好的愿望却不是一个能够实现的目标', en:'a desirable ideal rather than an achievable reality', stars:2,
+    example:'Complete equality in classrooms still remains a desirable ideal rather than an achievable reality.',
+    learnerTendency:'理想而非现实',
+    related:[
+      { type:'联想', en:'In reality, …', zh:'（然而）在现实中……', example:'This teaching method is good in theory, but not in reality.' }
+    ] }
+],
+     appendixA: [
+  { id:'appA1', zh:'（人们）各持不同的看法', en:'have mixed views on...', stars:3,
+    example:'It has been around fifteen years since the Internet was first introduced into British households but people still have mixed views on whether it is a positive or negative influence on society.',
+    learnerTendency:'意见不一',
+    related:[
+      { type:'反义', en:'reach consensus on...', zh:'（人们）对某事达成一致意见', example:'It will be difficult for people to reach a consensus on this issue.' }
+    ] },
+  { id:'appA2', zh:'我所持的看法是…', en:'I take the view that...', stars:3,
+    example:'I take the view that free education should be available to financially needy people.',
+    learnerTendency:'我认为',
+    related:[
+      { type:'近义', en:'be of the opinion that...', zh:'（某人的）个人意见是', example:'They are of the opinion that morality cannot be legislated.' }
+    ] },
+  { id:'appA3', zh:'是一个引起激辩的话题', en:'be a highly charged issue', stars:2,
+    example:'Euthanasia is a highly charged issue in many European countries.',
+    learnerTendency:'争议话题',
+    related:[
+      { type:'近义', en:'ignite fierce debate', zh:'引发了激烈的争论', example:"The song's lyrics ignited fierce debate last year." },
+      { type:'反义', en:'be a well-established fact', zh:'（某事）是为人们所共知的事实', example:'It is a well-established fact that very young children learn best by rote.' }
+    ] },
+  { id:'appA4', zh:'目前的观点普遍倾向于反对…', en:'The tide of opinion is now running steadily against...', stars:2,
+    example:'The tide of opinion is now running steadily against the new traffic law.',
+    learnerTendency:'舆论倾向',
+    related:[
+      { type:'近义', en:'The majority of people oppose...', zh:'多数人反对……', example:'The majority of people oppose the proposed tax reform.' }
+    ] },
+  { id:'appA5', zh:'（某现象）是符合常理的', en:'It stands to reason that...', stars:2,
+    example:'It stands to reason that a child who is constantly criticised will grow up to have no self-confidence.',
+    learnerTendency:'合乎情理',
+    related:[
+      { type:'近义', en:'The concerns that... are well-justified.', zh:'对于某事的担心是完全合理的', example:'The concerns that the new law will curtail NGO activities are well-justified.' }
+    ] },
+  { id:'appA6', zh:'是一个无法回避的事实', en:'It is an inescapable fact that...', stars:2,
+    example:'It is an inescapable fact that some students behave badly and damage the learning environment.',
+    learnerTendency:'无可回避',
+    related:[
+      { type:'近义', en:'be unavoidable', zh:'是不可避免的', example:'Many people feared that war was unavoidable.' }
+    ] },
+  { id:'appA7', zh:'（某种现象）十分显著', en:'...be noticeable.', stars:2,
+    example:'The differences between the British and American academic systems are noticeable.',
+    learnerTendency:'显著的',
+    related:[
+      { type:'近义', en:'...be substantial.', zh:'某种差异是本质性的', example:'There were substantial differences in the proportion of men and women at various levels.' }
+    ] },
+  { id:'appA8', zh:'某现象的深层原因是……', en:'The underlying cause of sth. is ...', stars:2,
+    example:'We should look into the underlying cause of this problem.',
+    learnerTendency:'根本原因',
+    related:[
+      { type:'联想', en:'A fundamental mistake made by sb. is...', zh:'某人所犯的根本性错误是……', example:'Their fundamental mistake is to rely too much on technology.' }
+    ] }
+],
+appendixB: [
+  { id:'appB1', zh:'呈现出上升的趋势', en:'see an upward trend', stars:3,
+    example:'The housing market saw an upward trend in 2003.',
+    learnerTendency:'上升趋势',
+    related:[
+      { type:'反义', en:'witness a downward trend', zh:'呈现出下降的趋势', example:'The prices of consumer goods witnessed a downward trend.' },
+      { type:'联想', en:'see an opposite trend', zh:'呈现出相反的趋势', example:'In contrast, the cost of furniture and equipment saw an opposite trend.' }
+    ] },
+  { id:'appB2', zh:'急速上升至……', en:'rocket to...', stars:2,
+    example:'The petrol price rocketed to a record high.',
+    learnerTendency:'飙升',
+    related:[
+      { type:'近义', en:'soar to...', zh:'飞速上升至', example:'The rate of heart disease soared to 79 per 1,000 people.' }
+    ] },
+  { id:'appB3', zh:'在某位置到达最高点', en:'peak at...', stars:3,
+    example:'The figures show that the unemployment rate peaked at 9.8% in October.',
+    learnerTendency:'达到峰值',
+    related:[
+      { type:'近义', en:'reach the highest point', zh:'到达最高点', example:'The crime rate rose throughout the 1990s and reached the highest point in 2001.' }
+    ] },
+  { id:'appB4', zh:'下挫', en:'a slump', stars:2,
+    example:'There was a slump in the demand for new cars in 2007.',
+    learnerTendency:'暴跌',
+    related:[
+      { type:'近义', en:'a decline', zh:'下降', example:'There was a substantial decline in the unemployment rate.' }
+    ] },
+  { id:'appB5', zh:'从……持续下降到…', en:'fall consistently from... to...', stars:2,
+    example:'After 2007, housing prices in the UK fell consistently through 2009.',
+    learnerTendency:'持续下降',
+    related:[
+      { type:'近义', en:'fall continuously from... to...', zh:'从……持续降至…', example:'The criminal-offence rate fell continuously from 2001 to 2011.' }
+    ] },
+  { id:'appB6', zh:'骤降至…', en:'plummet to...', stars:2,
+    example:'That number rose to 3,900 by 2004 and then plummeted to 760 by 2008.',
+    learnerTendency:'暴跌',
+    related:[
+      { type:'近义', en:'drop swiftly to...', zh:'快速下降至…', example:'The number of full-time jobs generated by the retail industry dropped swiftly to 14,000.' },
+      { type:'反义', en:'go up steeply to...', zh:'迅速升至…', example:'Then the interest rate went up steeply to 4.2%.' }
+    ] },
+  { id:'appB7', zh:'降至最低点', en:'bottom out', stars:2,
+    example:'The government claimed that the recession had bottomed out.',
+    learnerTendency:'触底',
+    related:[
+      { type:'近义', en:'drop to its lowest level', zh:'降至最低点', example:'Inflation dropped to its lowest level in five years.' }
+    ] },
+  { id:'appB8', zh:'进入平稳状态', en:'reach a plateau', stars:2,
+    example:'By 2002, this improvement had reached a plateau.',
+    learnerTendency:'趋于平稳',
+    related:[
+      { type:'近义', en:'level out (at...) / maintain the same level / remain stable', zh:'维持在（某个水平上）', example:'The number of cases of the disease remained relatively stable in 2009.' },
+      { type:'反义', en:'fluctuate around... / fluctuate between... and...', zh:'波动', example:'Their total leisure time per week fluctuated between 22 hours and 35 hours.' }
+    ] },
+  { id:'appB9', zh:'某现象很可能将出现', en:'...is predicted.', stars:3,
+    example:'A more dramatic rise is predicted between 2020 and 2025.',
+    learnerTendency:'预计',
+    related:[
+      { type:'近义', en:'...is anticipated.', zh:'某现象预期将发生', example:'A hike in the oil price is anticipated.' },
+      { type:'联想', en:'is projected to.../ is forecast to...', zh:'预计将会……', example:'The figure is projected to reach 26.18% by 2050.' }
+    ] },
+  { id:'appB10', zh:'超过……', en:'exceed...', stars:3,
+    example:'The energy available exceeded the energy demand from the late 1960s to the early 1980s.',
+    learnerTendency:'超过',
+    related:[
+      { type:'近义', en:'surpass...', zh:'超过……', example:'The growth rate of Molosop is expected to surpass that of Densaunt by 2035.' }
+    ] },
+  { id:'appB11', zh:'两倍/翻倍', en:'double', stars:3,
+    example:'The company profits doubled in 1998.',
+    learnerTendency:'翻倍',
+    related:[
+      { type:'近义', en:'be twice as many as...', zh:'两倍…', example:'The number of consumer complaints in 2005 was twice as many as that in 2001.' },
+      { type:'联想', en:'be three times as many as.../ be four times as many as...', zh:'是某事物的三倍/四倍', example:'The number of hospitals in this region is three times as many as that in Laneo.' }
+    ] },
+  { id:'appB12', zh:'与……形成鲜明的对比', en:'be in stark contrast with...', stars:3,
+    example:'This is in stark contrast with 1990 when 60% of those who held an undergraduate diploma were men.',
+    learnerTendency:'鲜明对比',
+    related:[
+      { type:'近义', en:'is in marked contrast with...', zh:'与…形成明显的对比', example:'This new trend is in marked contrast with the trend it experienced in the 1980s.' },
+      { type:'联想', en:'over the following... days / months / years', zh:'在之后的某段时间里', example:'The number of patients fell sharply over the following three months.' }
+    ] },
+  { id:'appB13', zh:'与……相比仅是略微更……', en:'is only marginally more ... than...', stars:2,
+    example:'Thus we can see that the new organisation is only marginally more efficient than the old one.',
+    learnerTendency:'略微更',
+    related:[
+      { type:'近义', en:'is only fractionally more... than...', zh:'与…相比仅稍微更…', example:'The aging of the population is only fractionally faster than that in the last decade.' },
+      { type:'反义', en:'is considerably more... than...', zh:'远比……更加…', example:"Keolho's birth rate is considerably higher than that of Nowsba." }
+    ] },
+  { id:'appB14', zh:'由……组成', en:'be composed of...', stars:3,
+    example:'Team A was composed of five staff members.',
+    learnerTendency:'组成',
+    related:[
+      { type:'近义', en:'consist of...', zh:'由……构成', example:'System B consists of six components.' }
+    ] },
+  { id:'appB15', zh:'成反比地', en:'in inverse proportion to...', stars:2,
+    example:'The amount of money people save increases in inverse proportion to the amount they spend.',
+    learnerTendency:'反比',
+    related:[
+      { type:'反义', en:'in proportion to...', zh:'成正比地', example:'The amount of energy consumed in this factory is in proportion to its number of products.' }
+    ] },
+  { id:'appB16', zh:'（某个数字）在另一组数据中所对应的数字', en:'the corresponding figure', stars:3,
+    example:'While spending increased for equipment and insurance, there were corresponding drops in expenditure on things such as books and on workers\' salaries.',
+    learnerTendency:'对应数字',
+    related:[
+      { type:'联想', en:'Interestingly, …', zh:'有趣的是，…', example:'Interestingly, when there are three or more children in the household, men are found to work even fewer hours around the house.' },
+      { type:'联想', en:'Not surprisingly, …', zh:'相应很自然的是，…', example:'Not surprisingly, the number of cases of the disease dropped to approximately 1,700 in 2008.' }
+    ] },
+  { id:'appB17', zh:'而', en:'whereas', stars:3,
+    example:'The graph indicates that on average men had 52 hours of leisure per week whereas women only had approximately 39 hours.',
+    learnerTendency:'然而',
+    related:[
+      { type:'近义', en:'while', zh:'而同时', example:'More men than women hold qualifications at the lower and higher levels of education while more women reach undergraduate diploma level than men.' }
+    ] }
+],
+appendixC: [
+  { id:'appC1', zh:'尤其（是）', en:'(most) notably', stars:2,
+    example:'Some subjects are very popular among students, (most) notably computer science.',
+    learnerTendency:'特别是',
+    related:[] },
+  { id:'appC2', zh:'也就（是）', en:'namely', stars:2,
+    example:'Some groups, namely students and retirees, will benefit from the new tax.',
+    learnerTendency:'即',
+    related:[] },
+  { id:'appC3', zh:'本质上（来看）', en:'essentially', stars:2,
+    example:'Some people think that friendship is essentially a partnership.',
+    learnerTendency:'本质上',
+    related:[] },
+  { id:'appC4', zh:'特别（是）', en:'particularly', stars:2,
+    example:'The rate of the disease has been growing, particularly among elderly people.',
+    learnerTendency:'尤其',
+    related:[] },
+  { id:'appC5', zh:'仅仅', en:'merely', stars:2,
+    example:'The medicine does not cure the disease. It merely relieves the pain.',
+    learnerTendency:'只',
+    related:[] },
+  { id:'appC6', zh:'从现实的角度看', en:'Realistically, ...', stars:2,
+    example:'Theoretically, anyone can become a model. Realistically though, in order to become a model a person has to meet multiple criteria.',
+    learnerTendency:'实际上',
+    related:[] },
+  { id:'appC7', zh:'从历史上看', en:'Historically, ...', stars:2,
+    example:'Historically/Traditionally, relations between these two countries have never been close.',
+    learnerTendency:'历史上',
+    related:[] },
+  { id:'appC8', zh:'显著地', en:'considerably', stars:2,
+    example:'The projects vary considerably in objectives.',
+    learnerTendency:'相当地',
+    related:[] },
+  { id:'appC9', zh:'相比较地来看', en:'relatively', stars:2,
+    example:'There are relatively few female airline pilots.',
+    learnerTendency:'相对地',
+    related:[] },
+  { id:'appC10', zh:'相应地', en:'correspondingly', stars:2,
+    example:'Where the cost of government is high, resources for development are correspondingly low.',
+    learnerTendency:'相应地',
+    related:[] }
+],
+appendixD: [
+  { id:'appD1', zh:'劳动', en:'labour (英) / labor (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD2', zh:'最喜爱的', en:'favourite (英) / favorite (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD3', zh:'荣誉', en:'honour (英) / honor (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD4', zh:'分析', en:'analyse (英) / analyze (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD5', zh:'中心', en:'centre (英) / center (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD6', zh:'旅行', en:'travelled (英) / traveled (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] },
+  { id:'appD7', zh:'实现', en:'fulfil (英) / fulfill (美)', stars:1, example:'', learnerTendency:'英美拼写差异', related:[] }
+]
+};
+
+  // 补全未定义话题
+  TOPICS.forEach(t => { if (!phraseDB[t.id]) phraseDB[t.id] = []; });
+  Object.keys(phraseDB).forEach(topicId => {
+    phraseDB[topicId].forEach((p, idx) => { if (!p.id) p.id = `${topicId}-${idx}`; });
+  });
+
+  // ---------- 状态管理 ----------
+  let currentTab = 'topics';
+  let selectedTopicId = 'education';
+  let currentPhrase = null;
+  let showAnswer = false;
+  let lastPhraseId = null;
+
+  let progress = JSON.parse(localStorage.getItem('ielts_adv_progress')) || {
+    daily: 0, lastDate: new Date().toDateString(), topics: {}
+  };
+  if (progress.lastDate !== new Date().toDateString()) {
+    progress.daily = 0; progress.lastDate = new Date().toDateString();
+  }
+
+  function saveProgress() {
+    localStorage.setItem('ielts_adv_progress', JSON.stringify(progress));
+    document.getElementById('globalProgress').innerText = `今日已学 ${progress.daily}`;
+  }
+
+  function getTopicProgress(topicId) {
+    if (!progress.topics[topicId]) progress.topics[topicId] = { mastered: [], reviewQueue: [], knowCounts: {} };
+    return progress.topics[topicId];
+  }
+
+  function getNextPhrase(topicId) {
+    const phrases = phraseDB[topicId] || [];
+    if (phrases.length === 0) return null;
+    const tp = getTopicProgress(topicId);
+    if (tp.reviewQueue.length > 0) {
+      let candidates = tp.reviewQueue;
+      if (candidates.length > 1 && lastPhraseId) candidates = candidates.filter(id => id !== lastPhraseId);
+      const nextId = candidates[Math.floor(Math.random() * candidates.length)];
+      lastPhraseId = nextId;
+      return phrases.find(p => p.id === nextId);
+    }
+    const unmastered = phrases.filter(p => !tp.mastered.includes(p.id));
+    if (unmastered.length === 0) return null;
+    let candidates = unmastered.map(p => p.id);
+    if (candidates.length > 1 && lastPhraseId) candidates = candidates.filter(id => id !== lastPhraseId);
+    const nextId = candidates[Math.floor(Math.random() * candidates.length)];
+    lastPhraseId = nextId;
+    return phrases.find(p => p.id === nextId);
+  }
+
+  function markKnow(topicId, phraseId, increment = true) {
+    const tp = getTopicProgress(topicId);
+    if (!tp.knowCounts[phraseId]) tp.knowCounts[phraseId] = 0;
+    if (increment) {
+      tp.knowCounts[phraseId]++;
+      tp.reviewQueue = tp.reviewQueue.filter(id => id !== phraseId);
+      if (tp.knowCounts[phraseId] >= 3 && !tp.mastered.includes(phraseId)) {
+        tp.mastered.push(phraseId); progress.daily++;
+      }
+    } else {
+      tp.knowCounts[phraseId] = 0;
+      if (!tp.reviewQueue.includes(phraseId)) tp.reviewQueue.push(phraseId);
+      const idx = tp.mastered.indexOf(phraseId); if (idx > -1) tp.mastered.splice(idx, 1);
+    }
+    saveProgress();
+  }
+
+  function resetTopic(topicId) {
+    progress.topics[topicId] = { mastered: [], reviewQueue: [], knowCounts: {} };
+    lastPhraseId = null; saveProgress();
+  }
+
+  function speakEnglish(text) {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-GB'; u.rate = 0.9;
+    const voices = speechSynthesis.getVoices();
+    const uk = voices.find(v => v.lang === 'en-GB' && v.name.includes('Google'));
+    if (uk) u.voice = uk;
+    speechSynthesis.speak(u);
+  }
+
+  // ---------- UI 渲染 ----------
+  const contentDiv = document.getElementById('mainContent');
+  function render() {
+    if (currentTab === 'topics') renderTopics();
+    else if (currentTab === 'learn') renderLearn();
+    else if (currentTab === 'stats') renderStats();
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.toggle('active', el.dataset.tab === currentTab));
+  }
+
+  function renderTopics() {
+    let html = `<div class="topic-grid">`;
+    TOPICS.forEach(t => {
+      const phrases = phraseDB[t.id] || [];
+      const tp = getTopicProgress(t.id);
+      html += `<div class="topic-card ${selectedTopicId===t.id?'active':''}" data-topic="${t.id}">
+        <div class="topic-emoji">${t.emoji}</div><div class="topic-name">${t.name}</div>
+        <div class="topic-progress">${tp.mastered.length}/${phrases.length} 掌握</div></div>`;
+    });
+    html += `</div><div style="display:flex; gap:12px; justify-content:center;">
+      <button class="btn btn-primary" id="startLearnBtn">🎯 开始学习 ${TOPICS.find(t=>t.id===selectedTopicId)?.name}</button>
+      <button class="btn" id="resetTopicBtn">🔄 重置进度</button></div>`;
+    contentDiv.innerHTML = html;
+    document.querySelectorAll('.topic-card').forEach(card => {
+      card.addEventListener('click', () => { selectedTopicId = card.dataset.topic; renderTopics(); });
+    });
+    document.getElementById('startLearnBtn')?.addEventListener('click', () => {
+      const next = getNextPhrase(selectedTopicId);
+      if (!next) { alert('🎉 这个话题你已经全部掌握啦！'); return; }
+      currentPhrase = next; showAnswer = false; currentTab = 'learn'; render();
+    });
+    document.getElementById('resetTopicBtn')?.addEventListener('click', () => {
+      if (confirm('确定重置本话题的学习进度吗？')) { resetTopic(selectedTopicId); renderTopics(); }
+    });
+  }
+
+  function renderLearn() {
+    if (!currentPhrase) {
+      const next = getNextPhrase(selectedTopicId);
+      if (!next) { contentDiv.innerHTML = `<div class="learning-card"><h3>🎉 恭喜！本话题已全部掌握！</h3><button class="btn btn-primary" id="backToTopics">返回话题</button></div>`;
+        document.getElementById('backToTopics')?.addEventListener('click', ()=>{ currentTab='topics'; render(); }); return; }
+      currentPhrase = next;
+    }
+    const phrase = currentPhrase;
+    const tp = getTopicProgress(selectedTopicId);
+    const knowCount = tp.knowCounts[phrase.id] || 0;
+    const isReview = tp.reviewQueue.includes(phrase.id);
+    let cardHtml = `<div class="learning-card">`;
+    if (!showAnswer) {
+      cardHtml += `<div class="card-front"><div style="color:#7e6b5a; margin-bottom:10px;">🔁 认识次数: ${knowCount}/3 ${isReview ? ' <span class="review-badge">📌 复习中</span>' : ''}</div>
+        <div class="phrase-zh">${phrase.zh}</div><p style="margin-top:30px; color:#aaa;">点击「显示答案」查看英文</p></div>`;
+    } else {
+      const stars = '⭐'.repeat(phrase.stars || 1);
+      cardHtml += `<div class="card-back"><div class="stars">${stars}</div><div class="phrase-en">${phrase.en}</div>`;
+      if (phrase.learnerTendency) cardHtml += `<div class="learner-tendency">📘 学习者倾向：${phrase.learnerTendency}</div>`;
+      cardHtml += `<div class="example-box">📌 ${phrase.example || '暂无例句'}</div>`;
+      if (phrase.related && phrase.related.length) {
+        cardHtml += `<table class="related-table"><tr><th>类型</th><th>英文</th><th>中文</th><th>例句</th></tr>`;
+        phrase.related.forEach(r => cardHtml += `<tr><td>${r.type}</td><td>${r.en}</td><td>${r.zh}</td><td>${r.example || ''}</td></tr>`);
+        cardHtml += `</table>`;
+      }
+      cardHtml += `</div>`;
+    }
+    cardHtml += `<div class="action-buttons">`;
+    if (!showAnswer) cardHtml += `<button class="btn btn-primary" id="showAnswerBtn">🔍 显示答案</button>`;
+    else cardHtml += `<button class="btn btn-success" id="knowBtn">😊 认识 (${knowCount}/3)</button>
+      <button class="btn btn-warning" id="unknownBtn">🤔 不认识</button>`;
+    cardHtml += `</div><div style="margin-top:16px; text-align:center;"><button class="btn" id="nextBtn">⏩ 跳过 / 下一个</button></div></div>`;
+    contentDiv.innerHTML = cardHtml;
+
+    if (!showAnswer) {
+      document.getElementById('showAnswerBtn').addEventListener('click', () => {
+        showAnswer = true; renderLearn(); speakEnglish(phrase.en);
+      });
+    } else {
+      document.getElementById('knowBtn').addEventListener('click', () => {
+        markKnow(selectedTopicId, phrase.id, true);
+        const next = getNextPhrase(selectedTopicId);
+        if (!next) { currentTab='topics'; render(); alert('🎉 话题完成！'); }
+        else { currentPhrase = next; showAnswer = false; renderLearn(); }
+      });
+      document.getElementById('unknownBtn').addEventListener('click', () => {
+        markKnow(selectedTopicId, phrase.id, false);
+        const next = getNextPhrase(selectedTopicId);
+        currentPhrase = next; showAnswer = false; renderLearn();
+      });
+    }
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      const next = getNextPhrase(selectedTopicId);
+      if (!next) { currentTab='topics'; render(); alert('🎉 话题完成！'); }
+      else { currentPhrase = next; showAnswer = false; renderLearn(); }
+    });
+  }
+
+  function renderStats() {
+    let totalPhrases = 0, totalMastered = 0, totalReview = 0;
+    TOPICS.forEach(t => {
+      totalPhrases += (phraseDB[t.id] || []).length;
+      const tp = getTopicProgress(t.id);
+      totalMastered += tp.mastered.length;
+      totalReview += tp.reviewQueue.length;
+    });
+    const percent = totalPhrases ? Math.round(totalMastered/totalPhrases*100) : 0;
+    contentDiv.innerHTML = `<div class="learning-card"><h2>📊 总体进度</h2><p>📚 总短语: ${totalPhrases}</p><p>✅ 已掌握: ${totalMastered}</p><p>🔄 待复习: ${totalReview}</p><p>🔥 今日掌握: ${progress.daily}</p>
+      <div class="progress-bar"><div class="progress-fill" style="width:${percent}%;"></div></div>
+      <p style="margin-top:20px;">💡 连续3次「认识」即掌握</p><button class="btn btn-primary" id="backToTopicsFromStats">返回话题</button></div>`;
+    document.getElementById('backToTopicsFromStats').addEventListener('click', ()=>{ currentTab='topics'; render(); });
+  }
+
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      currentTab = item.dataset.tab;
+      if (currentTab === 'learn' && !currentPhrase) {
+        const next = getNextPhrase(selectedTopicId);
+        if (!next) { alert('请先选择一个话题'); currentTab='topics'; }
+        else currentPhrase = next;
+      }
+      render();
+    });
+  });
+
+  if (window.speechSynthesis) speechSynthesis.getVoices();
+  saveProgress();
+  render();
+})();
+</script>
+</body>
+</html>
