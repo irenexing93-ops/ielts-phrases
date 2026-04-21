@@ -2904,9 +2904,15 @@ appendixD: [
   }
 
   function getTopicProgress(topicId) {
-    if (!progress.topics[topicId]) progress.topics[topicId] = { mastered: [], reviewQueue: [], knowCounts: {} };
-    return progress.topics[topicId];
+  if (!progress.topics[topicId]) {
+    progress.topics[topicId] = { 
+      mastered: [], 
+      reviewQueue: [], 
+      knowCounts: {} 
+    };
   }
+  return progress.topics[topicId];
+}
 
   function getNextPhrase(topicId) {
     const phrases = phraseDB[topicId] || [];
