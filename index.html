@@ -2975,11 +2975,7 @@ window.addEventListener('load', () => {
 });
 
 // 原有的进度变量
-let progress = JSON.parse(localStorage.getItem('ielts_adv_progress')) || {
-  daily: 0,
-  lastDate: new Date().toDateString(),
-  topics: {}
-};
+
 
 if (progress.lastDate !== new Date().toDateString()) {
   progress.daily = 0;
